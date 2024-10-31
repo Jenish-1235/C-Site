@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "354951138622",
+    "project_id": "c-site-project",
+    "storage_bucket": "c-site-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:354951138622:android:a3e6f5aa37db942971b06f",
+        "android_client_info": {
+          "package_name": "com.csite.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCO77-iRIPJ0GIqCJNJhnlc1nZP8rVe2LM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

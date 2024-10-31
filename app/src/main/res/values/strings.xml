@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">C-Site</string>
+    <string name="WelcomeMessage">Welcome to C-Site</string>
+    <string name="WelcomeNote">Your one stop solution for \n construction projects</string>
+    <string name="CreateProfile">Create Profile</string>
+    <string name="SafeAndSecure">Safe and Secure</string>
+
+
+</resources>
