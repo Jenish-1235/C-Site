@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -14,6 +15,11 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.csite.app.R
 import com.csite.app.activities.UserRegistrationAndLogin.UserRegistration
+import com.csite.app.fragments.PartyFragment
+import com.csite.app.fragments.ProjectFragment
+import com.csite.app.fragments.QuotationFragment
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.firebase.Firebase
 import com.google.firebase.FirebaseApp
 import com.google.firebase.database.DatabaseReference
@@ -104,7 +110,8 @@ class MainActivity : AppCompatActivity() {
         bottomTabLayout.setSelectedTabIndicatorColor(Color.WHITE)
         bottomTabLayout.setTabTextColors(Color.WHITE, Color.WHITE)
         bottomTabLayout.setSelectedTabIndicatorHeight(0)
-//        bottomTabLayout.removeAllTabs()
+
+        val mainScreenFrameLayout : FrameLayout = findViewById(R.id.mainScreenFrameLayout)
 
 
         var quotationTab : com.google.android.material.tabs.TabLayout.Tab = bottomTabLayout.newTab()
@@ -134,8 +141,109 @@ class MainActivity : AppCompatActivity() {
         partyTab.customView = partyTabView
         bottomTabLayout.addTab(partyTab)
 
+        bottomTabLayout.selectTab(projectTab)
+        projectTabImageView.setImageResource(R.drawable.project_icon_yellow)
+        projectTabTextView.setTextColor(Color.rgb(120,92,42))
+        quotationTabTextView.setTextColor(Color.BLACK)
+        partyTabTextView.setTextColor(Color.BLACK)
+        quotationTabImageView.setImageResource(R.drawable.quotation_icon_black)
+        partyTabImageView.setImageResource(R.drawable.party_icon_black)
+        mainScreenFrameLayout.removeAllViews()
+        val projectFragment = ProjectFragment()
+        supportFragmentManager.beginTransaction().replace(R.id.mainScreenFrameLayout, projectFragment).commit()
 
         bottomTabLayout.isSmoothScrollingEnabled = true
+
+
+        val bottomTabLayoutItemSelectedListener: OnTabSelectedListener = object : OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                val position = tab?.position
+                if (position == 0){
+                    Toast.makeText(this@MainActivity, "Quotation", Toast.LENGTH_SHORT).show()
+                    quotationTabImageView.setImageResource(R.drawable.quotation_icon_yellow)
+                    quotationTabTextView.setTextColor(Color.rgb(120,92,42))
+                    projectTabImageView.setImageResource(R.drawable.project_icon_black)
+                    projectTabTextView.setTextColor(Color.BLACK)
+                    partyTabImageView.setImageResource(R.drawable.party_icon_black)
+                    partyTabTextView.setTextColor(Color.BLACK)
+
+                    mainScreenFrameLayout.removeAllViews()
+                    val quotationFragment = QuotationFragment()
+                    supportFragmentManager.beginTransaction().replace(R.id.mainScreenFrameLayout, quotationFragment).commit()
+
+                }else if (position == 1){
+                    Toast.makeText(this@MainActivity, "Project", Toast.LENGTH_SHORT).show()
+                    quotationTabImageView.setImageResource(R.drawable.quotation_icon_black)
+                    quotationTabTextView.setTextColor(Color.BLACK)
+                    projectTabImageView.setImageResource(R.drawable.project_icon_yellow)
+                    projectTabTextView.setTextColor(Color.rgb(120,92,42))
+                    partyTabImageView.setImageResource(R.drawable.party_icon_black)
+                    partyTabTextView.setTextColor(Color.BLACK)
+                    mainScreenFrameLayout.removeAllViews()
+                    val projectFragment = ProjectFragment()
+                    supportFragmentManager.beginTransaction().replace(R.id.mainScreenFrameLayout, projectFragment).commit()
+
+                }else if (position == 2){
+                    Toast.makeText(this@MainActivity, "Party", Toast.LENGTH_SHORT).show()
+                    quotationTabImageView.setImageResource(R.drawable.quotation_icon_black)
+                    quotationTabTextView.setTextColor(Color.BLACK)
+                    projectTabImageView.setImageResource(R.drawable.project_icon_black)
+                    projectTabTextView.setTextColor(Color.BLACK)
+                    partyTabImageView.setImageResource(R.drawable.party_icon_yellow)
+                    partyTabTextView.setTextColor(Color.rgb(120,92,42))
+                    mainScreenFrameLayout.removeAllViews()
+                    val partyFragment = PartyFragment()
+                    supportFragmentManager.beginTransaction().replace(R.id.mainScreenFrameLayout, partyFragment).commit()
+                }
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+                val position = tab?.position
+                if (position == 0){
+                    Toast.makeText(this@MainActivity, "Quotation", Toast.LENGTH_SHORT).show()
+                    quotationTabImageView.setImageResource(R.drawable.quotation_icon_yellow)
+                    quotationTabTextView.setTextColor(Color.rgb(120,92,42))
+                    projectTabImageView.setImageResource(R.drawable.project_icon_black)
+                    projectTabTextView.setTextColor(Color.BLACK)
+                    partyTabImageView.setImageResource(R.drawable.party_icon_black)
+                    partyTabTextView.setTextColor(Color.BLACK)
+
+                    mainScreenFrameLayout.removeAllViews()
+                    val quotationFragment = QuotationFragment()
+                    supportFragmentManager.beginTransaction().replace(R.id.mainScreenFrameLayout, quotationFragment).commit()
+
+                }else if (position == 1){
+                    Toast.makeText(this@MainActivity, "Project", Toast.LENGTH_SHORT).show()
+                    quotationTabImageView.setImageResource(R.drawable.quotation_icon_black)
+                    quotationTabTextView.setTextColor(Color.BLACK)
+                    projectTabImageView.setImageResource(R.drawable.project_icon_yellow)
+                    projectTabTextView.setTextColor(Color.rgb(120,92,42))
+                    partyTabImageView.setImageResource(R.drawable.party_icon_black)
+                    partyTabTextView.setTextColor(Color.BLACK)
+                    mainScreenFrameLayout.removeAllViews()
+                    val projectFragment = ProjectFragment()
+                    supportFragmentManager.beginTransaction().replace(R.id.mainScreenFrameLayout, projectFragment).commit()
+
+                }else if (position == 2){
+                    Toast.makeText(this@MainActivity, "Party", Toast.LENGTH_SHORT).show()
+                    quotationTabImageView.setImageResource(R.drawable.quotation_icon_black)
+                    quotationTabTextView.setTextColor(Color.BLACK)
+                    projectTabImageView.setImageResource(R.drawable.project_icon_black)
+                    projectTabTextView.setTextColor(Color.BLACK)
+                    partyTabImageView.setImageResource(R.drawable.party_icon_yellow)
+                    partyTabTextView.setTextColor(Color.rgb(120,92,42))
+                    mainScreenFrameLayout.removeAllViews()
+                    val partyFragment = PartyFragment()
+                    supportFragmentManager.beginTransaction().replace(R.id.mainScreenFrameLayout, partyFragment).commit()
+                }
+            }
+
+        }
+
+        bottomTabLayout.addOnTabSelectedListener(bottomTabLayoutItemSelectedListener)
     }
 
     // Bottom tab layout formation for managers
@@ -159,7 +267,13 @@ class MainActivity : AppCompatActivity() {
 
 
         bottomTabLayout.isSmoothScrollingEnabled = true
+        bottomTabLayout.selectTab(projectTab)
+        projectTabImageView.setImageResource(R.drawable.project_icon_yellow)
+        projectTabTextView.setTextColor(Color.rgb(120,92,42))
+        val mainScreenFrameLayout : FrameLayout = findViewById(R.id.mainScreenFrameLayout)
+        mainScreenFrameLayout.removeAllViews()
+        val projectFragment = ProjectFragment()
+        supportFragmentManager.beginTransaction().replace(R.id.mainScreenFrameLayout, projectFragment).commit()
     }
-
 
 }
