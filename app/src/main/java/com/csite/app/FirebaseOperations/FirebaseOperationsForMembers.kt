@@ -54,8 +54,8 @@ class FirebaseOperationsForMembers {
                     if (member != null) {
                         callback.onMemberRetrieved(member)
                     }
+                }
             }
-    }
 
             override fun onCancelled(databaseError: DatabaseError) {
                 // Handle error

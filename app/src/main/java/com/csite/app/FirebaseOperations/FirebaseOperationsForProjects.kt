@@ -38,4 +38,32 @@ class FirebaseOperationsForProjects {
 
     }
 
+    fun getProjectListFromFirebase(projectReference: DatabaseReference, listStatus: String, mobileNumber: String, callback: getProjectListFromFirebaseCallback): List<Project> {
+        val projectList = mutableListOf<Project>()
+        val projectListValueEventListener = object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                projectList.clear()
+                for (projectSnapshot in snapshot.children) {
+                    val project = projectSnapshot.getValue(Project::class.java)
+                    if (project != null && project.projectStatus.equals(listStatus)){
+                        if (project.projectMembers.contains(mobileNumber)){
+                            projectList.add(project)
+                        }
+                    }
+                }
+                callback.onProjectListFetched(projectList)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("FirebaseOperations", "Error fetching project list: ${error.message}")
+            }
+        }
+        projectReference.addValueEventListener(projectListValueEventListener)
+        return projectList
+    }
+
+    interface getProjectListFromFirebaseCallback {
+        fun onProjectListFetched(projectList: List<Project>)
+    }
+
 }
