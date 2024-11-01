@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
-
+    xmlns:tools="http://schemas.android.com/tools" >
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <application
         android:allowBackup="true"
         android:icon="@drawable/appicon"
@@ -9,15 +11,26 @@
         android:roundIcon="@drawable/appicon"
         android:supportsRtl="true"
         android:theme="@style/Theme.CSite"
-        tools:targetApi="31">
+        tools:targetApi="31"
+        android:requestLegacyExternalStorage="true">
+
         <activity
-            android:name=".Activites.MainScreen.BankTransfersActivity"
+            android:name=".Activites.BankTransfer.BankTransferActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activites.Library.WorkforceLibraryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activites.Library.PartyLibraryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activites.Library.MaterialLibraryActivity"
             android:exported="false" />
         <activity
             android:name=".Activites.MainScreen.MaterialActivity"
             android:exported="false" />
         <activity
-            android:name=".Activites.Library.LibraryActivity"
+            android:name=".Activites.Library.MainLibraryActivity"
             android:exported="false" />
         <activity
             android:name=".Activites.MainScreen.SettingsActivity"
@@ -30,7 +43,7 @@
             android:exported="false" />
         <activity
             android:name=".Activites.MainScreen.MainActivity"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

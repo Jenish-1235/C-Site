@@ -8,6 +8,8 @@ class BankTransfer {
     var head: String = "";
     var doneBy: String = "";
     var site: String = "";
+
+    // Constructor
     constructor(date: String, partyName: String, accountNumber: String, amount: String, head: String, doneBy: String, site: String) {
         this.date = date;
         this.partyName = partyName;
@@ -17,5 +19,7 @@ class BankTransfer {
         this.doneBy = doneBy;
         this.site = site;
     }
+
+    constructor(){}
 
 }
