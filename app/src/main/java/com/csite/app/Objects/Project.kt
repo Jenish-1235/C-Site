@@ -13,6 +13,7 @@ class Project {
 
     // attendance and transaction remaining.
 
+    // constructor
     constructor(projectId: String, projectName: String, projectStartDate: String, projectStatus: String, projectAddress: String, projectEndDate: String, projectValue: String, projectCity: String, projectMembers: HashMap<String, Member>) {
         this.projectId = projectId;
         this.projectName = projectName;
@@ -24,7 +25,6 @@ class Project {
         this.projectCity = projectCity;
         this.projectMembers = projectMembers;
     }
-
 
     constructor()
 

@@ -29,15 +29,16 @@ import com.google.firebase.database.values
 
 class AddNewProjectDialogFragment : DialogFragment() {
 
+    // UI elements
     lateinit var projectNameInput: EditText;
     lateinit var projectAddressInput: EditText;
     lateinit var projectCityInput: EditText;
     lateinit var projectStartDateInput: EditText;
     lateinit var projectEndDateInput: EditText;
     lateinit var projectValueInput: EditText;
-
     lateinit var createProject: Button;
 
+    // Firebase references
     val metaReference: DatabaseReference = FirebaseDatabase.getInstance().getReference("Meta")
     val projectsReference: DatabaseReference = FirebaseDatabase.getInstance().getReference("Projects")
 
@@ -49,6 +50,7 @@ class AddNewProjectDialogFragment : DialogFragment() {
 
         val view: View = inflater.inflate(R.layout.dialog_fragment_add_new_project, container, false)
 
+        // Initialize UI elements
         projectNameInput = view.findViewById(R.id.projectNameInput)
         projectAddressInput = view.findViewById(R.id.projectAddressInput)
         projectCityInput = view.findViewById(R.id.projectCityInput)
@@ -59,11 +61,11 @@ class AddNewProjectDialogFragment : DialogFragment() {
         projectStartDateInput.setOnClickListener {
             showDatePickerDialog(1)
         }
-
         projectEndDateInput.setOnClickListener {
             showDatePickerDialog(2)
         }
 
+        // Create project button click listener
         createProject = view.findViewById(R.id.createProjectButton)
         createProject.setOnClickListener {
 
@@ -137,7 +139,7 @@ class AddNewProjectDialogFragment : DialogFragment() {
             }
         }
     }
-
+    // shows date picker dialog
     private fun showDatePickerDialog(inputId: Int) {
         val calendar: Calendar = Calendar.getInstance()
         var year = calendar.get(Calendar.YEAR)

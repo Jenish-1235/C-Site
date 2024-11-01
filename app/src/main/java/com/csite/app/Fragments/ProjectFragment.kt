@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.csite.app.CustomLayouts.SliderTabLayout
 import com.csite.app.R
 import com.csite.app.Activites.MainScreen.BankTransfersActivity
-import com.csite.app.Activites.MainScreen.LibraryActivity
+import com.csite.app.Activites.Library.LibraryActivity
 import com.csite.app.Activites.MainScreen.MaterialActivity
 import com.csite.app.DialogFragments.AddNewProjectDialogFragment
 import com.csite.app.FirebaseOperations.FirebaseOperationsForProjects
@@ -29,16 +29,17 @@ import com.google.firebase.database.FirebaseDatabase
 
 class ProjectFragment : Fragment() {
 
+    // Firebase References
     val projectReference: DatabaseReference = FirebaseDatabase.getInstance().getReference("Projects")
+    val libraryReference: DatabaseReference = FirebaseDatabase.getInstance().getReference("Library")
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? {
 
         val view: View = inflater.inflate(R.layout.fragment_project, container, false)
 
-        // Get memberAccess :
+        // Get memberAccess and check if it is manager or not
         val memberAccess: SharedPreferences = requireActivity().getSharedPreferences("memberAccess", MODE_PRIVATE)
         val memberAccessValue = memberAccess.getString("memberAccess", "")
-
-        // Check memberAccess :
         if (memberAccessValue == "manager") {
             tabLayoutForManager(view)
             val addProjectButton: Button = view.findViewById(R.id.addProjectButton)
@@ -57,14 +58,17 @@ class ProjectFragment : Fragment() {
             }
         }
 
+        // Get Mobile Number From Shared Preferences
         val mobileNumberSharedPreferences: SharedPreferences = requireActivity().getSharedPreferences("mobileNumber", MODE_PRIVATE)
         val mobileNumber: String = mobileNumberSharedPreferences.getString("mobileNumber", "").toString()
 
+        // Get Project List From Firebase
+        var projectListAdapter: ProjectListAdapter = ProjectListAdapter(requireActivity(), ArrayList())
         val projectListRecyclerView: RecyclerView = view.findViewById(R.id.projectListRecyclerView)
         val firebaseOperationsForProjects: FirebaseOperationsForProjects = FirebaseOperationsForProjects()
         firebaseOperationsForProjects.getProjectListFromFirebase(projectReference, "Active", mobileNumber, object: FirebaseOperationsForProjects.getProjectListFromFirebaseCallback {
             override fun onProjectListFetched(projectList: List<Project>) {
-                val projectListAdapter: ProjectListAdapter = ProjectListAdapter(this@ProjectFragment.requireActivity(),projectList)
+                projectListAdapter = ProjectListAdapter(this@ProjectFragment.requireActivity(),projectList)
                 projectListRecyclerView.adapter = projectListAdapter
                 projectListRecyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this@ProjectFragment.requireActivity())
                 projectListRecyclerView.setHasFixedSize(true)
@@ -72,14 +76,14 @@ class ProjectFragment : Fragment() {
             }
         })
 
-
+        // Tab Layout For Active Or Completed Projects
         val activeOrCompletedTabLayout: SliderTabLayout = view.findViewById(R.id.activeOrCompletedTabLayout)
         activeOrCompletedTabLayout.setOnTabSelectedListener { tab ->
             if (tab == SliderTabLayout.ACTIVE_TAB){
                 Toast.makeText(requireActivity(), "Active", Toast.LENGTH_SHORT).show()
                 firebaseOperationsForProjects.getProjectListFromFirebase(projectReference, "Active", mobileNumber, object: FirebaseOperationsForProjects.getProjectListFromFirebaseCallback {
                     override fun onProjectListFetched(projectList: List<Project>) {
-                        val projectListAdapter: ProjectListAdapter = ProjectListAdapter(this@ProjectFragment.requireActivity(),projectList)
+                        projectListAdapter = ProjectListAdapter(this@ProjectFragment.requireActivity(),projectList)
                         projectListRecyclerView.adapter = projectListAdapter
                         projectListRecyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this@ProjectFragment.requireActivity())
                         projectListRecyclerView.setHasFixedSize(true)
@@ -91,7 +95,7 @@ class ProjectFragment : Fragment() {
                 Toast.makeText(requireActivity(), "Completed", Toast.LENGTH_SHORT).show()
                 firebaseOperationsForProjects.getProjectListFromFirebase(projectReference, "Completed", mobileNumber, object: FirebaseOperationsForProjects.getProjectListFromFirebaseCallback {
                     override fun onProjectListFetched(projectList: List<Project>) {
-                        val projectListAdapter: ProjectListAdapter = ProjectListAdapter(this@ProjectFragment.requireActivity(),projectList)
+                        projectListAdapter = ProjectListAdapter(this@ProjectFragment.requireActivity(),projectList)
                         projectListRecyclerView.adapter = projectListAdapter
                         projectListRecyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this@ProjectFragment.requireActivity())
                         projectListRecyclerView.setHasFixedSize(true)
@@ -101,6 +105,13 @@ class ProjectFragment : Fragment() {
             }
         }
 
+        // On Item Click Listener for Project List.
+        val projectOnItemClick = object : ProjectListAdapter.OnItemClickListener{
+            override fun onItemClick(position: Int) {
+                Toast.makeText(requireActivity(), "Item Clicked", Toast.LENGTH_SHORT).show()
+            }
+        }
+        projectListAdapter.setOnItemClickListener(projectOnItemClick)
 
         return view
     }
@@ -162,7 +173,22 @@ class ProjectFragment : Fragment() {
             }
 
             override fun onTabReselected(tab: TabLayout.Tab) {
+                if (tab.getPosition() == 0) {
+                    // Library tab selected
+                    val libraryIntent: Intent = Intent(requireActivity(), LibraryActivity::class.java)
+                    startActivity(libraryIntent)
 
+                } else if (tab.getPosition() == 1) {
+                    // Material tab selected
+                    val materialIntent: Intent = Intent(requireActivity(), MaterialActivity::class.java)
+                    startActivity(materialIntent)
+
+                } else if (tab.getPosition() == 2) {
+                    // Bank Transfers tab selected
+                    val bankTransfersIntent: Intent = Intent(requireActivity(), BankTransfersActivity::class.java)
+                    startActivity(bankTransfersIntent)
+
+                }
             }
         }
 
@@ -191,7 +217,13 @@ class ProjectFragment : Fragment() {
                 }
             }
             override fun onTabUnselected(tab: TabLayout.Tab) {}
-            override fun onTabReselected(tab: TabLayout.Tab) {}
+            override fun onTabReselected(tab: TabLayout.Tab) {
+                if (tab.getPosition() == 0) {
+                // Library tab selected
+                val libraryIntent: Intent =
+                    Intent(requireActivity(), LibraryActivity::class.java)
+                startActivity(libraryIntent)
+            }}
         }
 
         projectFragmentTabLayout.addOnTabSelectedListener(projectFragmentTabLayoutOnTabSelectedListener)

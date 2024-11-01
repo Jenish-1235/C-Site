@@ -17,7 +17,7 @@
             android:name=".Activites.MainScreen.MaterialActivity"
             android:exported="false" />
         <activity
-            android:name=".Activites.MainScreen.LibraryActivity"
+            android:name=".Activites.Library.LibraryActivity"
             android:exported="false" />
         <activity
             android:name=".Activites.MainScreen.SettingsActivity"

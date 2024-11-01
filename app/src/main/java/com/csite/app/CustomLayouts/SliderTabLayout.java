@@ -126,7 +126,4 @@ public class SliderTabLayout extends View {
         }
     }
 
-
-    // ... inside selectTab(int tab) method ...
-
 }

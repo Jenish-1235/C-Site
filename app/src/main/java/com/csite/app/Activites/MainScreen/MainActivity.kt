@@ -81,7 +81,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-
+        // Set settings icon click listener
         val settingsIcon : ImageView = findViewById(R.id.settingsIcon)
         settingsIcon.setOnClickListener {
             var settingsIntent : Intent = Intent(this, SettingsActivity::class.java)

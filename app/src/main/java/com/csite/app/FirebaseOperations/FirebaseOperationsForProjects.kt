@@ -11,10 +11,13 @@ import com.google.firebase.database.ValueEventListener
 
 
 class FirebaseOperationsForProjects {
+
     object FirebaseOperationsForProjects{    }
 
+    // Firebase database reference
     val metaReference = FirebaseDatabase.getInstance().getReference("Meta")
 
+    // 1. Save project to Firebase
     fun saveProjectToFirebase(projectReference: DatabaseReference, project: Project) {
 
         metaReference.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -38,6 +41,7 @@ class FirebaseOperationsForProjects {
 
     }
 
+    // 2.0 Get project list from Firebase
     fun getProjectListFromFirebase(projectReference: DatabaseReference, listStatus: String, mobileNumber: String, callback: getProjectListFromFirebaseCallback): List<Project> {
         val projectList = mutableListOf<Project>()
         val projectListValueEventListener = object : ValueEventListener {
@@ -62,6 +66,7 @@ class FirebaseOperationsForProjects {
         return projectList
     }
 
+    // 2.1Callback interface for getting project list from Firebase
     interface getProjectListFromFirebaseCallback {
         fun onProjectListFetched(projectList: List<Project>)
     }

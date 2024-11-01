@@ -1,4 +1,4 @@
-package com.csite.app.Activites.MainScreen
+package com.csite.app.Activites.Library
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge

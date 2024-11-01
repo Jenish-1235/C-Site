@@ -24,6 +24,7 @@ class UserRegistration : AppCompatActivity() {
             insets
         }
 
+        // Get Database Reference
         val memberReference: DatabaseReference = FirebaseDatabase.getInstance().getReference("Members")
         
         // Get Mobile Number Input
@@ -71,9 +72,6 @@ class UserRegistration : AppCompatActivity() {
                 }
             }
         })
-
-
-
     }
 
 }

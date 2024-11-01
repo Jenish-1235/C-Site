@@ -33,19 +33,17 @@ class PasswordActivity : AppCompatActivity() {
             insets
         }
 
+        // Get mobile number from intent
         val passwordActivityIntent : Intent = intent
         val mobileNumber : String = passwordActivityIntent.getStringExtra("mobileNumber").toString()
         val isMember : Boolean = passwordActivityIntent.getBooleanExtra("isMember", false)
 
-
-
+        // Get views
         val heading : TextView = findViewById(R.id.heading)
         val setOrEnterPassword : TextView = findViewById(R.id.setOrEnterPassword)
         val nameEnter : TextInputEditText = findViewById(R.id.nameEnter)
         val passwordEnter : TextInputEditText = findViewById(R.id.passwordEnter)
         val passwordVerify : TextInputEditText = findViewById(R.id.passwordVerify)
-
-        // Get views
         val passwordVerifyLayout : com.google.android.material.textfield.TextInputLayout = findViewById(R.id.passwordVerifyLayout)
         val nameEnterLayout : com.google.android.material.textfield.TextInputLayout = findViewById(R.id.nameEnterLayout)
         val verifyButton: Button = findViewById(R.id.verifyButton)
