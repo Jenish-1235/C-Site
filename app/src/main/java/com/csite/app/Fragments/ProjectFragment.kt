@@ -15,8 +15,8 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.csite.app.CustomLayouts.SliderTabLayout
 import com.csite.app.R
-import com.csite.app.Activites.MainScreen.BankTransfersActivity
-import com.csite.app.Activites.Library.LibraryActivity
+import com.csite.app.Activites.Library.MainLibraryActivity
+import com.csite.app.Activites.BankTransfer.BankTransferActivity
 import com.csite.app.Activites.MainScreen.MaterialActivity
 import com.csite.app.DialogFragments.AddNewProjectDialogFragment
 import com.csite.app.FirebaseOperations.FirebaseOperationsForProjects
@@ -152,7 +152,7 @@ class ProjectFragment : Fragment() {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 if (tab.getPosition() == 0) {
                     // Library tab selected
-                    val libraryIntent: Intent = Intent(requireActivity(), LibraryActivity::class.java)
+                    val libraryIntent: Intent = Intent(requireActivity(), MainLibraryActivity::class.java)
                     startActivity(libraryIntent)
 
                 } else if (tab.getPosition() == 1) {
@@ -162,7 +162,7 @@ class ProjectFragment : Fragment() {
 
                 } else if (tab.getPosition() == 2) {
                     // Bank Transfers tab selected
-                    val bankTransfersIntent: Intent = Intent(requireActivity(), BankTransfersActivity::class.java)
+                    val bankTransfersIntent: Intent = Intent(requireActivity(), BankTransferActivity::class.java)
                     startActivity(bankTransfersIntent)
 
                 }
@@ -175,7 +175,7 @@ class ProjectFragment : Fragment() {
             override fun onTabReselected(tab: TabLayout.Tab) {
                 if (tab.getPosition() == 0) {
                     // Library tab selected
-                    val libraryIntent: Intent = Intent(requireActivity(), LibraryActivity::class.java)
+                    val libraryIntent: Intent = Intent(requireActivity(), MainLibraryActivity::class.java)
                     startActivity(libraryIntent)
 
                 } else if (tab.getPosition() == 1) {
@@ -185,7 +185,7 @@ class ProjectFragment : Fragment() {
 
                 } else if (tab.getPosition() == 2) {
                     // Bank Transfers tab selected
-                    val bankTransfersIntent: Intent = Intent(requireActivity(), BankTransfersActivity::class.java)
+                    val bankTransfersIntent: Intent = Intent(requireActivity(), BankTransferActivity::class.java)
                     startActivity(bankTransfersIntent)
 
                 }
@@ -212,7 +212,7 @@ class ProjectFragment : Fragment() {
                 if (tab.getPosition() == 0) {
                     // Library tab selected
                     val libraryIntent: Intent =
-                        Intent(requireActivity(), LibraryActivity::class.java)
+                        Intent(requireActivity(), MainLibraryActivity::class.java)
                     startActivity(libraryIntent)
                 }
             }
@@ -221,7 +221,7 @@ class ProjectFragment : Fragment() {
                 if (tab.getPosition() == 0) {
                 // Library tab selected
                 val libraryIntent: Intent =
-                    Intent(requireActivity(), LibraryActivity::class.java)
+                    Intent(requireActivity(), MainLibraryActivity::class.java)
                 startActivity(libraryIntent)
             }}
         }
