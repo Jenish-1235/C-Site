@@ -53,6 +53,8 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     implementation ("com.google.firebase:firebase-database")
     implementation ("at.favre.lib:bcrypt:0.9.0")
+    implementation ("org.apache.poi:poi-ooxml:5.2.3")
+
 
 
 }
