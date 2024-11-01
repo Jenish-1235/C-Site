@@ -12,17 +12,24 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.recyclerview.widget.RecyclerView
 import com.csite.app.CustomLayouts.SliderTabLayout
 import com.csite.app.R
 import com.csite.app.Activites.MainScreen.BankTransfersActivity
 import com.csite.app.Activites.MainScreen.LibraryActivity
 import com.csite.app.Activites.MainScreen.MaterialActivity
 import com.csite.app.DialogFragments.AddNewProjectDialogFragment
+import com.csite.app.FirebaseOperations.FirebaseOperationsForProjects
+import com.csite.app.Objects.Project
+import com.csite.app.RecyclerViewListAdapters.ProjectListAdapter
 import com.google.android.material.tabs.TabLayout
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 
 class ProjectFragment : Fragment() {
 
+    val projectReference: DatabaseReference = FirebaseDatabase.getInstance().getReference("Projects")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? {
 
         val view: View = inflater.inflate(R.layout.fragment_project, container, false)
@@ -50,13 +57,47 @@ class ProjectFragment : Fragment() {
             }
         }
 
+        val mobileNumberSharedPreferences: SharedPreferences = requireActivity().getSharedPreferences("mobileNumber", MODE_PRIVATE)
+        val mobileNumber: String = mobileNumberSharedPreferences.getString("mobileNumber", "").toString()
+
+        val projectListRecyclerView: RecyclerView = view.findViewById(R.id.projectListRecyclerView)
+        val firebaseOperationsForProjects: FirebaseOperationsForProjects = FirebaseOperationsForProjects()
+        firebaseOperationsForProjects.getProjectListFromFirebase(projectReference, "Active", mobileNumber, object: FirebaseOperationsForProjects.getProjectListFromFirebaseCallback {
+            override fun onProjectListFetched(projectList: List<Project>) {
+                val projectListAdapter: ProjectListAdapter = ProjectListAdapter(this@ProjectFragment.requireActivity(),projectList)
+                projectListRecyclerView.adapter = projectListAdapter
+                projectListRecyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this@ProjectFragment.requireActivity())
+                projectListRecyclerView.setHasFixedSize(true)
+                projectListAdapter.notifyDataSetChanged()
+            }
+        })
+
 
         val activeOrCompletedTabLayout: SliderTabLayout = view.findViewById(R.id.activeOrCompletedTabLayout)
         activeOrCompletedTabLayout.setOnTabSelectedListener { tab ->
             if (tab == SliderTabLayout.ACTIVE_TAB){
                 Toast.makeText(requireActivity(), "Active", Toast.LENGTH_SHORT).show()
+                firebaseOperationsForProjects.getProjectListFromFirebase(projectReference, "Active", mobileNumber, object: FirebaseOperationsForProjects.getProjectListFromFirebaseCallback {
+                    override fun onProjectListFetched(projectList: List<Project>) {
+                        val projectListAdapter: ProjectListAdapter = ProjectListAdapter(this@ProjectFragment.requireActivity(),projectList)
+                        projectListRecyclerView.adapter = projectListAdapter
+                        projectListRecyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this@ProjectFragment.requireActivity())
+                        projectListRecyclerView.setHasFixedSize(true)
+                        projectListAdapter.notifyDataSetChanged()
+                    }
+                })
+
             }else if (tab == SliderTabLayout.COMPLETED_TAB){
                 Toast.makeText(requireActivity(), "Completed", Toast.LENGTH_SHORT).show()
+                firebaseOperationsForProjects.getProjectListFromFirebase(projectReference, "Completed", mobileNumber, object: FirebaseOperationsForProjects.getProjectListFromFirebaseCallback {
+                    override fun onProjectListFetched(projectList: List<Project>) {
+                        val projectListAdapter: ProjectListAdapter = ProjectListAdapter(this@ProjectFragment.requireActivity(),projectList)
+                        projectListRecyclerView.adapter = projectListAdapter
+                        projectListRecyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this@ProjectFragment.requireActivity())
+                        projectListRecyclerView.setHasFixedSize(true)
+                        projectListAdapter.notifyDataSetChanged()
+                    }
+                })
             }
         }
 
