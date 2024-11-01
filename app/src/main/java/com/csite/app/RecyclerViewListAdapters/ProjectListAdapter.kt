@@ -28,6 +28,7 @@ class ProjectListAdapter(context: Context, projectList: List<Project>): Recycler
         val projectSettingsButton: Button = itemView.findViewById(R.id.projectSettingsButton)
         val projectMoreInfoButton: Button = itemView.findViewById(R.id.projectMoreInfoButton)
 
+
     }
 
     // Inflate layout for list item
