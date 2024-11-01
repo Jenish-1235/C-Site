@@ -16,6 +16,12 @@ class Member {
         this.memberAccess = memberAccess
     }
 
+    constructor(name: String, mobileNumber: String, memberAccess: String){
+        this.name = name
+        this.mobileNumber = mobileNumber
+        this.memberAccess = memberAccess
+
+    }
     constructor()
 
 }

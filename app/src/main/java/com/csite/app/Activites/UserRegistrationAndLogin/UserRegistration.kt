@@ -1,10 +1,8 @@
-package com.csite.app.activities.UserRegistrationAndLogin
+package com.csite.app.Activites.UserRegistrationAndLogin
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -12,10 +10,8 @@ import androidx.core.view.WindowInsetsCompat
 import com.csite.app.FirebaseOperations.FirebaseOperationsForMembers
 import com.csite.app.R
 import com.google.android.material.textfield.TextInputEditText
-import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 
 class UserRegistration : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

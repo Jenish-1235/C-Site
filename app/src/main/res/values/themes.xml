@@ -7,5 +7,16 @@
 
     <style name="Theme.CSite" parent="Base.Theme.CSite" />
 
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_up</item>
+        <item name="android:windowExitAnimation">@anim/slide_down</item>
+    </style>
+
+    <style name="CustomTextInputLayout"
+        parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/golden</item>
+        <item name="hintTextColor">@color/golden</item>
+        <item name="android:textColorHint">#615959</item>
+    </style>
 
 </resources>

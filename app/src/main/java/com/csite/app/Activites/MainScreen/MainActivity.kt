@@ -1,4 +1,4 @@
-package com.csite.app.activities.MainScreen
+package com.csite.app.Activites.MainScreen
 
 import android.content.Intent
 import android.content.SharedPreferences
@@ -9,18 +9,16 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.csite.app.R
-import com.csite.app.activities.UserRegistrationAndLogin.UserRegistration
-import com.csite.app.fragments.PartyFragment
-import com.csite.app.fragments.ProjectFragment
-import com.csite.app.fragments.QuotationFragment
+import com.csite.app.Activites.UserRegistrationAndLogin.UserRegistration
+import com.csite.app.Fragments.PartyFragment
+import com.csite.app.Fragments.ProjectFragment
+import com.csite.app.Fragments.QuotationFragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
-import com.google.firebase.Firebase
 import com.google.firebase.FirebaseApp
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -65,8 +63,16 @@ class MainActivity : AppCompatActivity() {
                 memberReference.child(mobileNumber).child("memberAccess").get().addOnSuccessListener {
                     if(it.value.toString() == "admin"){
                         bottomTabLayoutFormationForAdmins(view)
+                        val memberAccess: SharedPreferences = getSharedPreferences("memberAccess", MODE_PRIVATE)
+                        val editor: SharedPreferences.Editor = memberAccess.edit()
+                        editor.putString("memberAccess", "admin")
+                        editor.commit()
                     }else if (it.value.toString() == "manager"){
                         bottomTabLayoutFormationForManagers(view)
+                        val memberAccess: SharedPreferences = getSharedPreferences("memberAccess", MODE_PRIVATE)
+                        val editor: SharedPreferences.Editor = memberAccess.edit()
+                        editor.putString("memberAccess", "manager")
+                        editor.commit()
                     }
                 }
 

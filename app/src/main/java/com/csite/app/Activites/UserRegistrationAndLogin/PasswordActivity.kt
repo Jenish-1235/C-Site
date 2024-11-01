@@ -1,4 +1,4 @@
-package com.csite.app.activities.UserRegistrationAndLogin
+package com.csite.app.Activites.UserRegistrationAndLogin
 
 import android.content.Intent
 import android.content.SharedPreferences
@@ -14,11 +14,10 @@ import at.favre.lib.crypto.bcrypt.BCrypt
 import com.csite.app.FirebaseOperations.FirebaseOperationsForMembers
 import com.csite.app.Objects.Member
 import com.csite.app.R
-import com.csite.app.activities.MainScreen.MainActivity
+import com.csite.app.Activites.MainScreen.MainActivity
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.core.view.View
 
 class PasswordActivity : AppCompatActivity() {
 

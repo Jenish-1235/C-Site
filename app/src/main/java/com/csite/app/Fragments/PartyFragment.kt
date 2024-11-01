@@ -1,4 +1,4 @@
-package com.csite.app.fragments
+package com.csite.app.Fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

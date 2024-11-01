@@ -11,16 +11,25 @@
         android:theme="@style/Theme.CSite"
         tools:targetApi="31">
         <activity
-            android:name=".activities.MainScreen.SettingsActivity"
+            android:name=".Activites.MainScreen.BankTransfersActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.UserRegistrationAndLogin.PasswordActivity"
+            android:name=".Activites.MainScreen.MaterialActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.UserRegistrationAndLogin.UserRegistration"
+            android:name=".Activites.MainScreen.LibraryActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.MainScreen.MainActivity"
+            android:name=".Activites.MainScreen.SettingsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activites.UserRegistrationAndLogin.PasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activites.UserRegistrationAndLogin.UserRegistration"
+            android:exported="false" />
+        <activity
+            android:name=".Activites.MainScreen.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
