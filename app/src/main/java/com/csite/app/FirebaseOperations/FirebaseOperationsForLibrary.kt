@@ -1,6 +1,7 @@
 package com.csite.app.FirebaseOperations
 
 import com.csite.app.Objects.Material
+import com.csite.app.Objects.Workforce
 import com.google.android.material.datepicker.MaterialTextInputPicker
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -73,6 +74,18 @@ class FirebaseOperationsForLibrary {
 
     interface onMaterialListReceived{
         fun onMaterialListReceived(materialList: ArrayList<Material>)
+    }
+
+    // 4. Save Workforce to library
+    fun addWorkforceToWorkforceLibrary(workforceReference: DatabaseReference, workforce: Workforce){
+        workforce.workforceId = workforceIdGenerator()
+        workforceReference.child(workforce.workforceId).setValue(workforce)
+    }
+
+    fun workforceIdGenerator():String{
+        val random = java.util.Random()
+        val workforceId = random.nextInt(1000000)
+        return "wf" + workforceId.toString()
     }
 
 }
