@@ -1,6 +1,7 @@
 package com.csite.app.FirebaseOperations
 
 import com.csite.app.Objects.Material
+import com.csite.app.Objects.Workforce
 import com.google.android.material.datepicker.MaterialTextInputPicker
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -44,13 +45,14 @@ class FirebaseOperationsForLibrary {
         materialReference.child(material.materialId).setValue(material)
     }
 
+    // 2.1 Generate Material ID
     fun materialIdGenerator():String{
         val random = java.util.Random()
         val materialId = random.nextInt(1000000)
         return "mat" + materialId.toString()
     }
 
-    // 3. Fetch Materials from Material Library
+    // 2.2 Fetch Materials from Material Library
     fun fetchMaterialsFromMaterialLibrary(materialReference: DatabaseReference, callback: onMaterialListReceived):ArrayList<Material>{
         val materialList = ArrayList<Material>()
         val materialValueEventListener = object : ValueEventListener {
@@ -70,9 +72,48 @@ class FirebaseOperationsForLibrary {
         materialReference.addValueEventListener(materialValueEventListener)
         return materialList
     }
-
+    // 2.3 Fetch Materials from Material Library
     interface onMaterialListReceived{
         fun onMaterialListReceived(materialList: ArrayList<Material>)
     }
+
+    // 3. Save Workforce to library
+    fun addWorkforceToWorkforceLibrary(workforceReference: DatabaseReference, workforce: Workforce){
+        workforce.workforceId = workforceIdGenerator()
+        workforceReference.child(workforce.workforceId).setValue(workforce)
+    }
+    // 3.1 Generate Workforce ID
+    fun workforceIdGenerator():String{
+        val random = java.util.Random()
+        val workforceId = random.nextInt(1000000)
+        return "wf" + workforceId.toString()
+    }
+
+    // 3.2 Fetch Workforce from Workforce Library
+    fun fetchWorkforceFromWorkforceLibrary(workforceReference: DatabaseReference, callback: onWorkforceListReceived):ArrayList<Workforce>{
+        val workforceList = ArrayList<Workforce>()
+        val workforceValueEventListener = object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                workforceList.clear()
+                for (workforceSnapshot in snapshot.children) {
+                    val workforce = workforceSnapshot.getValue(Workforce::class.java)
+                    if (workforce != null) {
+                        workforceList.add(workforce)
+                    }
+                }
+                callback.onWorkforceListReceived(workforceList)
+                }
+            override fun onCancelled(error: DatabaseError) {
+            }
+        }
+        workforceReference.addValueEventListener(workforceValueEventListener)
+        return workforceList
+    }
+    // 3.3 Fetch Workforce from Workforce Library
+    interface onWorkforceListReceived{
+        fun onWorkforceListReceived(workforceList: ArrayList<Workforce>)
+    }
+
+
 
 }
