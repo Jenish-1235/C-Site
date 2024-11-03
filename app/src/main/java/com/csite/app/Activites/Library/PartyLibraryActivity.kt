@@ -52,7 +52,6 @@ class PartyLibraryActivity : AppCompatActivity() {
         firebaseOperationsForLibrary.fetchPartyFromPartyLibrary(object : FirebaseOperationsForLibrary.onPartyListReceived {
             override fun onPartyListReceived(partyList: ArrayList<Party>) {
                 val partyLibraryListAdapter = PartyLibraryListAdapter(
-                    this@PartyLibraryActivity,
                     partyList
                 )
                 partyLibraryRecyclerView.adapter = partyLibraryListAdapter
@@ -69,7 +68,7 @@ class PartyLibraryActivity : AppCompatActivity() {
                     0 ->{
                         firebaseOperationsForLibrary.fetchPartyFromPartyLibrary(object :FirebaseOperationsForLibrary.onPartyListReceived{
                             override fun onPartyListReceived(partyList: ArrayList<Party>) {
-                                val partyLibraryListAdapter = PartyLibraryListAdapter(this@PartyLibraryActivity, partyList)
+                                val partyLibraryListAdapter = PartyLibraryListAdapter(partyList)
                                 partyLibraryRecyclerView.adapter = partyLibraryListAdapter
                                 partyLibraryRecyclerView.layoutManager = LinearLayoutManager(this@PartyLibraryActivity)
                                 partyLibraryListAdapter.notifyDataSetChanged()
@@ -86,7 +85,7 @@ class PartyLibraryActivity : AppCompatActivity() {
                                         partyWillReceiveList.add(party)
                                     }
                                 }
-                                val partyLibraryListAdapter = PartyLibraryListAdapter(this@PartyLibraryActivity, partyWillReceiveList)
+                                val partyLibraryListAdapter = PartyLibraryListAdapter(partyWillReceiveList)
                                 partyLibraryRecyclerView.adapter = partyLibraryListAdapter
                                 partyLibraryRecyclerView.layoutManager = LinearLayoutManager(this@PartyLibraryActivity)
                                 partyLibraryListAdapter.notifyDataSetChanged()
@@ -106,7 +105,6 @@ class PartyLibraryActivity : AppCompatActivity() {
                                         partyWillPayList.add(party)
                                     }
                                     val partyLibraryListAdapter = PartyLibraryListAdapter(
-                                        this@PartyLibraryActivity,
                                         partyWillPayList
                                     )
                                     partyLibraryRecyclerView.adapter = partyLibraryListAdapter

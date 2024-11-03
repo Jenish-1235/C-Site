@@ -1,5 +1,7 @@
 package com.csite.app.Objects
 
+import com.csite.app.FirebaseOperations.FirebaseOperationsForLibrary
+
 class Party {
     // Party Details
     var partyName = ""
@@ -155,6 +157,11 @@ class Party {
 
     // empty constructor
     constructor()
+
+    fun updateData(partyId: String, party: Party) {
+        val firebaseOperationsForLibrary = FirebaseOperationsForLibrary()
+        firebaseOperationsForLibrary.updateParty(partyId, party)
+    }
 
 
 

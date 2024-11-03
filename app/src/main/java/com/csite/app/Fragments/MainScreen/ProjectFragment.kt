@@ -1,4 +1,4 @@
-package com.csite.app.Fragments
+package com.csite.app.Fragments.MainScreen
 
 import android.content.Context.MODE_PRIVATE
 import android.content.Intent
