@@ -7,6 +7,7 @@ import android.os.SharedMemory
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -118,6 +119,7 @@ class ProjectInternalMainActivity : AppCompatActivity() {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 when (tab?.position) {
                     0 -> {
+
                         val projectInternalPartyFragment: ProjectInternalPartyFragment = ProjectInternalPartyFragment()
                         projectInternalPartyFragment.arguments = bundle
                         supportFragmentManager.beginTransaction().replace(R.id.projectInternalFrameLayout, projectInternalPartyFragment).commit()
@@ -129,6 +131,8 @@ class ProjectInternalMainActivity : AppCompatActivity() {
 
                     }
                     1 -> {
+                        Toast.makeText(this@ProjectInternalMainActivity, projectId, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@ProjectInternalMainActivity, bundle.getString("projectId"), Toast.LENGTH_SHORT).show()
                         val projectInternalTransactionFragment: ProjectInternalTransactionFragment = ProjectInternalTransactionFragment()
                         projectInternalTransactionFragment.arguments = bundle
                         supportFragmentManager.beginTransaction().replace(R.id.projectInternalFrameLayout, projectInternalTransactionFragment).commit()
