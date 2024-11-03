@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="20dp"
+    android:layout_marginTop="7dp"
+    android:layout_marginEnd="20dp"
+    app:cardCornerRadius="10dp"
+    android:background="@android:color/transparent"
+    android:backgroundTint="#F6EED3"
+    android:elevation="10dp"
+    android:outlineAmbientShadowColor="@color/black"
+    android:outlineSpotShadowColor="@color/black"
+    android:padding="10dp">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/listItemPartyLibraryLeft"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/partyNameView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Party Name"
+                android:textColor="@color/black"
+                android:fontFamily="@font/arimo_medium"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/partyTypeView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Party Type"
+                android:textColor="@color/black"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/listItemPartyLibraryRight"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/partyAmountView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Amount INR"
+                android:textColor="@color/black"
+                android:fontFamily="@font/arimo_medium"
+                android:textStyle="bold"
+                android:textAlignment="textEnd"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/partyAmountRemarkView"
+                android:text="Remark"
+                android:textColor="@color/black"
+                android:textAlignment="textEnd"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/partyGSTView"
+                    android:text="GST"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/arimo_medium"
+                    android:textStyle="bold"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:background="@drawable/background_green_rounded_corner"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/partyBankView"
+                    android:text="Bank"
+                    android:layout_marginStart="2dp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/arimo_medium"
+                    android:textStyle="bold"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:background="@drawable/background_red_rounded_corner"/>
+
+
+
+
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

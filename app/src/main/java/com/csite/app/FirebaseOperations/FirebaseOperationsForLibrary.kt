@@ -54,10 +54,11 @@ class FirebaseOperationsForLibrary {
         materialReference.child(material.materialId).setValue(material)
     }
 
+
     // 2.1 Generate Material ID
     fun materialIdGenerator():String{
         val random = java.util.Random()
-        val materialId = random.nextInt(1000000)
+        val materialId = random.nextInt(900000) + 100000
         return "mat" + materialId.toString()
     }
 
@@ -94,7 +95,7 @@ class FirebaseOperationsForLibrary {
     // 3.1 Generate Workforce ID
     fun workforceIdGenerator():String{
         val random = java.util.Random()
-        val workforceId = random.nextInt(1000000)
+        val workforceId = random.nextInt(900000) + 100000
         return "wf" + workforceId.toString()
     }
 
@@ -127,14 +128,47 @@ class FirebaseOperationsForLibrary {
     // 4. Save Party to library
     fun addPartyToPartyLibrary(party: Party){
         party.partyId = partyIdGenerator()
+        if (party.partyAmountToPayOrReceive == null || party.partyAmountToPayOrReceive == ""){
+            party.partyAmountToPayOrReceive = "0"
+        }
+
+        if (party.partyOpeningBalanceDetails == null || party.partyOpeningBalanceDetails == ""){
+            party.partyOpeningBalanceDetails = "Fresh"
+        }
+
         partyReference.child(party.partyId).setValue(party)
     }
 
     // 4.1 Generate Party ID
     fun partyIdGenerator():String{
         val random = java.util.Random()
-        val partyId = random.nextInt(1000000)
+        val partyId = random.nextInt(900000) + 100000
         return "pt" + partyId.toString()
+    }
+
+    // 4.2 Fetch Party from Party Library
+    fun fetchPartyFromPartyLibrary(callback: onPartyListReceived):ArrayList<Party>{
+        val partyList = ArrayList<Party>()
+        val partyValueEventListener = object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                partyList.clear()
+                for (partySnapshot in snapshot.children) {
+                    val party = partySnapshot.getValue(Party::class.java)
+                    if (party != null) {
+                        partyList.add(party)
+                    }
+                }
+                callback.onPartyListReceived(partyList)
+            }
+            override fun onCancelled(error: DatabaseError) {
+            }
+        }
+        partyReference.addValueEventListener(partyValueEventListener)
+        return partyList
+    }
+    // 4.3 Fetch Party from Party Library
+    interface onPartyListReceived{
+        fun onPartyListReceived(partyList: ArrayList<Party>)
     }
 
 

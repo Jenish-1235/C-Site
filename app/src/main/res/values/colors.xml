@@ -7,6 +7,7 @@
     <color name="yellow">#FED149</color>
     <color name="golden">#785C2A</color>
     <color name="skin">#F5F0E5</color>
-
+    <color name="green">#00ff00</color>
+    <color name="red">#ff0000</color>
 
 </resources>

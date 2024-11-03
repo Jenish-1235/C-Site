@@ -8,23 +8,23 @@ class Party {
     var partyCondition = ""
 
     // Party will pay and will receive
-    var partyAmountToPayOrReceive = ""
-    var partyOpeningBalanceDetails = ""
+    var partyAmountToPayOrReceive:String? = null
+    var partyOpeningBalanceDetails:String? = null
 
     // Party with GST Details
-    var partyGSTNumber:String? = ""
-    var partyLegalBusinessName:String? = ""
-    var partyStateOfSupply:String? = ""
-    var partyBillingAddress:String? = ""
+    var partyGSTNumber:String? = null
+    var partyLegalBusinessName:String? = null
+    var partyStateOfSupply:String? = null
+    var partyBillingAddress:String? = null
 
     // Party with Bank Details
-    var partyAccountHolderName:String? = ""
-    var partyAccountNumber:String? = ""
-    var partyIFSCCode:String? = ""
-    var partyBankName:String? = ""
-    var partyBankAddress:String? = ""
-    var partyIBANNumber:String? = ""
-    var partyUPIId:String? = ""
+    var partyAccountHolderName:String? = null
+    var partyAccountNumber:String? = null
+    var partyIFSCCode:String? = null
+    var partyBankName:String? = null
+    var partyBankAddress:String? = null
+    var partyIBANNumber:String? = null
+    var partyUPIId:String? = null
 
     // partyId
     var partyId:String = ""
