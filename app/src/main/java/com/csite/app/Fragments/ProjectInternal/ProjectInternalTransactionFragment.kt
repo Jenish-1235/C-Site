@@ -42,6 +42,9 @@ class ProjectInternalTransactionFragment : Fragment() {
 
             binding.projectMoreTransactionButton.setOnClickListener{
                 val moreTransactionDialogFragment = MoreTransactionDialogFragment()
+                val bundle = Bundle()
+                bundle.putString("projectId", projectId)
+                moreTransactionDialogFragment.arguments = bundle
                 moreTransactionDialogFragment.show(childFragmentManager, "moreTransactionDialogFragment")
             }
         }else{
