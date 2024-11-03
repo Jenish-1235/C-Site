@@ -145,9 +145,8 @@ class AddNewMaterialDialogFragment : DialogFragment() {
                 Toast.makeText(context, "Please fill All details", Toast.LENGTH_SHORT).show()
             }else{
                 val newMaterial = Material(materialName, materialCategory, materialGST, materialUnit)
-                val  materialLibraryReference: DatabaseReference = FirebaseDatabase.getInstance().getReference("Library").child("Material")
                 val firebaseOperationsForLibrary = FirebaseOperationsForLibrary()
-                firebaseOperationsForLibrary.addMaterialsToMaterialLibrary(materialLibraryReference, newMaterial)
+                firebaseOperationsForLibrary.addMaterialsToMaterialLibrary( newMaterial)
                 Toast.makeText(context, "New Material Added To Library", Toast.LENGTH_SHORT).show()
                 dismiss()
             }

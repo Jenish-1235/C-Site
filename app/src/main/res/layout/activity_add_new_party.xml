@@ -1,0 +1,583 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activites.Library.AddNewPartyActivity">
+
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <ImageView
+            android:id="@+id/backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:onClick="backButton"
+            android:src="@drawable/back_arrow" />
+
+        <TextView
+            android:id="@+id/addNewPartyTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add New Party"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:id="@+id/addNewPartyScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="3dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar6"
+        app:layout_constraintBottom_toTopOf="@+id/savePartyButton">
+
+        <LinearLayout
+            android:id="@+id/addNewPartyLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="15dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/arimo_medium"
+                    android:gravity="center"
+                    android:text="Basic Details"
+                    android:textColor="#2B6402"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/CustomTextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp"
+                app:boxCornerRadiusTopStart="10dp"
+                app:boxStrokeColor="@color/golden"
+                app:boxStrokeWidth="1dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/partyNameInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Party Name"
+                    android:inputType="textPersonName"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/CustomTextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="15dp"
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp"
+                app:boxCornerRadiusTopStart="10dp"
+                app:boxStrokeColor="@color/golden"
+                app:boxStrokeWidth="1dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/partyPhoneNumberInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Phone Number"
+                    android:inputType="phone|number"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="15dp"
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp"
+                app:boxCornerRadiusTopStart="10dp"
+                app:boxStrokeColor="@color/golden"
+                app:boxStrokeWidth="1dp">
+
+                <AutoCompleteTextView
+                    android:id="@+id/partyTypeInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Party Type"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <!--            Party Opening Balance Details-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="15dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/arimo_medium"
+                    android:gravity="center"
+                    android:text="Add Opening Balance"
+                    android:textColor="#2B6402"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <CheckBox
+                    android:id="@+id/partyHaveOpeningBalanceCheckBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.5"
+                    android:text="No Opening Price" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/partyOpeningBalanceLinearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+            <RadioGroup
+                android:id="@+id/partyOpeningBalanceDetailsRadioGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/partyWillReceive"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Party will Receive" />
+
+                <RadioButton
+                    android:id="@+id/partyWillPay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Party will Pay" />
+            </RadioGroup>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/CustomTextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp"
+                app:boxCornerRadiusTopStart="10dp"
+                app:boxStrokeColor="@color/golden"
+                app:boxStrokeWidth="1dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/partyOpeningBalanceAmountInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Amount"
+                    android:inputType="textPersonName"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+            <!--            Add GST Details for Party    -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="7dp"
+                android:layout_marginEnd="15dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/arimo_medium"
+                    android:gravity="center"
+                    android:text="Add GST Details"
+                    android:textColor="#2B6402"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <CheckBox
+                    android:id="@+id/partyHaveGSTCheckBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.5"
+                    android:text="No GST" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/partyGSTDetailsLinearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/CustomTextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp"
+                app:boxCornerRadiusTopStart="10dp"
+                app:boxStrokeColor="@color/golden"
+                app:boxStrokeWidth="1dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/partyGSTNumberInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="GST Number"
+                    android:inputType="textPersonName"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/CustomTextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="15dp"
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp"
+                app:boxCornerRadiusTopStart="10dp"
+                app:boxStrokeColor="@color/golden"
+                app:boxStrokeWidth="1dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/partyGSTLegalBusinessName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Legal Business Name"
+                    android:inputType="textPersonName"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="15dp"
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp"
+                app:boxCornerRadiusTopStart="10dp"
+                app:boxStrokeColor="@color/golden"
+                app:boxStrokeWidth="1dp">
+
+                <AutoCompleteTextView
+                    android:id="@+id/partyGSTStateOfSupplyInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="State of Supply"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/CustomTextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="15dp"
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp"
+                app:boxCornerRadiusTopStart="10dp"
+                app:boxStrokeColor="@color/golden"
+                app:boxStrokeWidth="1dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/partyGSTBillingAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Billing Address"
+                    android:inputType="textPersonName"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+
+            <!--Add Bank Details for Party-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="7dp"
+                android:layout_marginEnd="15dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/arimo_medium"
+                    android:gravity="center"
+                    android:text="Add Bank Details"
+                    android:textColor="#2B6402"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <CheckBox
+                    android:id="@+id/partyHaveBankDetailsCheckBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.5"
+                    android:text="No Bank Details" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/partyBankDetailsLinearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/CustomTextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp"
+                app:boxCornerRadiusTopStart="10dp"
+                app:boxStrokeColor="@color/golden"
+                app:boxStrokeWidth="1dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/partyAccountHolderNameInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Account Holder Name"
+                    android:inputType="textPersonName"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/CustomTextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="15dp"
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp"
+                app:boxCornerRadiusTopStart="10dp"
+                app:boxStrokeColor="@color/golden"
+                app:boxStrokeWidth="1dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/partyAccountNumberInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Account Number"
+                    android:inputType="textPersonName"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/CustomTextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="15dp"
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp"
+                app:boxCornerRadiusTopStart="10dp"
+                app:boxStrokeColor="@color/golden"
+                app:boxStrokeWidth="1dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/partyIFSCCodeInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="IFSC Code"
+                    android:inputType="textPersonName"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/CustomTextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="15dp"
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp"
+                app:boxCornerRadiusTopStart="10dp"
+                app:boxStrokeColor="@color/golden"
+                app:boxStrokeWidth="1dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/partyBankNameInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Bank Name"
+                    android:inputType="textPersonName"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/CustomTextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="15dp"
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp"
+                app:boxCornerRadiusTopStart="10dp"
+                app:boxStrokeColor="@color/golden"
+                app:boxStrokeWidth="1dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/partyBankAddresssInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Bank Address"
+                    android:inputType="textPersonName"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/CustomTextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="15dp"
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp"
+                app:boxCornerRadiusTopStart="10dp"
+                app:boxStrokeColor="@color/golden"
+                app:boxStrokeWidth="1dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/partyIBANNumberInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="IBAN Number"
+                    android:inputType="textPersonName"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/CustomTextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="15dp"
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp"
+                app:boxCornerRadiusTopStart="10dp"
+                app:boxStrokeColor="@color/golden"
+                app:boxStrokeWidth="1dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/partyUPIIdInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="UPI Id"
+                    android:inputType="textPersonName"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
+
+
+    <Button
+        android:id="@+id/savePartyButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#FFD249"
+        android:text="Save Party"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="3dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

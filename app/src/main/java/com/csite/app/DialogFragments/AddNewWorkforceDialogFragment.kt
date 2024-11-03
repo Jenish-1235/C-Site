@@ -65,14 +65,13 @@ class AddNewWorkforceDialogFragment : DialogFragment() {
         )
 
         val saveNewWorkforceButton = view.findViewById<View>(R.id.saveNewWorkforceButton)
-        val workforceLibraryReference: DatabaseReference = FirebaseDatabase.getInstance().getReference("Library/Workforce")
         saveNewWorkforceButton.setOnClickListener {
             val workforceType = workforceTypeInput.text.toString()
             val workforceSalaryPerShift = workforceSalaryPerShiftInput.text.toString()
             val workforceCategory = workforceCategoryInput.text.toString()
             if (workforceType.isNotEmpty() && workforceSalaryPerShift.isNotEmpty() && workforceCategory.isNotEmpty()) {
                 val firebaseOperationsForLibrary: FirebaseOperationsForLibrary = FirebaseOperationsForLibrary()
-                firebaseOperationsForLibrary.addWorkforceToWorkforceLibrary(workforceLibraryReference, Workforce(workforceType, workforceSalaryPerShift, workforceCategory))
+                firebaseOperationsForLibrary.addWorkforceToWorkforceLibrary(Workforce(workforceType, workforceSalaryPerShift, workforceCategory))
                 dismiss()
                 Toast.makeText(requireContext(), "Workforce added successfully", Toast.LENGTH_SHORT)
                     .show()

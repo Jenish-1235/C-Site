@@ -32,11 +32,9 @@ class MaterialLibraryActivity : AppCompatActivity() {
             val dialogFragment: DialogFragment = AddNewMaterialDialogFragment()
             dialogFragment.show(supportFragmentManager, "AddNewMaterialDialogFragment")
         }
-
-        val materialLibraryReference: DatabaseReference = FirebaseDatabase.getInstance().getReference("Library").child("Material")
         val materialLibraryRecyclerView: RecyclerView = findViewById(R.id.materialLibraryRecyclerView)
         val firebaseOperationsForLibrary: FirebaseOperationsForLibrary = FirebaseOperationsForLibrary()
-        firebaseOperationsForLibrary.fetchMaterialsFromMaterialLibrary(materialLibraryReference, object:FirebaseOperationsForLibrary.onMaterialListReceived{
+        firebaseOperationsForLibrary.fetchMaterialsFromMaterialLibrary(object:FirebaseOperationsForLibrary.onMaterialListReceived{
             override fun onMaterialListReceived(materialList: ArrayList<Material>) {
                 val materialLibraryListAdapter: MaterialLibraryListAdapter = MaterialLibraryListAdapter(applicationContext, materialList)
                 materialLibraryRecyclerView.adapter = materialLibraryListAdapter
