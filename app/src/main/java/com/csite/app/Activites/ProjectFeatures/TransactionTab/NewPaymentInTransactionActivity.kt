@@ -118,15 +118,26 @@ class NewPaymentInTransactionActivity : AppCompatActivity() , PartySelectionLibr
                         )
                     )
 
-                    var partyAmountToPayOrToReceive = selectedParty?.partyAmountToPayOrReceive?.toDouble()
-                    if (partyAmountToPayOrToReceive != null) {
-                        partyAmountToPayOrToReceive -= paymentInTransactionAmount.toDouble()
-                        selectedParty?.partyAmountToPayOrReceive = partyAmountToPayOrToReceive.toString()
-                    }
-                    if (partyAmountToPayOrToReceive != null) {
-                        if (partyAmountToPayOrToReceive<0){
-                            selectedParty?.partyOpeningBalanceDetails = "Will Pay"
-                        }else{
+                    var  partyOpeningBalanceDetails = selectedParty?.partyOpeningBalanceDetails
+                    if (partyOpeningBalanceDetails != null){
+                        var partyAmountToPayOrReceive = selectedParty?.partyAmountToPayOrReceive?.toDouble()
+                        if (partyOpeningBalanceDetails.equals("Will Receive") && partyAmountToPayOrReceive != null) {
+                                partyAmountToPayOrReceive += paymentInTransactionAmount.toDouble()
+                                selectedParty?.partyOpeningBalanceDetails = "Will Receive"
+                            selectedParty?.partyAmountToPayOrReceive = partyAmountToPayOrReceive.toString()
+                        } else if (partyOpeningBalanceDetails.equals("Will Pay")){
+                            partyAmountToPayOrReceive = -1 * partyAmountToPayOrReceive!!
+                            partyAmountToPayOrReceive += paymentInTransactionAmount.toDouble()
+                            if (partyAmountToPayOrReceive < 0){
+                                selectedParty?.partyOpeningBalanceDetails = "Will Pay"
+                                selectedParty?.partyAmountToPayOrReceive = partyAmountToPayOrReceive.toString()
+                            }else{
+                                selectedParty?.partyOpeningBalanceDetails = "Will Receive"
+                                selectedParty?.partyAmountToPayOrReceive = partyAmountToPayOrReceive.toString()
+                            }
+                        } else if (partyOpeningBalanceDetails.equals("Fresh")){
+                            partyAmountToPayOrReceive = paymentInTransactionAmount.toDouble()
+                            selectedParty?.partyAmountToPayOrReceive = partyAmountToPayOrReceive.toString()
                             selectedParty?.partyOpeningBalanceDetails = "Will Receive"
                         }
                     }

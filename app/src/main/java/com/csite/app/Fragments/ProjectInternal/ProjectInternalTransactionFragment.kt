@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.csite.app.Activites.ProjectFeatures.TransactionTab.NewPaymentInTransactionActivity
 import com.csite.app.Activites.ProjectFeatures.TransactionTab.NewPaymentOutTransactionActivity
+import com.csite.app.DialogFragments.MoreTransactionDialogFragment
 import com.csite.app.R
 import com.csite.app.databinding.FragmentProjectInternalTransactionBinding
 
@@ -37,6 +38,11 @@ class ProjectInternalTransactionFragment : Fragment() {
                 val newPaymentOutTransactionIntent = Intent(activity, NewPaymentOutTransactionActivity::class.java)
                 newPaymentOutTransactionIntent.putExtra("projectId", projectId)
                 startActivity(newPaymentOutTransactionIntent)
+            }
+
+            binding.projectMoreTransactionButton.setOnClickListener{
+                val moreTransactionDialogFragment = MoreTransactionDialogFragment()
+                moreTransactionDialogFragment.show(childFragmentManager, "moreTransactionDialogFragment")
             }
         }else{
             // Handle Manager Role

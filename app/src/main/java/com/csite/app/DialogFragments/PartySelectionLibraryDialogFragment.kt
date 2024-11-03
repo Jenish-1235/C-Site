@@ -24,7 +24,7 @@ class PartySelectionLibraryDialogFragment : DialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view =  inflater.inflate(R.layout.fragment_party_selection_library_dialog, container, false)
+        val view =  inflater.inflate(R.layout.dialog_fragment_party_selection_library, container, false)
         val dialog = getDialog()
         if (dialog != null) {
             dialog.getWindow()?.setBackgroundDrawableResource(android.R.color.transparent)

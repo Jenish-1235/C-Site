@@ -50,7 +50,7 @@ class NewPaymentOutTransactionActivity : AppCompatActivity(), PartySelectionLibr
             showDatePickerDialog(binding)
         }
 
-        binding.paymentOutTransactionPaymentFromInput.setOnClickListener {
+        binding.paymentOutTransactionPaymentToInput.setOnClickListener {
             val partySelectionLibraryDialogFragment = PartySelectionLibraryDialogFragment()
             partySelectionLibraryDialogFragment.show(
                 supportFragmentManager,
@@ -94,7 +94,7 @@ class NewPaymentOutTransactionActivity : AppCompatActivity(), PartySelectionLibr
             val paymentOutTransactionDescription =
                 binding.paymentOutTransactionDescriptionInput.text.toString()
             val paymentOutTransactionPaymentFrom =
-                binding.paymentOutTransactionPaymentFromInput.text.toString()
+                binding.paymentOutTransactionPaymentToInput.text.toString()
             val paymentOutTransactionCostCode =
                 binding.paymentOutTransactionCostCodeInput.text.toString()
             val paymentOutTransactionCategory =
@@ -131,18 +131,28 @@ class NewPaymentOutTransactionActivity : AppCompatActivity(), PartySelectionLibr
                     )
 
                     // TODO: re look into this calculations update party amount to pay or to receive
-                    var partyAmountToPayOrToReceive =
-                        selectedParty?.partyAmountToPayOrReceive?.toDouble()
-                    if (partyAmountToPayOrToReceive != null) {
-                        partyAmountToPayOrToReceive += paymentOutTransactionAmount.toDouble()
-                        selectedParty?.partyAmountToPayOrReceive =
-                            partyAmountToPayOrToReceive.toString()
-                    }
-                    if (partyAmountToPayOrToReceive != null) {
-                        if (partyAmountToPayOrToReceive < 0) {
+
+                    var partyOpeningBalanceDetails = selectedParty?.partyOpeningBalanceDetails
+                    if (partyOpeningBalanceDetails != null) {
+                        if (partyOpeningBalanceDetails.equals("Will Pay")) {
+                            var partyAmountToPay = -1 * selectedParty?.partyAmountToPayOrReceive?.toDouble()!!
+                            partyAmountToPay -= paymentOutTransactionAmount.toDouble()
+                            selectedParty?.partyAmountToPayOrReceive = partyAmountToPay.toString()
+                            selectedParty?.updateData(selectedParty?.partyId.toString(), selectedParty!!)
+                        }else if (partyOpeningBalanceDetails.equals("Will Receive")){
+                            var partyAmountToReceive = selectedParty?.partyAmountToPayOrReceive?.toDouble()!!
+                            partyAmountToReceive -= paymentOutTransactionAmount.toDouble()
+                            if (partyAmountToReceive < 0) {
+                                selectedParty?.partyAmountToPayOrReceive = partyAmountToReceive.toString()
+                                selectedParty?.partyOpeningBalanceDetails = "Will Pay"
+                            }else{
+                                selectedParty?.partyOpeningBalanceDetails = "Will Receive"
+                                selectedParty?.partyAmountToPayOrReceive = partyAmountToReceive.toString()
+                            }
+
+                        }else if (partyOpeningBalanceDetails.equals("Fresh")){
+                            selectedParty?.partyAmountToPayOrReceive = paymentOutTransactionAmount.toString()
                             selectedParty?.partyOpeningBalanceDetails = "Will Pay"
-                        } else {
-                            selectedParty?.partyOpeningBalanceDetails = "Will Receive"
                         }
                     }
 
@@ -195,7 +205,7 @@ class NewPaymentOutTransactionActivity : AppCompatActivity(), PartySelectionLibr
     override fun onPartySelected(party: Party?) {
         selectedParty = party
         val paymentOutTransactionPaymentFromInput =
-            findViewById<EditText>(R.id.paymentOutTransactionPaymentFromInput)
+            findViewById<EditText>(R.id.paymentOutTransactionPaymentToInput)
         paymentOutTransactionPaymentFromInput.setText(party?.partyName)
     }
 }
