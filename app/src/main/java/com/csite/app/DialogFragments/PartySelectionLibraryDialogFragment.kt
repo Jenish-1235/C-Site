@@ -2,15 +2,18 @@ package com.csite.app.DialogFragments
 
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.Button
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.csite.app.Activites.Library.AddNewPartyActivity
 import com.csite.app.FirebaseOperations.FirebaseOperationsForLibrary
 import com.csite.app.Objects.Party
 import com.csite.app.R
@@ -49,6 +52,11 @@ class PartySelectionLibraryDialogFragment : DialogFragment() {
             }
         })
 
+        val addNewPartyButton:Button = view.findViewById(R.id.addNewPartyButton)
+        addNewPartyButton.setOnClickListener {
+            val addNewPartyToLibraryIntent:Intent = Intent(context, AddNewPartyActivity::class.java)
+            startActivity(addNewPartyToLibraryIntent)
+        }
 
 
         return view
