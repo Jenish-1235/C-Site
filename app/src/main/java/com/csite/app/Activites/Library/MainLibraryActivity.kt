@@ -15,8 +15,6 @@ import com.google.firebase.database.FirebaseDatabase
 
 class MainLibraryActivity : AppCompatActivity() {
 
-    val libraryReference: DatabaseReference = FirebaseDatabase.getInstance().getReference("Library")
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_library)
@@ -28,7 +26,7 @@ class MainLibraryActivity : AppCompatActivity() {
 
         val mainLibraryRecyclerView : RecyclerView = findViewById(R.id.MainLibraryRecyclerView)
         val getLibraryList = FirebaseOperationsForLibrary()
-        getLibraryList.fetchLibraryList(libraryReference, object: FirebaseOperationsForLibrary.onLibraryListReceived{
+        getLibraryList.fetchLibraryList(object: FirebaseOperationsForLibrary.onLibraryListReceived{
             override fun onLibraryListReceived(libraries: HashMap<String, String>) {
                 val mainLibraryListAdapter: MainLibraryListAdapter = MainLibraryListAdapter(this@MainLibraryActivity, libraries)
                 mainLibraryRecyclerView.adapter = mainLibraryListAdapter

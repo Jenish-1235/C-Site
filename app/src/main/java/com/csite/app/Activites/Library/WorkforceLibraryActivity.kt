@@ -33,11 +33,9 @@ class WorkforceLibraryActivity : AppCompatActivity() {
             val addNewWorkforceDialogFragment: DialogFragment = AddNewWorkforceDialogFragment()
             addNewWorkforceDialogFragment.show(supportFragmentManager, "AddNewWorkforceDialogFragment")
         }
-
-        val workforceReference:DatabaseReference = FirebaseDatabase.getInstance().getReference("Library/Workforce")
         val workforceLibraryRecyclerView: RecyclerView = findViewById(R.id.workforceLibraryRecyclerView)
         val firebaseOperationsForLibrary: FirebaseOperationsForLibrary = FirebaseOperationsForLibrary()
-        firebaseOperationsForLibrary.fetchWorkforceFromWorkforceLibrary(workforceReference, object: FirebaseOperationsForLibrary.onWorkforceListReceived{
+        firebaseOperationsForLibrary.fetchWorkforceFromWorkforceLibrary(object: FirebaseOperationsForLibrary.onWorkforceListReceived{
             override fun onWorkforceListReceived(workforceList: ArrayList<Workforce>) {
                 val workforceLibraryListAdapter: WorkforceLibraryListAdapter = WorkforceLibraryListAdapter(this@WorkforceLibraryActivity, workforceList)
                 workforceLibraryRecyclerView.adapter = workforceLibraryListAdapter

@@ -1,18 +1,27 @@
 package com.csite.app.FirebaseOperations
 
 import com.csite.app.Objects.Material
+import com.csite.app.Objects.Party
 import com.csite.app.Objects.Workforce
 import com.google.android.material.datepicker.MaterialTextInputPicker
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
 class FirebaseOperationsForLibrary {
+
+    val libraryReference: DatabaseReference = FirebaseDatabase.getInstance().getReference("Library")
+    val materialReference: DatabaseReference = FirebaseDatabase.getInstance().getReference("Library/Material")
+    val workforceReference: DatabaseReference = FirebaseDatabase.getInstance().getReference("Library/Workforce")
+    val partyReference: DatabaseReference = FirebaseDatabase.getInstance().getReference("Library/Party")
+
+
     object UtilityOperations{}
 
     // 1. Fetch Library List
-    fun fetchLibraryList(libraryReference: DatabaseReference , callback: onLibraryListReceived): HashMap<String, String> {
+    fun fetchLibraryList(callback: onLibraryListReceived): HashMap<String, String> {
         val libraryList = HashMap<String, String>()
         val libraryValueEventListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -40,20 +49,21 @@ class FirebaseOperationsForLibrary {
     }
 
     // 2. Add Materials to Material Library
-    fun addMaterialsToMaterialLibrary(materialReference: DatabaseReference, material: Material){
+    fun addMaterialsToMaterialLibrary(material: Material){
         material.materialId = materialIdGenerator()
         materialReference.child(material.materialId).setValue(material)
     }
 
+
     // 2.1 Generate Material ID
     fun materialIdGenerator():String{
         val random = java.util.Random()
-        val materialId = random.nextInt(1000000)
+        val materialId = random.nextInt(900000) + 100000
         return "mat" + materialId.toString()
     }
 
     // 2.2 Fetch Materials from Material Library
-    fun fetchMaterialsFromMaterialLibrary(materialReference: DatabaseReference, callback: onMaterialListReceived):ArrayList<Material>{
+    fun fetchMaterialsFromMaterialLibrary(callback: onMaterialListReceived):ArrayList<Material>{
         val materialList = ArrayList<Material>()
         val materialValueEventListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -78,19 +88,19 @@ class FirebaseOperationsForLibrary {
     }
 
     // 3. Save Workforce to library
-    fun addWorkforceToWorkforceLibrary(workforceReference: DatabaseReference, workforce: Workforce){
+    fun addWorkforceToWorkforceLibrary(workforce: Workforce){
         workforce.workforceId = workforceIdGenerator()
         workforceReference.child(workforce.workforceId).setValue(workforce)
     }
     // 3.1 Generate Workforce ID
     fun workforceIdGenerator():String{
         val random = java.util.Random()
-        val workforceId = random.nextInt(1000000)
+        val workforceId = random.nextInt(900000) + 100000
         return "wf" + workforceId.toString()
     }
 
     // 3.2 Fetch Workforce from Workforce Library
-    fun fetchWorkforceFromWorkforceLibrary(workforceReference: DatabaseReference, callback: onWorkforceListReceived):ArrayList<Workforce>{
+    fun fetchWorkforceFromWorkforceLibrary(callback: onWorkforceListReceived):ArrayList<Workforce>{
         val workforceList = ArrayList<Workforce>()
         val workforceValueEventListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -113,6 +123,54 @@ class FirebaseOperationsForLibrary {
     interface onWorkforceListReceived{
         fun onWorkforceListReceived(workforceList: ArrayList<Workforce>)
     }
+
+
+    // 4. Save Party to library
+    fun addPartyToPartyLibrary(party: Party){
+        party.partyId = partyIdGenerator()
+        if (party.partyAmountToPayOrReceive == null || party.partyAmountToPayOrReceive == ""){
+            party.partyAmountToPayOrReceive = "0"
+        }
+
+        if (party.partyOpeningBalanceDetails == null || party.partyOpeningBalanceDetails == ""){
+            party.partyOpeningBalanceDetails = "Fresh"
+        }
+
+        partyReference.child(party.partyId).setValue(party)
+    }
+
+    // 4.1 Generate Party ID
+    fun partyIdGenerator():String{
+        val random = java.util.Random()
+        val partyId = random.nextInt(900000) + 100000
+        return "pt" + partyId.toString()
+    }
+
+    // 4.2 Fetch Party from Party Library
+    fun fetchPartyFromPartyLibrary(callback: onPartyListReceived):ArrayList<Party>{
+        val partyList = ArrayList<Party>()
+        val partyValueEventListener = object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                partyList.clear()
+                for (partySnapshot in snapshot.children) {
+                    val party = partySnapshot.getValue(Party::class.java)
+                    if (party != null) {
+                        partyList.add(party)
+                    }
+                }
+                callback.onPartyListReceived(partyList)
+            }
+            override fun onCancelled(error: DatabaseError) {
+            }
+        }
+        partyReference.addValueEventListener(partyValueEventListener)
+        return partyList
+    }
+    // 4.3 Fetch Party from Party Library
+    interface onPartyListReceived{
+        fun onPartyListReceived(partyList: ArrayList<Party>)
+    }
+
 
 
 
