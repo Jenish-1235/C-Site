@@ -14,9 +14,9 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.csite.app.R
 import com.csite.app.Activites.UserRegistrationAndLogin.UserRegistration
-import com.csite.app.Fragments.PartyFragment
-import com.csite.app.Fragments.ProjectFragment
-import com.csite.app.Fragments.QuotationFragment
+import com.csite.app.Fragments.MainScreen.PartyFragment
+import com.csite.app.Fragments.MainScreen.ProjectFragment
+import com.csite.app.Fragments.MainScreen.QuotationFragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.firebase.FirebaseApp

@@ -171,6 +171,11 @@ class FirebaseOperationsForLibrary {
         fun onPartyListReceived(partyList: ArrayList<Party>)
     }
 
+    // 4.4 Update party
+    fun updateParty(partyId:String, party: Party){
+        partyReference.child(partyId).setValue(party)
+    }
+
 
 
 

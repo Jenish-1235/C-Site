@@ -1,20 +1,18 @@
 package com.csite.app.RecyclerViewListAdapters
 
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
-import androidx.compose.material3.TopAppBar
 import androidx.recyclerview.widget.RecyclerView
+import com.csite.app.FirebaseOperations.FirebaseOperationsForLibrary
 import com.csite.app.Objects.Party
 import com.csite.app.R
 
-class PartyLibraryListAdapter(context: Context, partyList: List<Party>) : RecyclerView.Adapter<PartyLibraryListAdapter.PartyLibraryViewHolder>(){
+class PartyLibraryListAdapter(partyList: List<Party>) : RecyclerView.Adapter<PartyLibraryListAdapter.PartyLibraryViewHolder>(){
 
-    private val mContext = context
     private val mPartyList = partyList
 
     class PartyLibraryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -39,9 +37,7 @@ class PartyLibraryListAdapter(context: Context, partyList: List<Party>) : Recycl
         position: Int
     ) {
         val party = mPartyList[position]
-        holder.itemView.setOnClickListener {
-            Toast.makeText(mContext, "Party Clicked ${party.partyId}", Toast.LENGTH_SHORT).show()
-        }
+
         holder.partyNameView.text = party.partyName
         holder.partyTypeView.text = party.partyType
         holder.partyAmountView.text = party.partyAmountToPayOrReceive + " INR"
@@ -61,11 +57,27 @@ class PartyLibraryListAdapter(context: Context, partyList: List<Party>) : Recycl
             holder.partyBankView.setBackgroundResource(R.drawable.background_green_rounded_corner)
         }
 
+        // Set click listener for the item
+        holder.itemView.setOnClickListener {
+                listener?.OnItemClick(party)
+        }
+
     }
 
     override fun getItemCount(): Int {
         return mPartyList.size
     }
+
+    interface OnItemClickListener {
+        fun OnItemClick(party: Party?)
+    }
+
+    private var listener: OnItemClickListener? = null
+
+    fun setOnItemClickListener(listener: OnItemClickListener?) {
+        this.listener = listener
+    }
+
 
 
 }
