@@ -105,14 +105,6 @@ class ProjectFragment : Fragment() {
             }
         }
 
-        // On Item Click Listener for Project List.
-        val projectOnItemClick = object : ProjectListAdapter.OnItemClickListener{
-            override fun onItemClick(position: Int) {
-                Toast.makeText(requireActivity(), "Item Clicked", Toast.LENGTH_SHORT).show()
-            }
-        }
-        projectListAdapter.setOnItemClickListener(projectOnItemClick)
-
         return view
     }
 

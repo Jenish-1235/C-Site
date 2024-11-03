@@ -1,6 +1,7 @@
 package com.csite.app.RecyclerViewListAdapters
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.csite.app.Activites.ProjectFeatures.ProjectInternalMainActivity
+import com.csite.app.Activites.ProjectFeatures.ProjectSettingsActivity
 import com.csite.app.Objects.Project
 import com.csite.app.R
 
@@ -45,11 +48,28 @@ class ProjectListAdapter(context: Context, projectList: List<Project>): Recycler
         holder.projectLocationTextView.text = project.projectCity
 
         holder.projectSettingsButton.setOnClickListener {
-            Toast.makeText(context, "Settings button clicked for " + project.projectName, Toast.LENGTH_SHORT).show()
+//            Toast.makeText(context, "Settings button clicked for " + project.projectName, Toast.LENGTH_SHORT).show()
+            val projectSettingsIntent = Intent(context, ProjectSettingsActivity::class.java)
+            projectSettingsIntent.putExtra("projectName", project.projectName)
+            projectSettingsIntent.putExtra("projectId", project.projectId)
+            context.startActivity(projectSettingsIntent)
         }
 
         holder.projectMoreInfoButton.setOnClickListener {
-            Toast.makeText(context, "More info button clicked", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(context, "More info button clicked", Toast.LENGTH_SHORT).show()
+            val projectInternalMainActivityIntent = Intent(context, ProjectInternalMainActivity::class.java)
+            projectInternalMainActivityIntent.putExtra("projectName", project.projectName)
+            projectInternalMainActivityIntent.putExtra("projectId", project.projectId)
+            context.startActivity(projectInternalMainActivityIntent)
+
+        }
+
+        holder.itemView.setOnClickListener{
+//            Toast.makeText(context, "Clicked " + project.projectName, Toast.LENGTH_SHORT).show()
+            val projectInternalMainActivityIntent = Intent(context, ProjectInternalMainActivity::class.java)
+            projectInternalMainActivityIntent.putExtra("projectName", project.projectName)
+            projectInternalMainActivityIntent.putExtra("projectId", project.projectId)
+            context.startActivity(projectInternalMainActivityIntent)
         }
 
     }
@@ -59,14 +79,5 @@ class ProjectListAdapter(context: Context, projectList: List<Project>): Recycler
         return projectList!!.size
     }
 
-    // Create interface for click listener
-    private var listener: OnItemClickListener? = null
-    interface OnItemClickListener{
-        fun onItemClick(position: Int)
-    }
-    // Set click listener
-    fun setOnItemClickListener(listener: OnItemClickListener){
-        this.listener = listener
-    }
 
 }
