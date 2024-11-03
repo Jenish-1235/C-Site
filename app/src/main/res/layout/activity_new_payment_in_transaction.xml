@@ -10,7 +10,11 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/paymentInMain"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/topAppBar"
@@ -294,12 +298,12 @@
                     android:id="@+id/savePaymentInTransactionButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:backgroundTint="@color/green"
-                    android:text="Save"
-                    android:textSize="18sp"
-                    android:textColor="@color/black"
                     android:fontFamily="@font/arimo_medium"
-                    android:layout_weight="1"/>
+                    android:text="Save"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
 
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

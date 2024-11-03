@@ -1,5 +1,6 @@
 package com.csite.app.FirebaseOperations
 
+import com.csite.app.Objects.TransactionOtherExpense
 import com.csite.app.Objects.TransactionPaymentIn
 import com.csite.app.Objects.TransactionPaymentOut
 import com.google.firebase.database.DatabaseReference
@@ -29,6 +30,13 @@ class FirebaseOperationsForProjectInternalTransactions {
         val transactionId = "tPAYOUT" + randomSixDigitIdGenerator()
         paymentOutTransaction.paymentOutTransactionId = transactionId
         projectReference.child(projectId).child("Transactions/PaymentOut").child(transactionId).setValue(paymentOutTransaction)
+    }
+
+    // Other Expense Transactions
+    fun saveOtherExpenseTransaction(projectId: String , otherExpenseTransaction: TransactionOtherExpense){
+        val transactionId = "tEXPENSE" + randomSixDigitIdGenerator()
+        otherExpenseTransaction.otherExpenseTransactionId = transactionId
+        projectReference.child(projectId).child("Transactions/OtherExpense").child(transactionId).setValue(otherExpenseTransaction)
     }
 
 }
