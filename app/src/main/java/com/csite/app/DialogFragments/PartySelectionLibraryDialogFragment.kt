@@ -85,6 +85,7 @@ class PartySelectionLibraryDialogFragment : DialogFragment() {
             throw ClassCastException(context.toString() + "must implement OnPartySelectedListener")
         }
     }
+
     interface OnPartySelectedListener{
         fun onPartySelected(party: Party?)
     }
