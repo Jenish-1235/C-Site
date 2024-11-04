@@ -16,50 +16,44 @@
         android:theme="@style/Theme.CSite"
         tools:targetApi="31">
         <activity
+            android:name=".Activites.MainScreen.NewQuotationActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activites.ProjectFeatures.TransactionTab.NewIReceivedTransactionActivity"
             android:exported="false"
-
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".Activites.ProjectFeatures.TransactionTab.NewIPaidTransactionActivity"
             android:exported="false"
-
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".Activites.ProjectFeatures.TransactionTab.NewOtherExpenseTransactionActivity"
             android:exported="false"
-
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".Activites.ProjectFeatures.TransactionTab.NewMaterialPurchaseTransactionActivity"
             android:exported="false"
-
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".Activites.ProjectFeatures.TransactionTab.NewSalesInvoiceTransactionActivity"
             android:exported="false"
-
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".Activites.ProjectFeatures.TransactionTab.NewPaymentOutTransactionActivity"
             android:exported="false"
-
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".Activites.ProjectFeatures.TransactionTab.NewPaymentInTransactionActivity"
             android:exported="false"
-
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".Activites.ProjectFeatures.ProjectSettingsActivity"
             android:exported="false"
-
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".Activites.ProjectFeatures.ProjectInternalMainActivity"
             android:exported="false"
-
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".Activites.Library.AddNewPartyActivity"
             android:exported="false"
@@ -67,52 +61,42 @@
         <activity
             android:name=".Activites.BankTransfer.BankTransferActivity"
             android:exported="false"
-
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".Activites.Library.WorkforceLibraryActivity"
             android:exported="false"
-
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".Activites.Library.PartyLibraryActivity"
             android:exported="false"
-
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".Activites.Library.MaterialLibraryActivity"
             android:exported="false"
-
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".Activites.MainScreen.MaterialActivity"
             android:exported="false"
-
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".Activites.Library.MainLibraryActivity"
             android:exported="false"
-
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".Activites.MainScreen.SettingsActivity"
             android:exported="false"
-
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".Activites.UserRegistrationAndLogin.PasswordActivity"
             android:exported="false"
-
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".Activites.UserRegistrationAndLogin.UserRegistration"
             android:exported="false"
-
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".Activites.MainScreen.MainActivity"
             android:exported="true"
-
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
