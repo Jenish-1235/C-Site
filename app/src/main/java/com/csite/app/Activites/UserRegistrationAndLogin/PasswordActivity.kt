@@ -143,6 +143,7 @@ class PasswordActivity : AppCompatActivity() {
 
     // Update login shared preferences
     fun updateLoginSharedPreferences(member: Member){
+
         var isSignedIn : SharedPreferences = getSharedPreferences("isSignedIn", MODE_PRIVATE)
         var editor : SharedPreferences.Editor = isSignedIn.edit()
         editor.putBoolean("isSignedIn", true)

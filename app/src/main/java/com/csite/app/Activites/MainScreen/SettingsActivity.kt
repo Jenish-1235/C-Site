@@ -1,6 +1,7 @@
 package com.csite.app.Activites.MainScreen
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -32,8 +33,25 @@ class SettingsActivity : AppCompatActivity() {
         editor.putBoolean("isSignedIn", false)
         editor.commit()
         Toast.makeText(this, "Logged Out", Toast.LENGTH_SHORT).show()
-        val userRegistrationIntent = Intent(this, UserRegistration::class.java)
-        startActivity(userRegistrationIntent)
+
+
+        var mobileNumber : SharedPreferences = getSharedPreferences("mobileNumber", MODE_PRIVATE)
+        var editorMobileNumber : SharedPreferences.Editor = mobileNumber.edit()
+        editorMobileNumber.putString("mobileNumber", null)
+        editorMobileNumber.commit()
+
+        var memberAccess : SharedPreferences = getSharedPreferences("memberAccess", MODE_PRIVATE)
+        var editorMemberAccess : SharedPreferences.Editor = memberAccess.edit()
+        editorMemberAccess.putString("memberAccess", null)
+        editorMemberAccess.commit()
+
+        var memberName : SharedPreferences = getSharedPreferences("memberName", MODE_PRIVATE)
+        var editorMemberName : SharedPreferences.Editor = memberName.edit()
+        editorMemberName.putString("memberName", null)
+        editorMemberName.commit()
+
+        intent = Intent(this, UserRegistration::class.java)
+        startActivity(intent)
         finishAffinity()
 
     }

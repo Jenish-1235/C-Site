@@ -16,10 +16,9 @@ import com.csite.app.Activites.ProjectFeatures.ProjectSettingsActivity
 import com.csite.app.Objects.Project
 import com.csite.app.R
 
-class ProjectListAdapter(context: Context, projectList: List<Project>): RecyclerView.Adapter<ProjectListAdapter.ProjectViewHolder>(){
+class ProjectListAdapter(projectList: List<Project>): RecyclerView.Adapter<ProjectListAdapter.ProjectViewHolder>(){
 
     // Declare variables
-    var context: Context = context
     var projectList: List<Project>? = projectList
 
 
@@ -36,7 +35,7 @@ class ProjectListAdapter(context: Context, projectList: List<Project>): Recycler
 
     // Inflate layout for list item
     override fun onCreateViewHolder(parent: ViewGroup,viewType: Int): ProjectListAdapter.ProjectViewHolder {
-        val itemView: View = LayoutInflater.from(context).inflate(R.layout.list_item_project, parent, false)
+        val itemView: View = LayoutInflater.from(parent.context).inflate(R.layout.list_item_project, parent, false)
         return ProjectViewHolder(itemView)
     }
 
@@ -49,27 +48,27 @@ class ProjectListAdapter(context: Context, projectList: List<Project>): Recycler
 
         holder.projectSettingsButton.setOnClickListener {
 //            Toast.makeText(context, "Settings button clicked for " + project.projectName, Toast.LENGTH_SHORT).show()
-            val projectSettingsIntent = Intent(context, ProjectSettingsActivity::class.java)
+            val projectSettingsIntent = Intent(holder.itemView.context, ProjectSettingsActivity::class.java)
             projectSettingsIntent.putExtra("projectName", project.projectName)
             projectSettingsIntent.putExtra("projectId", project.projectId)
-            context.startActivity(projectSettingsIntent)
+            holder.itemView.context.startActivity(projectSettingsIntent)
         }
 
         holder.projectMoreInfoButton.setOnClickListener {
 //            Toast.makeText(context, "More info button clicked", Toast.LENGTH_SHORT).show()
-            val projectInternalMainActivityIntent = Intent(context, ProjectInternalMainActivity::class.java)
+            val projectInternalMainActivityIntent = Intent(holder.itemView.context, ProjectInternalMainActivity::class.java)
             projectInternalMainActivityIntent.putExtra("projectName", project.projectName)
             projectInternalMainActivityIntent.putExtra("projectId", project.projectId)
-            context.startActivity(projectInternalMainActivityIntent)
+            holder.itemView.context.startActivity(projectInternalMainActivityIntent)
 
         }
 
         holder.itemView.setOnClickListener{
 //            Toast.makeText(context, "Clicked " + project.projectName, Toast.LENGTH_SHORT).show()
-            val projectInternalMainActivityIntent = Intent(context, ProjectInternalMainActivity::class.java)
+            val projectInternalMainActivityIntent = Intent(holder.itemView.context, ProjectInternalMainActivity::class.java)
             projectInternalMainActivityIntent.putExtra("projectName", project.projectName)
             projectInternalMainActivityIntent.putExtra("projectId", project.projectId)
-            context.startActivity(projectInternalMainActivityIntent)
+            holder.itemView.context.startActivity(projectInternalMainActivityIntent)
         }
 
     }
