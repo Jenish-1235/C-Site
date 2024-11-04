@@ -3,28 +3,30 @@ package com.csite.app.Objects
 import java.util.HashMap
 
 class TransactionSalesInvoice {
-    var siDate = "";
-    var siParty = "";
+    var transactionDate = "";
+    var transactionParty = "";
     var siCategory = ""
     var siAdditionalCharge:String? = null
     var siDiscount:String? = null
-    var siTotal = ""
-    var siNotes: String? = ""
+    var transactionAmount = ""
+    var transactionDescription: String? = ""
     var siItems: HashMap<String, MaterialSelection> =  HashMap<String, MaterialSelection>();
-    var siId = "";
+    var transactionId = "";
+    var transactionType = "Sales Invoice"
 
     constructor()
 
     constructor(siDate: String, siParty: String, siCategory: String, siAdditionalCharge: String?, siDiscount: String?, siTotal: String, siNotes: String?, siItems: HashMap<String, MaterialSelection>){
-        this.siDate = siDate;
-        this.siParty = siParty;
+        this.transactionDate = siDate;
+        this.transactionParty = siParty;
         this.siCategory = siCategory;
         this.siAdditionalCharge = siAdditionalCharge;
         this.siDiscount = siDiscount;
-        this.siTotal = siTotal;
-        this.siNotes = siNotes;
+        this.transactionAmount = siTotal;
+        this.transactionDescription = siNotes;
         this.siItems = siItems;
-        this.siId = siId;
+        this.transactionId = transactionId;
+        this.transactionType = transactionType;
     }
 
 }

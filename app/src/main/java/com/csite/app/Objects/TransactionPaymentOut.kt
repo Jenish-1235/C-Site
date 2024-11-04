@@ -1,23 +1,26 @@
 package com.csite.app.Objects
 
 class TransactionPaymentOut {
-    var paymentOutTransactionDate: String? = null
-    var paymentOutTransactionPaymentToParty: String? = null
-    var paymentOutTransactionAmount: String? = null
+    var transactionDate: String? = null
+    var transactionParty: String? = null
+    var transactionAmount: String? = null
     var paymentOutTransactionPaymentMode: String? = null
-    var paymentOutTransactionDescription: String? = null
+    var transactionDescription: String? = null
     var paymentOutTrasactionCostCode: String? = null
     var paymentOutTransactionCategory:String? = null
-    var paymentOutTransactionId: String? = null
+    var transactionId: String? = null
+    var transactionType = "Payment Out"
+
     constructor(paymentOutTransactionDate: String?, paymentOutTransactionPaymentToParty: String?, paymentOutTransactionAmount: String?, paymentOutTransactionDescription: String?, paymentOutTransactionPaymentMode: String?, paymentOutTrasactionCostCode: String?, paymentOutTransactionCategory:String?){
-        this.paymentOutTransactionDate = paymentOutTransactionDate
-        this.paymentOutTransactionPaymentToParty = paymentOutTransactionPaymentToParty
-        this.paymentOutTransactionAmount = paymentOutTransactionAmount
+        this.transactionDate = paymentOutTransactionDate
+        this.transactionParty = paymentOutTransactionPaymentToParty
+        this.transactionAmount = paymentOutTransactionAmount
         this.paymentOutTransactionPaymentMode = paymentOutTransactionPaymentMode
-        this.paymentOutTransactionDescription = paymentOutTransactionDescription
+        this.transactionDescription = paymentOutTransactionDescription
         this.paymentOutTrasactionCostCode = paymentOutTrasactionCostCode
         this.paymentOutTransactionCategory = paymentOutTransactionCategory
-        this.paymentOutTransactionId = paymentOutTransactionId
+        this.transactionId = transactionId
+        this.transactionType = transactionType
     }
     constructor()
 }

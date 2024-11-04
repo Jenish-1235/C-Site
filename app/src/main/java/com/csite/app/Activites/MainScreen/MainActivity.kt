@@ -147,17 +147,6 @@ class MainActivity : AppCompatActivity() {
         partyTab.customView = partyTabView
         bottomTabLayout.addTab(partyTab)
 
-        bottomTabLayout.selectTab(projectTab)
-        projectTabImageView.setImageResource(R.drawable.project_icon_yellow)
-        projectTabTextView.setTextColor(Color.rgb(120,92,42))
-        quotationTabTextView.setTextColor(Color.BLACK)
-        partyTabTextView.setTextColor(Color.BLACK)
-        quotationTabImageView.setImageResource(R.drawable.quotation_icon_black)
-        partyTabImageView.setImageResource(R.drawable.party_icon_black)
-        mainScreenFrameLayout.removeAllViews()
-        val projectFragment = ProjectFragment()
-        supportFragmentManager.beginTransaction().replace(R.id.mainScreenFrameLayout, projectFragment).commit()
-
         bottomTabLayout.isSmoothScrollingEnabled = true
 
 
@@ -258,6 +247,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         bottomTabLayout.addOnTabSelectedListener(bottomTabLayoutItemSelectedListener)
+
+        bottomTabLayout.selectTab(projectTab)
     }
 
     // Bottom tab layout formation for managers

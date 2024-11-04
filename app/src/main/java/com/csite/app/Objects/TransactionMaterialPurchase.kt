@@ -4,28 +4,30 @@ import com.csite.app.Objects.MaterialSelection
 import java.util.HashMap
 
 class TransactionMaterialPurchase {
-    var mpDate = "";
-    var mpParty = "";
+    var transactionDate = "";
+    var transactionParty = "";
     var mpCategory = ""
     var mpAdditionalCharge:String? = null
     var mpDiscount:String? = null
-    var mpTotal = ""
-    var mpNotes: String? = ""
+    var transactionAmount = ""
+    var transactionDescription: String? = ""
     var mpItems: HashMap<String, MaterialSelection> =  HashMap<String, MaterialSelection>();
-    var mpId = "";
+    var transactionId = "";
+    var transactionType = "Material Purchase";
 
     constructor()
 
     constructor(mpDate: String, mpParty: String, mpCategory: String, mpAdditionalCharge: String?, mpDiscount: String?, mpTotal: String, mpNotes: String?, mpItems: HashMap<String, MaterialSelection>){
-        this.mpDate = mpDate;
-        this.mpParty = mpParty;
+        this.transactionDate = mpDate;
+        this.transactionParty = mpParty;
         this.mpCategory = mpCategory;
         this.mpAdditionalCharge = mpAdditionalCharge;
         this.mpDiscount = mpDiscount;
-        this.mpTotal = mpTotal;
-        this.mpNotes = mpNotes;
+        this.transactionAmount = mpTotal;
+        this.transactionDescription = mpNotes;
         this.mpItems = mpItems;
-        this.mpId = mpId;
+        this.transactionId = transactionId;
+        this.transactionType = transactionType;
     }
 
 }

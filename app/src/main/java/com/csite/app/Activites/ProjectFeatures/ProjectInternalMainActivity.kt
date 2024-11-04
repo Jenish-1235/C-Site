@@ -131,8 +131,6 @@ class ProjectInternalMainActivity : AppCompatActivity() {
 
                     }
                     1 -> {
-                        Toast.makeText(this@ProjectInternalMainActivity, projectId, Toast.LENGTH_SHORT).show()
-                        Toast.makeText(this@ProjectInternalMainActivity, bundle.getString("projectId"), Toast.LENGTH_SHORT).show()
                         val projectInternalTransactionFragment: ProjectInternalTransactionFragment = ProjectInternalTransactionFragment()
                         projectInternalTransactionFragment.arguments = bundle
                         supportFragmentManager.beginTransaction().replace(R.id.projectInternalFrameLayout, projectInternalTransactionFragment).commit()
