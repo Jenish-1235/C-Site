@@ -67,6 +67,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:tabGravity="fill"
         android:background="@color/white"
+        android:paddingTop="5dp"
         />
 
 
