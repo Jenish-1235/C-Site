@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="20dp"
+    android:layout_marginTop="7dp"
+    android:layout_marginEnd="20dp"
+    app:cardCornerRadius="10dp"
+    android:background="@android:color/transparent"
+    android:backgroundTint="#FFFFFF"
+    android:elevation="10dp"
+    android:outlineAmbientShadowColor="@color/black"
+    android:outlineSpotShadowColor="@color/black"
+    android:id="@+id/transaction_tab_recyclerview_list_item">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="10dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            app:srcCompat="@drawable/quotation_icon_black" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginStart="10dp"
+            android:layout_weight= "1"
+            >
+
+            <TextView
+                android:id="@+id/quotationPartyView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Quotation Party View"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/quotationDateView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Quotation Date"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/quotationNoteView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="quotation note"
+                android:textColor="@color/black"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_gravity="center"
+            android:layout_weight= "1">
+
+            <TextView
+                android:id="@+id/quotationAmountView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="\u20b9 0 In"
+                android:layout_gravity="end"
+                android:gravity="end"
+                android:textColor="@color/black"/>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+
+</androidx.cardview.widget.CardView>
