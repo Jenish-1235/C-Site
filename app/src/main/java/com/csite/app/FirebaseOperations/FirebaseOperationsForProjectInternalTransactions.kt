@@ -1,5 +1,6 @@
 package com.csite.app.FirebaseOperations
 
+import com.cmpte.app.Objects.TransactionMaterialPurchase
 import com.csite.app.Objects.TransactionOtherExpense
 import com.csite.app.Objects.TransactionPaymentIn
 import com.csite.app.Objects.TransactionPaymentOut
@@ -45,6 +46,13 @@ class FirebaseOperationsForProjectInternalTransactions {
         val transactionId = "tSALES" + randomSixDigitIdGenerator()
         salesInvoiceTransaction.siId = transactionId
         projectReference.child(projectId).child("Transactions/SalesInvoice").child(transactionId).setValue(salesInvoiceTransaction)
+    }
+
+    // 5. Material Purchase Transaction
+    fun saveMaterialPurchaseTransaction(projectId: String , materialPurchaseTransaction: TransactionMaterialPurchase){
+        val transactionId = "tMP" + randomSixDigitIdGenerator()
+        materialPurchaseTransaction.mpId = transactionId
+        projectReference.child(projectId).child("Transactions/MaterialPurchase").child(transactionId).setValue(materialPurchaseTransaction)
     }
 
 
