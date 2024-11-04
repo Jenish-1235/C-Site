@@ -1,15 +1,12 @@
 package com.csite.app.Activites.ProjectFeatures.TransactionTab
 
 import android.app.DatePickerDialog
-import android.app.Dialog
-import android.content.Intent
 import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -20,10 +17,8 @@ import com.csite.app.Objects.MaterialSelection
 import com.csite.app.Objects.Party
 import com.csite.app.Objects.TransactionSalesInvoice
 import com.csite.app.R
-import com.csite.app.RecyclerViewListAdapters.MaterialSelectionListAdapter
 import com.csite.app.RecyclerViewListAdapters.SelectedMaterialsListAdapter
 import com.csite.app.databinding.ActivityNewSalesInvoiceTransactionBinding
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.util.HashMap
 
 class NewSalesInvoiceTransactionActivity : AppCompatActivity() , PartySelectionLibraryDialogFragment.OnPartySelectedListener, MaterialSelectionLibraryDialogFragment.OnMaterialListReceived{
