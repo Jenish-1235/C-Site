@@ -139,6 +139,7 @@ class NewPaymentInTransactionActivity : AppCompatActivity() , PartySelectionLibr
                             partyAmountToPayOrReceive = paymentInTransactionAmount.toDouble()
                             selectedParty?.partyAmountToPayOrReceive = partyAmountToPayOrReceive.toString()
                             selectedParty?.partyOpeningBalanceDetails = "Will Receive"
+                            selectedParty?.partyCondition?.replaceFirst('0', '1', false)
                         }
                     }
 

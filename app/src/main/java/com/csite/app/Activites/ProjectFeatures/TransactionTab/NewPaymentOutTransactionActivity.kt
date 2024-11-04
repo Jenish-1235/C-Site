@@ -153,6 +153,8 @@ class NewPaymentOutTransactionActivity : AppCompatActivity(), PartySelectionLibr
                         }else if (partyOpeningBalanceDetails.equals("Fresh")){
                             selectedParty?.partyAmountToPayOrReceive = paymentOutTransactionAmount.toString()
                             selectedParty?.partyOpeningBalanceDetails = "Will Pay"
+                            selectedParty?.partyCondition?.replaceFirst('0', '1', false)
+
                         }
                     }
 
