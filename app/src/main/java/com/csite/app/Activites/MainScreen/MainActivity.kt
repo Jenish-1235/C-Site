@@ -45,6 +45,7 @@ class MainActivity : AppCompatActivity() {
         if(!goToRegistration()){
             Toast.makeText(this, "Welcome to C-Site", Toast.LENGTH_SHORT).show()
             try {
+
                 // Initialize Firebase
                 FirebaseApp.initializeApp(this)
 
@@ -73,6 +74,34 @@ class MainActivity : AppCompatActivity() {
                         val editor: SharedPreferences.Editor = memberAccess.edit()
                         editor.putString("memberAccess", "manager")
                         editor.commit()
+                    }else{
+                        Toast.makeText(this, "You are not authorized to access this app", Toast.LENGTH_SHORT).show()
+                        val isFirstTime : SharedPreferences = getSharedPreferences(prefs_name, MODE_PRIVATE)
+                        val isSignedIn : SharedPreferences = getSharedPreferences(prefs_isSignedIn, MODE_PRIVATE)
+                        val editor : SharedPreferences.Editor = isFirstTime.edit()
+                        editor.putBoolean("firstTime", true)
+                        editor.commit()
+                        val editor2 : SharedPreferences.Editor = isSignedIn.edit()
+                        editor2.putBoolean("isSignedIn", false)
+                        editor2.commit()
+
+                        var mobileNumberPreference : SharedPreferences = getSharedPreferences("mobileNumber", MODE_PRIVATE)
+                        var editorMobileNumber : SharedPreferences.Editor = mobileNumberPreference.edit()
+                        editorMobileNumber.putString("mobileNumber", null)
+                        editorMobileNumber.commit()
+
+                        var memberAccess : SharedPreferences = getSharedPreferences("memberAccess", MODE_PRIVATE)
+                        var editorMemberAccess : SharedPreferences.Editor = memberAccess.edit()
+                        editorMemberAccess.putString("memberAccess", null)
+                        editorMemberAccess.commit()
+
+                        var memberName : SharedPreferences = getSharedPreferences("memberName", MODE_PRIVATE)
+                        var editorMemberName : SharedPreferences.Editor = memberName.edit()
+                        editorMemberName.putString("memberName", null)
+                        editorMemberName.commit()
+                        finish()
+                        goToRegistration()
+
                     }
                 }
 
@@ -90,7 +119,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     // Check for first launch of app and if so, show the registration screen
-    private fun goToRegistration(): Boolean {
+   fun goToRegistration(): Boolean {
         val isFirstTime : SharedPreferences = getSharedPreferences(prefs_name, MODE_PRIVATE)
         val isSignedIn : SharedPreferences = getSharedPreferences(prefs_isSignedIn, MODE_PRIVATE)
 
@@ -146,17 +175,6 @@ class MainActivity : AppCompatActivity() {
         partyTabTextView.text = "Party"
         partyTab.customView = partyTabView
         bottomTabLayout.addTab(partyTab)
-
-        bottomTabLayout.selectTab(projectTab)
-        projectTabImageView.setImageResource(R.drawable.project_icon_yellow)
-        projectTabTextView.setTextColor(Color.rgb(120,92,42))
-        quotationTabTextView.setTextColor(Color.BLACK)
-        partyTabTextView.setTextColor(Color.BLACK)
-        quotationTabImageView.setImageResource(R.drawable.quotation_icon_black)
-        partyTabImageView.setImageResource(R.drawable.party_icon_black)
-        mainScreenFrameLayout.removeAllViews()
-        val projectFragment = ProjectFragment()
-        supportFragmentManager.beginTransaction().replace(R.id.mainScreenFrameLayout, projectFragment).commit()
 
         bottomTabLayout.isSmoothScrollingEnabled = true
 
@@ -258,6 +276,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         bottomTabLayout.addOnTabSelectedListener(bottomTabLayoutItemSelectedListener)
+
+        bottomTabLayout.selectTab(projectTab)
     }
 
     // Bottom tab layout formation for managers

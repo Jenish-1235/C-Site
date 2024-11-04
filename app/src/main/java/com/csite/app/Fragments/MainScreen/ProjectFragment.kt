@@ -12,6 +12,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.csite.app.CustomLayouts.SliderTabLayout
 import com.csite.app.R
@@ -63,14 +64,14 @@ class ProjectFragment : Fragment() {
         val mobileNumber: String = mobileNumberSharedPreferences.getString("mobileNumber", "").toString()
 
         // Get Project List From Firebase
-        var projectListAdapter: ProjectListAdapter = ProjectListAdapter(requireActivity(), ArrayList())
+        var projectListAdapter: ProjectListAdapter = ProjectListAdapter(ArrayList())
         val projectListRecyclerView: RecyclerView = view.findViewById(R.id.projectListRecyclerView)
         val firebaseOperationsForProjects: FirebaseOperationsForProjects = FirebaseOperationsForProjects()
         firebaseOperationsForProjects.getProjectListFromFirebase(projectReference, "Active", mobileNumber, object: FirebaseOperationsForProjects.getProjectListFromFirebaseCallback {
             override fun onProjectListFetched(projectList: List<Project>) {
-                projectListAdapter = ProjectListAdapter(this@ProjectFragment.requireActivity(),projectList)
+                projectListAdapter = ProjectListAdapter(projectList)
                 projectListRecyclerView.adapter = projectListAdapter
-                projectListRecyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this@ProjectFragment.requireActivity())
+                projectListRecyclerView.layoutManager = LinearLayoutManager(context)
                 projectListRecyclerView.setHasFixedSize(true)
                 projectListAdapter.notifyDataSetChanged()
             }
@@ -83,7 +84,7 @@ class ProjectFragment : Fragment() {
                 Toast.makeText(requireActivity(), "Active", Toast.LENGTH_SHORT).show()
                 firebaseOperationsForProjects.getProjectListFromFirebase(projectReference, "Active", mobileNumber, object: FirebaseOperationsForProjects.getProjectListFromFirebaseCallback {
                     override fun onProjectListFetched(projectList: List<Project>) {
-                        projectListAdapter = ProjectListAdapter(this@ProjectFragment.requireActivity(),projectList)
+                        projectListAdapter = ProjectListAdapter(projectList)
                         projectListRecyclerView.adapter = projectListAdapter
                         projectListRecyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this@ProjectFragment.requireActivity())
                         projectListRecyclerView.setHasFixedSize(true)
@@ -95,7 +96,7 @@ class ProjectFragment : Fragment() {
                 Toast.makeText(requireActivity(), "Completed", Toast.LENGTH_SHORT).show()
                 firebaseOperationsForProjects.getProjectListFromFirebase(projectReference, "Completed", mobileNumber, object: FirebaseOperationsForProjects.getProjectListFromFirebaseCallback {
                     override fun onProjectListFetched(projectList: List<Project>) {
-                        projectListAdapter = ProjectListAdapter(this@ProjectFragment.requireActivity(),projectList)
+                        projectListAdapter = ProjectListAdapter(projectList)
                         projectListRecyclerView.adapter = projectListAdapter
                         projectListRecyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this@ProjectFragment.requireActivity())
                         projectListRecyclerView.setHasFixedSize(true)
