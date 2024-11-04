@@ -9,6 +9,9 @@ class MaterialSelection : Serializable {
     var materialUnit: String = ""
     var materialId: String = ""
     var materialSelected: Boolean = false
+    var materialQuantity: String = ""
+    var materialUnitRate: String = ""
+    var subTotal: String = ""
 
     constructor(name: String, category: String, gst: String, unit: String, materialId: String, materialSelected: Boolean) {
         this.materialName = name
@@ -17,7 +20,9 @@ class MaterialSelection : Serializable {
         this.materialUnit = unit
         this.materialId = materialId
         this.materialSelected = materialSelected
-
+        this.materialQuantity = ""
+        this.materialUnitRate = ""
+        this.subTotal = ""
     }
 
     constructor()

@@ -1,6 +1,7 @@
 package com.csite.app.Activites.ProjectFeatures.TransactionTab
 
 import android.app.DatePickerDialog
+import android.app.Dialog
 import android.content.Intent
 import android.icu.util.Calendar
 import android.os.Bundle
@@ -14,12 +15,16 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.csite.app.DialogFragments.MaterialSelectionLibraryDialogFragment
 import com.csite.app.DialogFragments.PartySelectionLibraryDialogFragment
+import com.csite.app.FirebaseOperations.FirebaseOperationsForProjectInternalTransactions
 import com.csite.app.Objects.MaterialSelection
 import com.csite.app.Objects.Party
+import com.csite.app.Objects.TransactionSalesInvoice
 import com.csite.app.R
 import com.csite.app.RecyclerViewListAdapters.MaterialSelectionListAdapter
 import com.csite.app.RecyclerViewListAdapters.SelectedMaterialsListAdapter
 import com.csite.app.databinding.ActivityNewSalesInvoiceTransactionBinding
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import java.util.HashMap
 
 class NewSalesInvoiceTransactionActivity : AppCompatActivity() , PartySelectionLibraryDialogFragment.OnPartySelectedListener, MaterialSelectionLibraryDialogFragment.OnMaterialListReceived{
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -125,6 +130,57 @@ class NewSalesInvoiceTransactionActivity : AppCompatActivity() , PartySelectionL
         )
 
 
+        b.saveButton.setOnClickListener {
+
+            val projectId = intent.getStringExtra("projectId")
+            val transactionDate = b.salesInvoiceTransactionDateInput.text.toString()
+            val partyName = b.salesInvoiceTransactionPaymentFrom.text.toString()
+            val category = b.salesInvoiceTrasactionCategoryInput.text.toString()
+            var additionalCharges: String? = b.salesInvoiceTrasactionAdditionalChargesInput.text.toString()
+            var discount:String? = b.salesInvoiceTrasactionDiscountInput.text.toString()
+            var notes: String? = b.salesInvoiceTrasactionNotesInput.text.toString()
+            var totalAmount = 0f
+            val finalMaterialList: HashMap<String, MaterialSelection> = adapter.getFinalMaterialList()
+            for(value in finalMaterialList.values){
+//                Toast.makeText(this, value.materialQuantity, Toast.LENGTH_SHORT).show()
+                val currAmount = value.subTotal.toFloat()
+                totalAmount += currAmount
+            }
+            if (additionalCharges != null) {
+                if (additionalCharges.isNotEmpty()){
+                    totalAmount += additionalCharges.toFloat()
+                }else{
+                    additionalCharges = null
+                }
+            }
+            if (discount != null) {
+                if (discount.isNotEmpty()){
+                    totalAmount -= discount.toFloat()
+                }else{
+                    discount = null
+                }
+            }
+
+            if (notes != null) {
+                if (notes.isEmpty()){
+                    notes = null
+                }
+            }
+
+            if (transactionDate.isEmpty() || partyName.isEmpty() || category.isEmpty() || finalMaterialList.isEmpty()) {
+                Toast.makeText(this, "Please fill all the fields", Toast.LENGTH_SHORT).show()
+            } else {
+                val siTransaction = TransactionSalesInvoice(transactionDate, partyName, category, additionalCharges, discount,
+                    totalAmount.toString(), notes,finalMaterialList)
+                val firebaseOperationsForProjectInternalTransactions = FirebaseOperationsForProjectInternalTransactions()
+                if (projectId != null) {
+                    firebaseOperationsForProjectInternalTransactions.saveSalesInvoiceTransaction(projectId, siTransaction)
+                    finish()
+                }else{
+                    Toast.makeText(this, "Project ID is null", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
 
 
     }
@@ -161,11 +217,12 @@ class NewSalesInvoiceTransactionActivity : AppCompatActivity() , PartySelectionL
         selectedParty = party
     }
 
+    lateinit var adapter : SelectedMaterialsListAdapter
     var receivedMaterialList = ArrayList<MaterialSelection>()
     override fun sendMaterialList(selectedMaterialList: ArrayList<MaterialSelection>) {
         receivedMaterialList = selectedMaterialList
         val salesInvoiceTransactionRecyclerView = findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.salesInvoiceSelectedMaterialsRecyclerView)
-        val adapter = SelectedMaterialsListAdapter(selectedMaterialList)
+        adapter = SelectedMaterialsListAdapter(selectedMaterialList)
         salesInvoiceTransactionRecyclerView.adapter = adapter
         salesInvoiceTransactionRecyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
         adapter.notifyDataSetChanged()

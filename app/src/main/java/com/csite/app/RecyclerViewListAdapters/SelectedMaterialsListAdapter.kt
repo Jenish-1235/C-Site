@@ -8,12 +8,14 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.csite.app.Objects.Material
 import com.csite.app.Objects.MaterialSelection
 import com.csite.app.R
+import java.util.HashMap
 
 class SelectedMaterialsListAdapter(materialList: ArrayList<MaterialSelection>): RecyclerView.Adapter<SelectedMaterialsListAdapter.SelectedMaterialsViewHolder>() {
     val materialList = materialList
-
+    var soldOrPurchasedMaterialList = HashMap<String, MaterialSelection>()
     class SelectedMaterialsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val materialNameView = itemView.findViewById<TextView>(R.id.selectedMaterialNameView)
         val materialGSTView = itemView.findViewById<TextView>(R.id.selectedMaterialGSTView)
@@ -48,9 +50,20 @@ class SelectedMaterialsListAdapter(materialList: ArrayList<MaterialSelection>): 
             override fun afterTextChanged(p0: Editable?){
                 val quantity = holder.materialQuantityView.text.toString()
                 val rate = holder.materialRateView.text.toString()
-                if (quantity !="" && rate !=""){
+                val materialGST = currentItem.materialGST.toString().replace("%", "").toFloat()
 
-                    holder.subTotalView.text = (quantity.toFloat() * rate.toFloat()).toString()
+                if (quantity != "" && rate != "") {
+                    holder.subTotalView.text = ((quantity.toFloat() * rate.toFloat()) + (quantity.toFloat() * rate.toFloat() * materialGST / 100)).toString()
+                    currentItem.materialQuantity = quantity
+                    currentItem.materialUnitRate = rate
+                    currentItem.subTotal = (quantity.toFloat() * rate.toFloat() + (quantity.toFloat() * rate.toFloat() * materialGST / 100)).toString()
+                    soldOrPurchasedMaterialList.put(currentItem.materialId, currentItem)
+                } else {
+                    holder.subTotalView.text = "0.0"
+                    currentItem.materialQuantity = ""
+                    currentItem.materialUnitRate = ""
+                    currentItem.subTotal = "0.0"
+                    soldOrPurchasedMaterialList.remove(currentItem.materialId)
                 }
             }
 
@@ -66,14 +79,29 @@ class SelectedMaterialsListAdapter(materialList: ArrayList<MaterialSelection>): 
             override fun afterTextChanged(p0: Editable?) {
                 val quantity = holder.materialQuantityView.text.toString()
                 val rate = holder.materialRateView.text.toString()
+                val materialGST = currentItem.materialGST.toString().replace("%", "").toFloat()
 
                 if (quantity != "" && rate != "") {
-                    holder.subTotalView.text = (quantity.toFloat() * rate.toFloat()).toString()
+                    holder.subTotalView.text = ((quantity.toFloat() * rate.toFloat()) + (quantity.toFloat() * rate.toFloat() * materialGST / 100)).toString()
+                    currentItem.materialQuantity = quantity
+                    currentItem.materialUnitRate = rate
+                    currentItem.subTotal = (quantity.toFloat() * rate.toFloat() + (quantity.toFloat() * rate.toFloat() * materialGST / 100)).toString()
+                    soldOrPurchasedMaterialList.put(currentItem.materialId, currentItem)
+                } else {
+                    holder.subTotalView.text = "0.0"
+                    currentItem.materialQuantity = ""
+                    currentItem.materialUnitRate = ""
+                    currentItem.subTotal = "0.0"
+                    soldOrPurchasedMaterialList.remove(currentItem.materialId)
                 }
             }
 
         })
 
+    }
+
+    fun getFinalMaterialList(): HashMap<String, MaterialSelection>{
+        return soldOrPurchasedMaterialList
     }
 
 }
