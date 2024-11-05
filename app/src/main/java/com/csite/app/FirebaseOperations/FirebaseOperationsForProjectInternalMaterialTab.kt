@@ -38,6 +38,7 @@ class FirebaseOperationsForProjectInternalMaterialTab {
         projectReference.child(projectId).child("MaterialRequests").addValueEventListener(object:
             ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
+                materialRequestList.clear()
                 if (snapshot.exists()) {
                     var newMaterialRequest = MaterialRequestOrReceived()
                         newMaterialRequest.type = "Requested"
@@ -71,6 +72,44 @@ class FirebaseOperationsForProjectInternalMaterialTab {
         fun onMaterialRequestReceived(materialRequestList: ArrayList<MaterialRequestOrReceived>)
     }
 
+    fun fetchMaterialReceived(projectId: String, callback: OnMaterialReceivedReceived) {
+        var materialRequestList = ArrayList<MaterialRequestOrReceived>()
+        projectReference.child(projectId).child("MaterialReceived").addValueEventListener(object:
+            ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                materialRequestList.clear()
+                if (snapshot.exists()) {
+                    var newMaterialRequest = MaterialRequestOrReceived()
+                    newMaterialRequest.type = "Received"
+                    for(materialRequest in snapshot.children) {
+                        newMaterialRequest.dateTimeStamp = materialRequest.key.toString()
+                        for (material in materialRequest.children) {
+                            val materialSelection = material.getValue(MaterialSelection::class.java)
+                            if (materialSelection != null) {
+                                newMaterialRequest.materialId = materialSelection.materialId
+                                newMaterialRequest.materialQuantity = materialSelection.materialQuantity
+                                newMaterialRequest.materialName = materialSelection.materialName
+                                newMaterialRequest.materialUnit = materialSelection.materialUnit
+                                newMaterialRequest.materialCategory = materialSelection.materialCategory
+                                materialRequestList.add(newMaterialRequest)
+                            }
+
+                        }
+                    }
+
+                    callback.onMaterialReceivedReceived(materialRequestList)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+
+        })
+    }
+
+    interface OnMaterialReceivedReceived{
+        fun onMaterialReceivedReceived(materialRequestList: ArrayList<MaterialRequestOrReceived>)
+    }
 
 
 }

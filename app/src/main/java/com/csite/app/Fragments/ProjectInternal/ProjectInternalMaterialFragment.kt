@@ -69,6 +69,19 @@ class ProjectInternalMaterialFragment : Fragment() {
                             Toast.makeText(activity,"Project Id is null",Toast.LENGTH_SHORT).show()
                         }
                     }
+                    1-> {
+                        if (projectId != null) {
+                            firebaseOperationsForProjectInternalMaterialTab.fetchMaterialReceived(projectId,
+                                object : FirebaseOperationsForProjectInternalMaterialTab.OnMaterialReceivedReceived {
+                                    override fun onMaterialReceivedReceived(materialReceivedList: ArrayList<MaterialRequestOrReceived>) {
+                                        var adapter = MaterialTabListAdapter(materialReceivedList)
+                                        recyclerView.adapter = adapter
+                                        recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
+                                        adapter.notifyDataSetChanged()
+                                    }
+                                })
+                        }
+                    }
                 }
             }
 
@@ -91,6 +104,19 @@ class ProjectInternalMaterialFragment : Fragment() {
                                 })
                         }else{
                             Toast.makeText(activity,"Project Id is null",Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    1-> {
+                        if (projectId != null) {
+                            firebaseOperationsForProjectInternalMaterialTab.fetchMaterialReceived(projectId,
+                                object : FirebaseOperationsForProjectInternalMaterialTab.OnMaterialReceivedReceived {
+                                    override fun onMaterialReceivedReceived(materialReceivedList: ArrayList<MaterialRequestOrReceived>) {
+                                        var adapter = MaterialTabListAdapter(materialReceivedList)
+                                        recyclerView.adapter = adapter
+                                        recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
+                                        adapter.notifyDataSetChanged()
+                                    }
+                                })
                         }
                     }
                 }
