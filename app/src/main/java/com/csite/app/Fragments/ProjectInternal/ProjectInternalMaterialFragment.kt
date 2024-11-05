@@ -8,9 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import com.csite.app.Activites.ProjectFeatures.MaterialTab.NewMaterialReceivedActivity
 import com.csite.app.Activites.ProjectFeatures.MaterialTab.NewMaterialRequestActivity
+import com.csite.app.FirebaseOperations.FirebaseOperationsForProjectInternalMaterialTab
+import com.csite.app.Objects.MaterialRequestOrReceived
 import com.csite.app.R
+import com.csite.app.RecyclerViewListAdapters.MaterialTabListAdapter
+import com.google.android.material.tabs.TabLayout
 
 
 class ProjectInternalMaterialFragment : Fragment() {
@@ -40,6 +45,63 @@ class ProjectInternalMaterialFragment : Fragment() {
             newMaterialReceivedIntent.putExtra("projectId",projectId)
             startActivity(newMaterialReceivedIntent)
         }
+
+
+        val firebaseOperationsForProjectInternalMaterialTab = FirebaseOperationsForProjectInternalMaterialTab()
+        val recyclerView = view.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.materialTabRecyclerView)
+        val tabLayout = view.findViewById<TabLayout>(R.id.materialTabLLayout)
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                when (tab?.position) {
+                    0->{
+                        if (projectId != null) {
+                            firebaseOperationsForProjectInternalMaterialTab.fetchMaterialRequests(projectId,
+                                object : FirebaseOperationsForProjectInternalMaterialTab.OnMaterialRequestReceived {
+                                    override fun onMaterialRequestReceived(materialRequestList: ArrayList<MaterialRequestOrReceived>) {
+                                        var adapter = MaterialTabListAdapter(materialRequestList)
+                                        recyclerView.adapter = adapter
+                                        recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
+                                        adapter.notifyDataSetChanged()
+                                    }
+
+                                })
+                        }else{
+                            Toast.makeText(activity,"Project Id is null",Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+                when (tab?.position) {
+                    0->{
+                        if (projectId != null) {
+                            firebaseOperationsForProjectInternalMaterialTab.fetchMaterialRequests(projectId,
+                                object : FirebaseOperationsForProjectInternalMaterialTab.OnMaterialRequestReceived {
+                                    override fun onMaterialRequestReceived(materialRequestList: ArrayList<MaterialRequestOrReceived>) {
+                                        var adapter = MaterialTabListAdapter(materialRequestList)
+                                        recyclerView.adapter = adapter
+                                        recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
+                                        adapter.notifyDataSetChanged()
+                                    }
+
+                                })
+                        }else{
+                            Toast.makeText(activity,"Project Id is null",Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            }
+
+
+        })
+
+        tabLayout.selectTab(tabLayout.getTabAt(0))
+
+
 
         return view
     }

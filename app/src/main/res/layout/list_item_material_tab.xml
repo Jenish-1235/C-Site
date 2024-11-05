@@ -21,17 +21,11 @@
         android:layout_marginStart="10dp"
         android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/materialDateView"
+        <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Date"
-            android:gravity="center"
             android:layout_weight="1.5"
-            android:textColor="@color/black"
-            android:fontFamily="@font/arimo_medium"
-            android:background="@drawable/background_green_rounded_corner"
-            android:backgroundTint="#8C8C8C"/>
+            android:src="@drawable/quotation_icon_black"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -56,6 +50,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="Category"
+                android:textSize="16dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/arimo_medium"/>
+
+            <TextView
+                android:id="@+id/materialDateView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Date"
                 android:textSize="14dp"
                 android:layout_weight="1"
                 android:fontFamily="@font/arimo_medium"/>
@@ -83,7 +86,7 @@
                 />
 
             <TextView
-                android:id="@+id/RequestedMaterialStatusView"
+                android:id="@+id/materialStatusView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="Requested"
