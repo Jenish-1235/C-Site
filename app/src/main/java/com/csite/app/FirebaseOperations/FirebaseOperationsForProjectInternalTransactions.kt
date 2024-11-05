@@ -2,6 +2,8 @@ package com.csite.app.FirebaseOperations
 
 import com.cmpte.app.Objects.TransactionMaterialPurchase
 import com.csite.app.Objects.CommonTransaction
+import com.csite.app.Objects.MaterialRequestOrReceived
+import com.csite.app.Objects.MaterialSelection
 import com.csite.app.Objects.TransactionOtherExpense
 import com.csite.app.Objects.TransactionPaymentIn
 import com.csite.app.Objects.TransactionPaymentOut
@@ -11,6 +13,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import java.util.HashMap
 
 class FirebaseOperationsForProjectInternalTransactions {
 
@@ -72,6 +75,24 @@ class FirebaseOperationsForProjectInternalTransactions {
         materialPurchaseTransaction.transactionId = transactionId
         projectReference.child(projectId).child("Transactions/MaterialPurchase")
             .child(transactionId).setValue(materialPurchaseTransaction)
+
+        val materialPurchaseHashMap  = materialPurchaseTransaction.mpItems
+        var listOfMaterialReceived = HashMap<String, MaterialSelection>()
+        for(material in materialPurchaseHashMap){
+            val materialRequestOrReceived = MaterialSelection()
+            materialRequestOrReceived.materialId = material.value.materialId
+            materialRequestOrReceived.materialQuantity = material.value.materialQuantity
+            materialRequestOrReceived.materialUnit = material.value.materialUnit
+            materialRequestOrReceived.materialCategory = material.value.materialCategory
+            materialRequestOrReceived.materialName = material.value.materialName
+            materialRequestOrReceived.materialSelected = true
+            materialRequestOrReceived.materialGST = material.value.materialGST
+            listOfMaterialReceived.put(materialRequestOrReceived.materialId, materialRequestOrReceived)
+        }
+
+        val firebaseOperationsForProjectInternalMaterialTab = FirebaseOperationsForProjectInternalMaterialTab()
+        firebaseOperationsForProjectInternalMaterialTab.saveMaterialReceived(projectId, listOfMaterialReceived)
+
     }
 
     // 6. Fetch All Transaction

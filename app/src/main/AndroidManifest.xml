@@ -16,6 +16,13 @@
         android:theme="@style/Theme.CSite"
         tools:targetApi="31">
         <activity
+            android:name=".Activites.ProjectFeatures.MaterialTab.NewMaterialReceivedActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activites.ProjectFeatures.MaterialTab.NewMaterialRequestActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
             android:name=".Activites.MainScreen.NewQuotationActivity"
             android:exported="false" />
         <activity

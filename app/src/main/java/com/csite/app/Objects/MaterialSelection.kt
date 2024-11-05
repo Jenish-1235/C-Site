@@ -13,11 +13,11 @@ class MaterialSelection : Serializable {
     var materialUnitRate: String = ""
     var subTotal: String = ""
 
-    constructor(name: String, category: String, gst: String, unit: String, materialId: String, materialSelected: Boolean) {
-        this.materialName = name
-        this.materialCategory = category
-        this.materialGST = gst
-        this.materialUnit = unit
+    constructor(materialName: String, materialCategory: String, materialGST: String, materialUnit: String, materialId: String, materialSelected: Boolean) {
+        this.materialName = materialName
+        this.materialCategory = materialCategory
+        this.materialGST = materialGST
+        this.materialUnit = materialUnit
         this.materialId = materialId
         this.materialSelected = materialSelected
         this.materialQuantity = ""
