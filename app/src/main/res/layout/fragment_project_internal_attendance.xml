@@ -195,17 +195,30 @@
                     android:id="@+id/projectWorkersRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    app:layout_constraintBottom_toTopOf="@+id/addWorkersButton"
+                    app:layout_constraintBottom_toTopOf="@+id/saveAttendanceButton"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/yellow"
+                    android:src="@drawable/party_icon_black"
+                    app:layout_constraintBottom_toBottomOf="@+id/projectWorkersRecyclerView"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.954"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/projectWorkersRecyclerView"
+                    app:layout_constraintVertical_bias="0.957"
+                    android:id="@+id/addWorkersButton"/>
+
                 <Button
-                    android:id="@+id/addWorkersButton"
+                    android:id="@+id/saveAttendanceButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="#FFD249"
-                    android:text="Add Worker"
+                    android:backgroundTint="@color/green"
+                    android:text="Save Attendance"
                     android:textColor="#000000"
                     android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="parent"

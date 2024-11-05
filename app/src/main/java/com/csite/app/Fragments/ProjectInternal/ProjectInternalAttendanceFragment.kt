@@ -11,7 +11,11 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import com.csite.app.Activites.ProjectFeatures.AttendanceTab.AddWorkersToProjectActivity
+import com.csite.app.FirebaseOperations.FirebaseOperationsForProjectInternalAttendance
+import com.csite.app.Objects.ProjectWorker
 import com.csite.app.R
+import com.csite.app.RecyclerViewListAdapters.AttendanceListAdapter
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.time.LocalDate
@@ -56,12 +60,27 @@ class ProjectInternalAttendanceFragment : Fragment() {
         }
 
 
-        val addWorkerButton: Button = view.findViewById(R.id.addWorkersButton)
+        val addWorkerButton: FloatingActionButton = view.findViewById(R.id.addWorkersButton)
         addWorkerButton.setOnClickListener{
             val addWorkerToProjectIntent = Intent(activity, AddWorkersToProjectActivity::class.java)
             addWorkerToProjectIntent.putExtra("projectId",projectId)
             addWorkerToProjectIntent.putExtra("memberAccess",memberAccess)
             startActivity(addWorkerToProjectIntent)
+        }
+
+        val attendanceRecyclerView = view.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.projectWorkersRecyclerView)
+        attendanceRecyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(requireActivity())
+
+        val firebaseOperationsForProjectInternalAttendance = FirebaseOperationsForProjectInternalAttendance()
+        if (projectId != null) {
+            firebaseOperationsForProjectInternalAttendance.fetchProjectWorkers(projectId, object : FirebaseOperationsForProjectInternalAttendance.OnProjectWorkersFetched {
+                override fun onProjectWorkersFetched(workersList: ArrayList<ProjectWorker>) {
+                    val adapter = AttendanceListAdapter(workersList)
+                    attendanceRecyclerView.adapter = adapter
+                    adapter.notifyDataSetChanged()
+                }
+
+            })
         }
 
 

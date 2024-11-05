@@ -11,7 +11,7 @@ import com.csite.app.Objects.Workforce
 import com.csite.app.R
 import com.google.android.material.button.MaterialButton.OnCheckedChangeListener
 
-class WorkerSelectionListAdapter(workforceList: ArrayList<Workforce>) : RecyclerView.Adapter<WorkerSelectionListAdapter.WorkerSelectionListViewHolder>(){
+class WorkerSelectionListAdapter(workforceList: ArrayList<ProjectWorker>) : RecyclerView.Adapter<WorkerSelectionListAdapter.WorkerSelectionListViewHolder>(){
     var workForceList = workforceList
 
     var selectedWorkersHashMap = HashMap<String, ProjectWorker>()
@@ -34,18 +34,25 @@ class WorkerSelectionListAdapter(workforceList: ArrayList<Workforce>) : Recycler
 
     override fun onBindViewHolder(holder: WorkerSelectionListViewHolder, position: Int) {
         val currentItem = workForceList[position]
-        holder.itemView.findViewById<TextView>(R.id.workforceTypeView).text = currentItem.workforceType
-        holder.itemView.findViewById<TextView>(R.id.workforceCategoryView).text = currentItem.workforceCategory
-        holder.itemView.findViewById<TextView>(R.id.workforceSalaryPerShiftView).text = "\u20b9" + currentItem.workforceSalaryPerShift + "/day"
+        holder.itemView.findViewById<TextView>(R.id.workforceTypeView).text = currentItem.wName
+        holder.itemView.findViewById<TextView>(R.id.workforceCategoryView).text = currentItem.wCategory
+        holder.itemView.findViewById<TextView>(R.id.workforceSalaryPerShiftView).text = "\u20b9" + currentItem.wSalaryPerDay.toString() + "/day"
+
+        if (currentItem.wIsSelected){
+            holder.workforceSelectedCheckbox.isChecked = true
+            selectedWorkersHashMap.put(currentItem.wId, currentItem)
+        }else{
+            holder.workforceSelectedCheckbox.isChecked = false
+        }
 
         holder.workforceSelectedCheckbox.setOnCheckedChangeListener{
             _, isChecked ->
             if(isChecked){
                 val worker = ProjectWorker()
-                worker.wId = currentItem.workforceId
-                worker.wName = currentItem.workforceType
-                worker.wCategory = currentItem.workforceCategory
-                worker.wSalaryPerDay = currentItem.workforceSalaryPerShift
+                worker.wId = currentItem.wId
+                worker.wName = currentItem.wName
+                worker.wCategory = currentItem.wCategory
+                worker.wSalaryPerDay = currentItem.wSalaryPerDay
                 worker.wIsSelected = true
                 worker.wNoOfWorker = "0"
                 worker.wNoOfShifts = "0"
@@ -60,7 +67,7 @@ class WorkerSelectionListAdapter(workforceList: ArrayList<Workforce>) : Recycler
                 worker.wDeductionAmount = "0"
                 selectedWorkersHashMap.put(worker.wId, worker)
             }else {
-                selectedWorkersHashMap.remove(currentItem.workforceId)
+                selectedWorkersHashMap.remove(currentItem.wId)
             }
         }
     }

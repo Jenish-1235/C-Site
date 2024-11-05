@@ -3,6 +3,7 @@ package com.csite.app.Activites.ProjectFeatures.AttendanceTab
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -14,6 +15,7 @@ import com.csite.app.DialogFragments.PartySelectionLibraryDialogFragment
 import com.csite.app.FirebaseOperations.FirebaseOperationsForLibrary
 import com.csite.app.FirebaseOperations.FirebaseOperationsForProjectInternalAttendance
 import com.csite.app.Objects.Party
+import com.csite.app.Objects.ProjectWorker
 import com.csite.app.Objects.Workforce
 import com.csite.app.R
 import com.csite.app.RecyclerViewListAdapters.WorkerSelectionListAdapter
@@ -29,6 +31,8 @@ class AddWorkersToProjectActivity : AppCompatActivity(), PartySelectionLibraryDi
             insets
         }
 
+        val projectId = intent.getStringExtra("projectId")
+
         val workerPartyInput: EditText = findViewById(R.id.workerPartyInput)
         workerPartyInput.setOnClickListener{
             val partySelectionLibraryDialogFragment = PartySelectionLibraryDialogFragment()
@@ -43,17 +47,66 @@ class AddWorkersToProjectActivity : AppCompatActivity(), PartySelectionLibraryDi
 
         val workersRecyclerView = findViewById<RecyclerView>(R.id.workerSelectionList)
         val firebaseOperationsForLibrary = FirebaseOperationsForLibrary()
-        var receivedWorkforceList = ArrayList<Workforce>()
+        lateinit var receivedWorkforceList: ArrayList<Workforce>
         lateinit var workerSelectionListAdapter :WorkerSelectionListAdapter
-        firebaseOperationsForLibrary.fetchWorkforceFromWorkforceLibrary(object: FirebaseOperationsForLibrary.onWorkforceListReceived{
-            override fun onWorkforceListReceived(workforceList: ArrayList<Workforce>) {
-                receivedWorkforceList = workforceList
-                workerSelectionListAdapter = WorkerSelectionListAdapter(receivedWorkforceList)
-                workersRecyclerView.adapter = workerSelectionListAdapter
-                workersRecyclerView.adapter?.notifyDataSetChanged()
-            }
 
-        })
+        val firebaseOperationsForProjectInternalAttendance = FirebaseOperationsForProjectInternalAttendance()
+        if (projectId != null) {
+            firebaseOperationsForProjectInternalAttendance.fetchProjectWorkers(
+                projectId,
+                object : FirebaseOperationsForProjectInternalAttendance.OnProjectWorkersFetched {
+                    override fun onProjectWorkersFetched(workersList: ArrayList<ProjectWorker>) {
+                        var projectWorkerList = workersList
+                        firebaseOperationsForLibrary.fetchWorkforceFromWorkforceLibrary(object :
+                            FirebaseOperationsForLibrary.onWorkforceListReceived {
+                            override fun onWorkforceListReceived(workforceList: ArrayList<Workforce>) {
+                                receivedWorkforceList = workforceList
+                                var workerList = ArrayList<ProjectWorker>()
+                                for(workforce in workforceList){
+                                    var found = false
+                                    for(projectWorker in projectWorkerList){
+                                        if(workforce.workforceId == projectWorker.wId){
+                                            workerList.add(projectWorker)
+                                            found = true
+                                            break
+                                        }
+                                    }
+                                    if(!found) {
+                                        workerList.add(
+                                            ProjectWorker(
+                                                "",
+                                                workforce.workforceType,
+                                                workforce.workforceCategory,
+                                                "",
+                                                "",
+                                                false,
+                                                false,
+                                                "",
+                                                "",
+                                                false,
+                                                false,
+                                                "",
+                                                "",
+                                                "",
+                                                workforce.workforceSalaryPerShift,
+                                                workforce.workforceId,
+                                                false
+                                            )
+                                        )
+                                    }
+
+                                    workerSelectionListAdapter = WorkerSelectionListAdapter(workerList)
+                                    workersRecyclerView.adapter = workerSelectionListAdapter
+
+                                }
+                                workerSelectionListAdapter = WorkerSelectionListAdapter(workerList)
+                                workersRecyclerView.adapter = workerSelectionListAdapter
+                            }
+                        })
+                    }
+                })
+        }
+
         workersRecyclerView.layoutManager = LinearLayoutManager(this)
 
         val saveWorkersButton = findViewById<View>(R.id.saveWorkersButton)
@@ -64,7 +117,7 @@ class AddWorkersToProjectActivity : AppCompatActivity(), PartySelectionLibraryDi
             for(worker in selectedWorkers){
                 worker.value.wParty = workerParty
             }
-            if (selectedWorkers.size > 0) {
+            if (selectedWorkers.size > 0 && workerParty.isNotEmpty()) {
                 val projectId = intent.getStringExtra("projectId")
                 val firebaseOperationsForProjectInternalAttendance = FirebaseOperationsForProjectInternalAttendance()
                 if (projectId != null) {
@@ -74,7 +127,9 @@ class AddWorkersToProjectActivity : AppCompatActivity(), PartySelectionLibraryDi
                 }
                 finish()
             }else{
-                workerPartyInput.error = "Please select at least one worker"
+                workerPartyInput.error = "Please enter a party and select workers"
+                Toast.makeText(this, "Please enter a party and select workers", Toast.LENGTH_SHORT).show()
+                workerPartyInput.requestFocus()
             }
 
         }
