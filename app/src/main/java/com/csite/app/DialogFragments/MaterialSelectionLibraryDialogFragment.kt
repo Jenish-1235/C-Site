@@ -50,6 +50,7 @@ class MaterialSelectionLibraryDialogFragment : DialogFragment() {
                 materialSelectionRecyclerView.adapter = materialSelectionListAdapter
                 materialSelectionListAdapter.notifyDataSetChanged()
                 materialSelectionRecyclerView.layoutManager = LinearLayoutManager(context)
+                materialSelectionRecyclerView.setHasFixedSize(true)
             }
 
         })
@@ -69,6 +70,12 @@ class MaterialSelectionLibraryDialogFragment : DialogFragment() {
 
             Toast.makeText(requireContext(), "Selected Materials: " + selectedMaterialList.size , Toast.LENGTH_SHORT).show()
 
+        }
+
+        val newMaterialButton = view.findViewById<Button>(R.id.newMaterialButton)
+        newMaterialButton.setOnClickListener {
+            val newMaterialDialogFragment = AddNewMaterialDialogFragment()
+            newMaterialDialogFragment.show(this.parentFragmentManager, "newMaterialDialogFragment")
         }
 
         return view

@@ -36,22 +36,41 @@ class MaterialSelectionListAdapter(context:Context, materialList: ArrayList<Mate
     }
 
     override fun onBindViewHolder(holder: MaterialSelectionViewHolder, position: Int) {
-        var material = materialList[position]
+        val material = materialList[position]
+
+        // Set the material details
         holder.materialNameView.text = material.materialName
         holder.materialGSTView.text = material.materialGST
         holder.materialUnitView.text = material.materialUnit
         holder.materialCategoryView.text = material.materialCategory
 
-        holder.materialSelectedInput.setOnCheckedChangeListener{
-            _, isChecked ->
-            if(isChecked) {
-                val materialSelection = MaterialSelection(material.materialName, material.materialCategory, material.materialGST, material.materialUnit, material.materialId, true)
-                selectedMaterialHashMap.put(material.materialId, materialSelection)
-            }else{
+        // Remove any previously attached listener to avoid unwanted triggers
+        holder.materialSelectedInput.setOnCheckedChangeListener(null)
+
+        // Set checkbox state based on the model's `isSelected` property
+        holder.materialSelectedInput.isChecked = material.isSelected
+
+        // Attach a listener to update the `isSelected` property and HashMap
+        holder.materialSelectedInput.setOnCheckedChangeListener { _, isChecked ->
+            material.isSelected = isChecked // Update selection state in the model
+            if (isChecked) {
+                // Add the item to the selected items HashMap
+                val materialSelection = MaterialSelection(
+                    material.materialName,
+                    material.materialCategory,
+                    material.materialGST,
+                    material.materialUnit,
+                    material.materialId,
+                    true
+                )
+                selectedMaterialHashMap[material.materialId] = materialSelection
+            } else {
+                // Remove the item from the selected items HashMap
                 selectedMaterialHashMap.remove(material.materialId)
             }
         }
     }
+
 
     fun getSelectedMaterialHashmap():HashMap<String, MaterialSelection>{
         return selectedMaterialHashMap

@@ -6,6 +6,7 @@ class Material {
     var materialGST: String = ""
     var materialUnit: String = ""
     var materialId: String = ""
+    var isSelected: Boolean = false
 
     constructor(name: String, category: String, gst: String, unit: String) {
         this.materialName = name
@@ -13,6 +14,8 @@ class Material {
         this.materialGST = gst
         this.materialUnit = unit
         this.materialId = ""
+        this.isSelected = isSelected
+
     }
 
     constructor()
