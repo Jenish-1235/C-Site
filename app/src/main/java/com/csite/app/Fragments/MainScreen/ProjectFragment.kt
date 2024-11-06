@@ -3,6 +3,7 @@ package com.csite.app.Fragments.MainScreen
 import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.res.ColorStateList
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.content.res.AppCompatResources.getColorStateList
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.csite.app.Utilities.SliderTabLayout
@@ -119,6 +121,7 @@ class ProjectFragment : Fragment() {
         libraryTextView.setText("Library")
         val libraryImageView: ImageView = libraryTabView.findViewById(R.id.tab_icon)
         libraryImageView.setImageResource(R.drawable.labour)
+        libraryImageView.imageTintList = ColorStateList.valueOf(resources.getColor(R.color.golden))
         libraryTab.setCustomView(libraryTabView)
         projectFragmentTabLayout.addTab(libraryTab)
 
