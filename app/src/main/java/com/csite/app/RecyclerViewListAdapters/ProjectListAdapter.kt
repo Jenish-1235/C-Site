@@ -16,7 +16,7 @@ import com.csite.app.Activites.ProjectFeatures.ProjectSettingsActivity
 import com.csite.app.Objects.Project
 import com.csite.app.R
 
-class ProjectListAdapter(context: Context, projectList: List<Project>): RecyclerView.Adapter<ProjectListAdapter.ProjectViewHolder>(){
+class ProjectListAdapter(projectList: List<Project>): RecyclerView.Adapter<ProjectListAdapter.ProjectViewHolder>(){
 
     // Declare variables
     var projectList: List<Project>? = projectList

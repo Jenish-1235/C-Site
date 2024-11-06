@@ -25,16 +25,18 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginBottom="10dp"
                 android:gravity="left"
                 android:orientation="vertical"
+                android:paddingStart="20dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:paddingTop="10dp"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:layout_marginBottom="10dp">
+                app:layout_constraintVertical_bias="0.0">
 
                 <TextView
                     android:id="@+id/textView7"
@@ -44,46 +46,47 @@
                     android:text="Party Balances"
                     android:textColor="#785C2A"
                     android:textSize="22sp"
-                    android:textStyle="bold"
-                    />
+                    android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:layout_marginTop="7dp"
-                    >
+                    android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/totalToPayView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:fontFamily="@font/arimo_medium"
                         android:text="00000000\nTo Pay"
                         android:textColor="@color/black"
-                        android:textSize="16sp"
-                        android:fontFamily="@font/arimo_medium"
-                        android:layout_marginTop="3dp"/>
+                        android:textSize="16sp" />
 
 
                     <TextView
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="|\n|\n|"
-                        android:lineHeight="10dp"
-                        android:textColor="@color/black"
-                        android:textSize="14sp"
                         android:layout_marginStart="5dp"
                         android:layout_marginEnd="5dp"
-                        android:fontFamily="@font/arimo_medium"/>
+                        android:fontFamily="@font/arimo_medium"
+                        android:lineHeight="10dp"
+                        android:text="|\n|\n|"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
 
 
                     <TextView
+                        android:id="@+id/totalToRecieveView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:fontFamily="@font/arimo_medium"
                         android:text="00000000\nTo Recieve"
                         android:textColor="@color/black"
-                        android:textSize="16sp"
-                        android:fontFamily="@font/arimo_medium"
-                        android:layout_marginTop="3dp"/>
+                        android:textSize="16sp" />
                 </LinearLayout>
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
