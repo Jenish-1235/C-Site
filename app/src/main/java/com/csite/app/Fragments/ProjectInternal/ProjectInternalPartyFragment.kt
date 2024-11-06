@@ -47,23 +47,27 @@ class ProjectInternalPartyFragment : Fragment() {
                             FirebaseOperationsForProjectInternalTransactions.OnTransactionsFetched {
                             override fun onTransactionsFetched(transactions: MutableList<CommonTransaction>) {
                                 for (party in partyList) {
-                                    if (transactions.size > 0) {
-                                        for (transaction in transactions) {
-                                            if (transaction.transactionParty == party.partyName) {
-                                                if (paymentsHashMap.containsKey(party.partyName)) {
-                                                    paymentsHashMap.put(
-                                                        party.partyName,
-                                                        paymentsHashMap.get(party.partyName)!! + transaction.transactionAmount.toDouble()
-                                                    )
-                                                } else {
-                                                    paymentsHashMap.put(
-                                                        party.partyName,
-                                                        transaction.transactionAmount.toDouble()
-                                                    )
-                                                }
+                                    var amount = 0.0
+                                    for (transaction in transactions) {
+                                        if (transaction.transactionParty == party.partyName) {
+                                            if (transaction.transactionType == "Payment In"){
+                                                amount += transaction.transactionAmount.toDouble()
+                                            }else if (transaction.transactionType == "Payment Out"){
+                                                amount -= transaction.transactionAmount.toDouble()
+                                            }else if (transaction.transactionType == "Other Expense"){
+                                                amount -= transaction.transactionAmount.toDouble()
+                                            }else if (transaction.transactionType == "Material Purchase"){
+                                                amount -= transaction.transactionAmount.toDouble()
+                                            }else if (transaction.transactionType == "Sales Invoice"){
+                                                amount += transaction.transactionAmount.toDouble()
                                             }
                                         }
                                     }
+                                    paymentsHashMap[party.partyName] = amount
+                                    var adapter = PaymentsListAdapter(paymentsHashMap)
+                                    partyRecyclerView.adapter = adapter
+                                    partyRecyclerView.setHasFixedSize(true)
+                                    partyRecyclerView.adapter?.notifyDataSetChanged()
                                 }
 
                                 val partyAdapter = PaymentsListAdapter(paymentsHashMap)
