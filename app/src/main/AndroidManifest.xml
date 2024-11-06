@@ -16,6 +16,9 @@
         android:theme="@style/Theme.CSite"
         tools:targetApi="31">
         <activity
+            android:name=".Activites.ProjectFeatures.AttendanceTab.AddWorkersToProjectActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activites.ProjectFeatures.MaterialTab.NewMaterialReceivedActivity"
             android:exported="false" />
         <activity
