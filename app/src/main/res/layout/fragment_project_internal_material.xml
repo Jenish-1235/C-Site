@@ -181,29 +181,6 @@
         app:tabIndicatorHeight="5dp"
         app:tabMode="scrollable"
         app:tabTextColor="@color/white">
-
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/materialRequestTab"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/arimo_medium"
-            android:text="Request"
-            android:textColor="@color/white" />
-
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/materialReceivedTab"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/arimo_medium"
-            android:text="Received"
-            android:textColor="@color/white" />
-
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/materialPurchaseTab"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Purchased" />
-
     </com.google.android.material.tabs.TabLayout>
 
     <androidx.recyclerview.widget.RecyclerView

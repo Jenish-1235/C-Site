@@ -6,9 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.csite.app.Activites.ProjectFeatures.MaterialTab.NewMaterialReceivedActivity
 import com.csite.app.Activites.ProjectFeatures.MaterialTab.NewMaterialRequestActivity
 import com.csite.app.FirebaseOperations.FirebaseOperationsForProjectInternalMaterialTab
@@ -46,42 +45,48 @@ class ProjectInternalMaterialFragment : Fragment() {
             startActivity(newMaterialReceivedIntent)
         }
 
+        formTabLayout(view,projectId!!)
+        return view
+    }
 
-        val firebaseOperationsForProjectInternalMaterialTab = FirebaseOperationsForProjectInternalMaterialTab()
-        val recyclerView = view.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.materialTabRecyclerView)
+    fun formTabLayout(view: View,projectId:String){
         val tabLayout = view.findViewById<TabLayout>(R.id.materialTabLLayout)
-        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                when (tab?.position) {
-                    0->{
-                        if (projectId != null) {
-                            firebaseOperationsForProjectInternalMaterialTab.fetchMaterialRequests(projectId,
-                                object : FirebaseOperationsForProjectInternalMaterialTab.OnMaterialRequestReceived {
-                                    override fun onMaterialRequestReceived(materialRequestList: ArrayList<MaterialRequestOrReceived>) {
-                                        var adapter = MaterialTabListAdapter(materialRequestList)
-                                        recyclerView.adapter = adapter
-                                        recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
-                                        adapter.notifyDataSetChanged()
-                                    }
 
-                                })
-                        }else{
-                            Toast.makeText(activity,"Project Id is null",Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                    1-> {
-                        if (projectId != null) {
-                            firebaseOperationsForProjectInternalMaterialTab.fetchMaterialReceived(projectId,
-                                object : FirebaseOperationsForProjectInternalMaterialTab.OnMaterialReceivedReceived {
-                                    override fun onMaterialReceivedReceived(materialReceivedList: ArrayList<MaterialRequestOrReceived>) {
-                                        var adapter = MaterialTabListAdapter(materialReceivedList)
-                                        recyclerView.adapter = adapter
-                                        recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
-                                        adapter.notifyDataSetChanged()
-                                    }
-                                })
-                        }
-                    }
+        val requestTab = tabLayout.newTab()
+        requestTab.setText("Request")
+        tabLayout.addTab(requestTab)
+
+        val receivedTab = tabLayout.newTab()
+        receivedTab.setText("Received")
+        tabLayout.addTab(receivedTab)
+
+        val tabLayoutAddOnTabSelectedListener = object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                val materialTabRecyclerView = view.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.materialTabRecyclerView)
+                materialTabRecyclerView.layoutManager = LinearLayoutManager(requireActivity())
+                val list = ArrayList<MaterialRequestOrReceived>()
+                val firebaseOperationsForProjectInternalMaterialTab = FirebaseOperationsForProjectInternalMaterialTab()
+
+                if(tab?.getPosition() == 0) {
+                    firebaseOperationsForProjectInternalMaterialTab.fetchMaterialRequests(projectId,
+                        object :
+                            FirebaseOperationsForProjectInternalMaterialTab.OnMaterialRequestReceived {
+                            override fun onMaterialRequestReceived(materialRequestList: ArrayList<MaterialRequestOrReceived>) {
+                                val adapter = MaterialTabListAdapter(materialRequestList)
+                                materialTabRecyclerView.adapter = adapter
+                                adapter.notifyDataSetChanged()
+                            }
+                        })
+                }
+                else if(tab?.getPosition() == 1){
+                    firebaseOperationsForProjectInternalMaterialTab.fetchMaterialReceived(projectId,
+                        object : FirebaseOperationsForProjectInternalMaterialTab.OnMaterialReceivedReceived {
+                            override fun onMaterialReceivedReceived(materialRequestList: ArrayList<MaterialRequestOrReceived>) {
+                                val adapter = MaterialTabListAdapter(materialRequestList)
+                                materialTabRecyclerView.adapter = adapter
+                                adapter.notifyDataSetChanged()
+                            }
+                        })
                 }
             }
 
@@ -89,46 +94,38 @@ class ProjectInternalMaterialFragment : Fragment() {
             }
 
             override fun onTabReselected(tab: TabLayout.Tab?) {
-                when (tab?.position) {
-                    0->{
-                        if (projectId != null) {
-                            firebaseOperationsForProjectInternalMaterialTab.fetchMaterialRequests(projectId,
-                                object : FirebaseOperationsForProjectInternalMaterialTab.OnMaterialRequestReceived {
-                                    override fun onMaterialRequestReceived(materialRequestList: ArrayList<MaterialRequestOrReceived>) {
-                                        var adapter = MaterialTabListAdapter(materialRequestList)
-                                        recyclerView.adapter = adapter
-                                        recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
-                                        adapter.notifyDataSetChanged()
-                                    }
+                val materialTabRecyclerView = view.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.materialTabRecyclerView)
+                materialTabRecyclerView.layoutManager = LinearLayoutManager(requireActivity())
+                val list = ArrayList<MaterialRequestOrReceived>()
+                val firebaseOperationsForProjectInternalMaterialTab = FirebaseOperationsForProjectInternalMaterialTab()
 
-                                })
-                        }else{
-                            Toast.makeText(activity,"Project Id is null",Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                    1-> {
-                        if (projectId != null) {
-                            firebaseOperationsForProjectInternalMaterialTab.fetchMaterialReceived(projectId,
-                                object : FirebaseOperationsForProjectInternalMaterialTab.OnMaterialReceivedReceived {
-                                    override fun onMaterialReceivedReceived(materialReceivedList: ArrayList<MaterialRequestOrReceived>) {
-                                        var adapter = MaterialTabListAdapter(materialReceivedList)
-                                        recyclerView.adapter = adapter
-                                        recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
-                                        adapter.notifyDataSetChanged()
-                                    }
-                                })
-                        }
-                    }
+                if(tab?.getPosition() == 0) {
+                    firebaseOperationsForProjectInternalMaterialTab.fetchMaterialRequests(projectId,
+                        object :
+                            FirebaseOperationsForProjectInternalMaterialTab.OnMaterialRequestReceived {
+                            override fun onMaterialRequestReceived(materialRequestList: ArrayList<MaterialRequestOrReceived>) {
+                                val adapter = MaterialTabListAdapter(materialRequestList)
+                                materialTabRecyclerView.adapter = adapter
+                                adapter.notifyDataSetChanged()
+                            }
+                        })
+                }
+                else if(tab?.getPosition() == 1){
+                    firebaseOperationsForProjectInternalMaterialTab.fetchMaterialReceived(projectId,
+                        object : FirebaseOperationsForProjectInternalMaterialTab.OnMaterialReceivedReceived {
+                            override fun onMaterialReceivedReceived(materialRequestList: ArrayList<MaterialRequestOrReceived>) {
+                                val adapter = MaterialTabListAdapter(materialRequestList)
+                                materialTabRecyclerView.adapter = adapter
+                                adapter.notifyDataSetChanged()
+                            }
+                        })
                 }
             }
 
+        }
+        tabLayout.addOnTabSelectedListener(tabLayoutAddOnTabSelectedListener)
+        tabLayout.getTabAt(0)?.select()
+        requestTab.select()
 
-        })
-
-        tabLayout.selectTab(tabLayout.getTabAt(0))
-
-
-
-        return view
     }
 }
