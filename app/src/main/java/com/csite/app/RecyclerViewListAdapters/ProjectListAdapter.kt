@@ -16,7 +16,7 @@ import com.csite.app.Activites.ProjectFeatures.ProjectSettingsActivity
 import com.csite.app.Objects.Project
 import com.csite.app.R
 
-class ProjectListAdapter(projectList: List<Project>): RecyclerView.Adapter<ProjectListAdapter.ProjectViewHolder>(){
+class ProjectListAdapter(context: Context, projectList: List<Project>): RecyclerView.Adapter<ProjectListAdapter.ProjectViewHolder>(){
 
     // Declare variables
     var projectList: List<Project>? = projectList
@@ -24,13 +24,10 @@ class ProjectListAdapter(projectList: List<Project>): RecyclerView.Adapter<Proje
 
     // Create ViewHolder
     class ProjectViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-
         val projectNameTextView: TextView = itemView.findViewById(R.id.projectNameTextView)
         val projectLocationTextView: TextView = itemView.findViewById(R.id.projectLocationTextView)
         val projectSettingsButton: Button = itemView.findViewById(R.id.projectSettingsButton)
         val projectMoreInfoButton: Button = itemView.findViewById(R.id.projectMoreInfoButton)
-
-
     }
 
     // Inflate layout for list item
@@ -51,6 +48,12 @@ class ProjectListAdapter(projectList: List<Project>): RecyclerView.Adapter<Proje
             val projectSettingsIntent = Intent(holder.itemView.context, ProjectSettingsActivity::class.java)
             projectSettingsIntent.putExtra("projectName", project.projectName)
             projectSettingsIntent.putExtra("projectId", project.projectId)
+            projectSettingsIntent.putExtra("projectLocation", project.projectAddress)
+            projectSettingsIntent.putExtra("projectCity", project.projectCity)
+            projectSettingsIntent.putExtra("projectStartDate", project.projectStartDate)
+            projectSettingsIntent.putExtra("projectEndDate", project.projectEndDate)
+            projectSettingsIntent.putExtra("projectValue", project.projectValue)
+            projectSettingsIntent.putExtra("projectStatus", project.projectStatus)
             holder.itemView.context.startActivity(projectSettingsIntent)
         }
 
@@ -59,6 +62,13 @@ class ProjectListAdapter(projectList: List<Project>): RecyclerView.Adapter<Proje
             val projectInternalMainActivityIntent = Intent(holder.itemView.context, ProjectInternalMainActivity::class.java)
             projectInternalMainActivityIntent.putExtra("projectName", project.projectName)
             projectInternalMainActivityIntent.putExtra("projectId", project.projectId)
+            projectInternalMainActivityIntent.putExtra("projectLocation", project.projectAddress)
+            projectInternalMainActivityIntent.putExtra("projectCity", project.projectCity)
+            projectInternalMainActivityIntent.putExtra("projectStartDate", project.projectStartDate)
+            projectInternalMainActivityIntent.putExtra("projectEndDate", project.projectEndDate)
+            projectInternalMainActivityIntent.putExtra("projectValue", project.projectValue)
+            projectInternalMainActivityIntent.putExtra("projectStatus", project.projectStatus)
+
             holder.itemView.context.startActivity(projectInternalMainActivityIntent)
 
         }
@@ -68,9 +78,14 @@ class ProjectListAdapter(projectList: List<Project>): RecyclerView.Adapter<Proje
             val projectInternalMainActivityIntent = Intent(holder.itemView.context, ProjectInternalMainActivity::class.java)
             projectInternalMainActivityIntent.putExtra("projectName", project.projectName)
             projectInternalMainActivityIntent.putExtra("projectId", project.projectId)
+            projectInternalMainActivityIntent.putExtra("projectLocation", project.projectAddress)
+            projectInternalMainActivityIntent.putExtra("projectCity", project.projectCity)
+            projectInternalMainActivityIntent.putExtra("projectStartDate", project.projectStartDate)
+            projectInternalMainActivityIntent.putExtra("projectEndDate", project.projectEndDate)
+            projectInternalMainActivityIntent.putExtra("projectValue", project.projectValue)
+            projectInternalMainActivityIntent.putExtra("projectStatus", project.projectStatus)
             holder.itemView.context.startActivity(projectInternalMainActivityIntent)
         }
-
     }
 
     // Get number of items in list
