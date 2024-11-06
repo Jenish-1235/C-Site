@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.csite.app.Activites.Library.AddNewPartyActivity
@@ -55,20 +56,41 @@ class PartyFragment : Fragment() {
                                     firebaseOperationsForProjectInternalTransactions.fetchAllTransactions(projectId, object : FirebaseOperationsForProjectInternalTransactions.OnTransactionsFetched{
                                         override fun onTransactionsFetched(transactions: MutableList<CommonTransaction>) {
                                             for(party in partyList){
+                                                var amount = 0.0
                                                 for (transaction in transactions) {
                                                     if (transaction.transactionParty == party.partyName) {
-                                                        if (paymentsHashMap.containsKey(party.partyName)) {
-                                                            paymentsHashMap[party.partyName] =
-                                                                paymentsHashMap[party.partyName]!! + transaction.transactionAmount.toDouble()
-                                                        } else {
-                                                            paymentsHashMap[party.partyName] =
-                                                                transaction.transactionAmount.toDouble()
+                                                        if (transaction.transactionType == "Payment In"){
+                                                            amount += transaction.transactionAmount.toDouble()
+                                                        }else if (transaction.transactionType == "Payment Out"){
+                                                            amount -= transaction.transactionAmount.toDouble()
+                                                        }else if (transaction.transactionType == "Other Expense"){
+                                                            amount -= transaction.transactionAmount.toDouble()
+                                                        }else if (transaction.transactionType == "Material Purchase"){
+                                                            amount -= transaction.transactionAmount.toDouble()
+                                                        }else if (transaction.transactionType == "Sales Invoice"){
+                                                            amount += transaction.transactionAmount.toDouble()
                                                         }
                                                     }
                                                 }
-                                                externalPartiesTabRecyclerView.adapter = PaymentsListAdapter(paymentsHashMap)
+                                                paymentsHashMap[party.partyName] = amount
+                                                var adapter = PaymentsListAdapter(paymentsHashMap)
+                                                externalPartiesTabRecyclerView.adapter = adapter
                                                 externalPartiesTabRecyclerView.setHasFixedSize(true)
                                                 externalPartiesTabRecyclerView.adapter?.notifyDataSetChanged()
+
+                                                var totalToPay = 0.0
+                                                var totalToReceive = 0.0
+                                                for(partyEntry in paymentsHashMap){
+                                                    if (partyEntry.value > 0){
+                                                        totalToPay += partyEntry.value
+                                                    }else if (partyEntry.value < 0){
+                                                        totalToReceive += partyEntry.value
+                                                    }
+                                                }
+                                                val totalToPayTextView = view.findViewById<TextView>(R.id.totalToPayView)
+                                                val totalToReceiveTextView = view.findViewById<TextView>(R.id.totalToRecieveView)
+                                                totalToPayTextView.text = "Total To Pay: ₹$totalToPay "
+                                                totalToReceiveTextView.text = "Total To Receive: ₹${totalToReceive.toString().replace("-", "")} "
 
                                             }
                                         }
@@ -89,7 +111,6 @@ class PartyFragment : Fragment() {
                 })
             }
         })
-
 
 
         return view
