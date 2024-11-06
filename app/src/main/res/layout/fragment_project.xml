@@ -58,7 +58,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
-            <com.csite.app.CustomLayouts.SliderTabLayout
+            <com.csite.app.Utilities.SliderTabLayout
                 android:id="@+id/activeOrCompletedTabLayout"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"

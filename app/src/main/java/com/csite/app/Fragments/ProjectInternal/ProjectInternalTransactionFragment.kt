@@ -9,17 +9,11 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.cmpte.app.Objects.TransactionMaterialPurchase
 import com.csite.app.Activites.ProjectFeatures.TransactionTab.NewPaymentInTransactionActivity
 import com.csite.app.Activites.ProjectFeatures.TransactionTab.NewPaymentOutTransactionActivity
-import com.csite.app.CustomLayouts.SliderTabLayout.OnTabSelectedListener
 import com.csite.app.DialogFragments.MoreTransactionDialogFragment
 import com.csite.app.FirebaseOperations.FirebaseOperationsForProjectInternalTransactions
 import com.csite.app.Objects.CommonTransaction
-import com.csite.app.Objects.TransactionOtherExpense
-import com.csite.app.Objects.TransactionPaymentIn
-import com.csite.app.Objects.TransactionPaymentOut
-import com.csite.app.Objects.TransactionSalesInvoice
 import com.csite.app.R
 import com.csite.app.RecyclerViewListAdapters.TransactionListAdapter
 import com.csite.app.databinding.FragmentProjectInternalTransactionBinding

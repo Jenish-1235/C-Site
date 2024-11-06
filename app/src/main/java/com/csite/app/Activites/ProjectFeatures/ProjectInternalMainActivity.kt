@@ -113,6 +113,7 @@ class ProjectInternalMainActivity : AppCompatActivity() {
         val bundle = Bundle()
         bundle.putString("projectId", projectId)
         bundle.putString("memberAccess", "admin")
+        bundle.putString("projectName", binding.projectNameView.text.toString())
 
 
         binding.projectInternalBottomTabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {

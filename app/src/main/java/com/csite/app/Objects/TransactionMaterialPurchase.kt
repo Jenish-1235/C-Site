@@ -7,17 +7,17 @@ class TransactionMaterialPurchase {
     var transactionDate = "";
     var transactionParty = "";
     var mpCategory = ""
-    var mpAdditionalCharge:String? = null
-    var mpDiscount:String? = null
+    var mpAdditionalCharge:String = ""
+    var mpDiscount:String = ""
     var transactionAmount = ""
-    var transactionDescription: String? = ""
+    var transactionDescription: String = ""
     var mpItems: HashMap<String, MaterialSelection> =  HashMap<String, MaterialSelection>();
     var transactionId = "";
     var transactionType = "Material Purchase";
 
     constructor()
 
-    constructor(mpDate: String, mpParty: String, mpCategory: String, mpAdditionalCharge: String?, mpDiscount: String?, mpTotal: String, mpNotes: String?, mpItems: HashMap<String, MaterialSelection>){
+    constructor(mpDate: String, mpParty: String, mpCategory: String, mpAdditionalCharge: String, mpDiscount: String, mpTotal: String, mpNotes: String, mpItems: HashMap<String, MaterialSelection>){
         this.transactionDate = mpDate;
         this.transactionParty = mpParty;
         this.mpCategory = mpCategory;

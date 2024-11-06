@@ -431,21 +431,21 @@ class NewOtherExpenseTransactionActivity : AppCompatActivity(), PartySelectionLi
                 binding.otherExpenseTransactionUnitInput.text.toString()
             var otherExpenseTransactionUnitPrice =
                 binding.otherExpenseTransactionUnitPriceInput.text.toString()
-            var otherExpenseTransactionAdditionalCharges: String? =
+            var otherExpenseTransactionAdditionalCharges: String =
                 binding.otherExpenseTransactionAdditionalChargesInput.text.toString()
-            var otherExpenseTransactionDiscount: String? =
+            var otherExpenseTransactionDiscount: String =
                 binding.otherExpenseTransactionDiscountInput.text.toString()
             var otherExpenseTransactionTotalAmount =
                 binding.otherExpenseTransactionTotalAmountView.text.toString()
             var otherExpenseTransactionCategory =
                 binding.otherExpenseTransactionCategoryInput.text.toString()
-            var otherExpenseTransactionNotes: String? =
+            var otherExpenseTransactionNotes: String =
                 binding.otherExpenseTransactionNotesInput.text.toString()
 
             if (otherExpenseTransactionDate != "" && otherExpenseTransactionTo != "" && otherExpenseTransactionQuantity != "" && otherExpenseTransactionUnit != "" && otherExpenseTransactionUnitPrice != "" && otherExpenseTransactionTotalAmount != "" && otherExpenseTransactionCategory.isNotEmpty()) {
-                if (otherExpenseTransactionAdditionalCharges == ""){ otherExpenseTransactionAdditionalCharges = null}
-                if (otherExpenseTransactionDiscount == "") {otherExpenseTransactionDiscount = null}
-                if (otherExpenseTransactionNotes == "") {otherExpenseTransactionNotes = null}
+                if (otherExpenseTransactionAdditionalCharges == ""){ otherExpenseTransactionAdditionalCharges = ""}
+                if (otherExpenseTransactionDiscount == "") {otherExpenseTransactionDiscount = ""}
+                if (otherExpenseTransactionNotes == "") {otherExpenseTransactionNotes = ""}
 
                 val transactionOtherExpense = TransactionOtherExpense(
                     otherExpenseTransactionDate,
@@ -463,7 +463,7 @@ class NewOtherExpenseTransactionActivity : AppCompatActivity(), PartySelectionLi
                 val firebaseOperationsForProjectInternalTransactions = FirebaseOperationsForProjectInternalTransactions()
                 try{
                     if (projectId!= null)
-                    firebaseOperationsForProjectInternalTransactions.saveOtherExpenseTransaction(projectId, transactionOtherExpense)
+                        firebaseOperationsForProjectInternalTransactions.saveOtherExpenseTransaction(projectId, transactionOtherExpense)
                     finish()
                 }catch (e:Exception){
                     Toast.makeText(this, e.message , Toast.LENGTH_SHORT).show()

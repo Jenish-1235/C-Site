@@ -6,15 +6,15 @@ class TransactionOtherExpense {
     var otherExpenseTransactionQuantity = ""
     var otherExpenseTransactionUnit = ""
     var otherExpenseTransactionUnitPrice = ""
-    var otherExpenseTransactionAdditionalCharges : String? = null
-    var otherExpenseTransactionDiscount: String? = null
+    var otherExpenseTransactionAdditionalCharges : String = ""
+    var otherExpenseTransactionDiscount: String = ""
     var transactionAmount = "0"
     var otherExpenseTransactionCategory = ""
-    var transactionDescription :String? = null
+    var transactionDescription :String = ""
     var transactionId = ""
     var transactionType = "Other Expense"
 
-    constructor(otherExpenseTransactionDate: String, otherExpenseTransactionTo: String, otherExpenseTransactionQuantity: String, otherExpenseTransactionUnit: String, otherExpenseTransactionUnitPrice: String, otherExpenseTransactionAdditionalCharges: String?, otherExpenseTransactionDiscount: String?, otherExpenseTransactionTotalAmount: String, otherExpenseTransactionCategory: String, otherExpenseTransactionNotes: String?) {
+    constructor(otherExpenseTransactionDate: String, otherExpenseTransactionTo: String, otherExpenseTransactionQuantity: String, otherExpenseTransactionUnit: String, otherExpenseTransactionUnitPrice: String, otherExpenseTransactionAdditionalCharges: String, otherExpenseTransactionDiscount: String, otherExpenseTransactionTotalAmount: String, otherExpenseTransactionCategory: String, otherExpenseTransactionNotes: String) {
         this.transactionDate = otherExpenseTransactionDate
         this.transactionParty = otherExpenseTransactionTo
         this.otherExpenseTransactionQuantity = otherExpenseTransactionQuantity

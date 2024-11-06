@@ -131,9 +131,9 @@ class NewSalesInvoiceTransactionActivity : AppCompatActivity() , PartySelectionL
             val transactionDate = b.salesInvoiceTransactionDateInput.text.toString()
             val partyName = b.salesInvoiceTransactionPaymentFrom.text.toString()
             val category = b.salesInvoiceTrasactionCategoryInput.text.toString()
-            var additionalCharges: String? = b.salesInvoiceTrasactionAdditionalChargesInput.text.toString()
-            var discount:String? = b.salesInvoiceTrasactionDiscountInput.text.toString()
-            var notes: String? = b.salesInvoiceTrasactionNotesInput.text.toString()
+            var additionalCharges: String = b.salesInvoiceTrasactionAdditionalChargesInput.text.toString()
+            var discount:String = b.salesInvoiceTrasactionDiscountInput.text.toString()
+            var notes: String = b.salesInvoiceTrasactionNotesInput.text.toString()
             var totalAmount = 0f
             val finalMaterialList: HashMap<String, MaterialSelection> = adapter.getFinalMaterialList()
             for(value in finalMaterialList.values){
@@ -145,20 +145,20 @@ class NewSalesInvoiceTransactionActivity : AppCompatActivity() , PartySelectionL
                 if (additionalCharges.isNotEmpty()){
                     totalAmount += additionalCharges.toFloat()
                 }else{
-                    additionalCharges = null
+                    additionalCharges = ""
                 }
             }
             if (discount != null) {
                 if (discount.isNotEmpty()){
                     totalAmount -= discount.toFloat()
                 }else{
-                    discount = null
+                    discount = ""
                 }
             }
 
             if (notes != null) {
                 if (notes.isEmpty()){
-                    notes = null
+                    notes = ""
                 }
             }
 

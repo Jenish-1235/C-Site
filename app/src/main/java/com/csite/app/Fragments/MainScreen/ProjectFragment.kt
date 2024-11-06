@@ -14,7 +14,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.csite.app.CustomLayouts.SliderTabLayout
+import com.csite.app.Utilities.SliderTabLayout
 import com.csite.app.R
 import com.csite.app.Activites.Library.MainLibraryActivity
 import com.csite.app.Activites.BankTransfer.BankTransferActivity
