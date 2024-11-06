@@ -36,8 +36,8 @@ class MaterialTabListAdapter(materialList: ArrayList<MaterialRequestOrReceived>)
         val currentItem = materialList[position]
         var date = currentItem.dateTimeStamp
 //
-//        date = date.substring(0, 10)
-//        holder.dateTextView.text = date
+        date = date.substring(0, 10)
+        holder.dateTextView.text = date
         holder.materialNameView.text = currentItem.materialName
         holder.materialQuantityView.text = currentItem.materialQuantity + " " + currentItem.materialUnit
         holder.materialCategoryView.text = currentItem.materialCategory
