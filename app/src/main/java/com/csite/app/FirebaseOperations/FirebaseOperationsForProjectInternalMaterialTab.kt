@@ -19,7 +19,7 @@ class FirebaseOperationsForProjectInternalMaterialTab {
 
     fun getDateTimeWithTime(): String {
         val date = Date()
-        val formatter = SimpleDateFormat("dd-MM-yyyy HH:mm:ss")
+        val formatter = SimpleDateFormat("dd-MM-yyyy HH:mm:ss:SSS")
         return formatter.format(date)
     }
 
@@ -120,6 +120,22 @@ class FirebaseOperationsForProjectInternalMaterialTab {
 
     interface OnMaterialReceivedReceived{
         fun onMaterialReceivedReceived(materialRequestList: ArrayList<MaterialRequestOrReceived>)
+    }
+
+    fun updateMaterialRequestToReceived(projectId: String, materialList: MaterialRequestOrReceived) {
+        val date = getDateTimeWithTime()
+        val materialRequestList = HashMap<String, MaterialRequestOrReceived>()
+        materialRequestList.put(materialList.materialId, materialList)
+        projectReference.child(projectId).child("MaterialReceived").child(date).setValue(materialRequestList)
+        projectReference.child(projectId).child("MaterialRequests").child(materialList.dateTimeStamp).child(materialList.materialId).removeValue()
+    }
+
+    fun updateMaterialReceivedToRequest(projectId: String, materialList: MaterialRequestOrReceived){
+        val date = getDateTimeWithTime()
+        val materialRequestList = HashMap<String, MaterialRequestOrReceived>()
+        materialRequestList.put(materialList.materialId, materialList)
+        projectReference.child(projectId).child("MaterialRequests").child(date).setValue(materialRequestList)
+        projectReference.child(projectId).child("MaterialReceived").child(materialList.dateTimeStamp).child(materialList.materialId).removeValue()
     }
 
 

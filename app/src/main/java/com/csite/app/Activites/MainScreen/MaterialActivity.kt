@@ -54,7 +54,7 @@ class MaterialActivity : AppCompatActivity() {
                         }
                     }
                 }
-                var adapter = MaterialTabListAdapter(requestList)
+                var adapter = MaterialTabListAdapter(requestList, "")
                 materialRequestsRecyclerView.adapter = adapter
                 adapter.notifyDataSetChanged()
                 materialRequestsRecyclerView.layoutManager = LinearLayoutManager(this@MaterialActivity)
