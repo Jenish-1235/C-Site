@@ -13,10 +13,9 @@ import com.csite.app.Objects.Material
 import com.csite.app.Objects.MaterialSelection
 import com.csite.app.R
 
-class MaterialSelectionListAdapter(context:Context, materialList: ArrayList<Material>) : RecyclerView.Adapter<MaterialSelectionListAdapter.MaterialSelectionViewHolder>(){
+class MaterialSelectionListAdapter(materialList: ArrayList<Material>) : RecyclerView.Adapter<MaterialSelectionListAdapter.MaterialSelectionViewHolder>(){
     var materialList: ArrayList<Material> = materialList
     var selectedMaterialHashMap: HashMap<String, MaterialSelection> = HashMap()
-    var context: Context = context
     class MaterialSelectionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var materialNameView = itemView.findViewById<TextView>(R.id.materialNameView)
         var materialGSTView = itemView.findViewById<TextView>(R.id.materialGSTView)

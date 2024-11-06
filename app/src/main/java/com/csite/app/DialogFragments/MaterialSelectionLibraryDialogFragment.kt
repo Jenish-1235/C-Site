@@ -41,12 +41,12 @@ class MaterialSelectionLibraryDialogFragment : DialogFragment() {
 
         var materialSelectionRecyclerView = view.findViewById<RecyclerView>(R.id.selectMaterialRecyclerView)
         var fetchedmaterialList = ArrayList<Material>()
-        var materialSelectionListAdapter = MaterialSelectionListAdapter(requireContext(), fetchedmaterialList)
+        var materialSelectionListAdapter = MaterialSelectionListAdapter(fetchedmaterialList)
         val firebaseOperationsForLibrary = FirebaseOperationsForLibrary()
         firebaseOperationsForLibrary.fetchMaterialsFromMaterialLibrary(object : FirebaseOperationsForLibrary.onMaterialListReceived {
             override fun onMaterialListReceived(materialList: ArrayList<Material>) {
                 fetchedmaterialList = materialList
-                materialSelectionListAdapter = MaterialSelectionListAdapter(requireContext(),fetchedmaterialList)
+                materialSelectionListAdapter = MaterialSelectionListAdapter(fetchedmaterialList)
                 materialSelectionRecyclerView.adapter = materialSelectionListAdapter
                 materialSelectionListAdapter.notifyDataSetChanged()
                 materialSelectionRecyclerView.layoutManager = LinearLayoutManager(context)
