@@ -8,10 +8,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.cmpte.app.Objects.TransactionMaterialPurchase
 import com.csite.app.Activites.ProjectFeatures.MaterialTab.NewMaterialReceivedActivity
 import com.csite.app.Activites.ProjectFeatures.MaterialTab.NewMaterialRequestActivity
 import com.csite.app.FirebaseOperations.FirebaseOperationsForProjectInternalMaterialTab
+import com.csite.app.FirebaseOperations.FirebaseOperationsForProjectInternalTransactions
 import com.csite.app.Objects.MaterialRequestOrReceived
+import com.csite.app.Objects.TransactionOtherExpense
+import com.csite.app.Objects.TransactionPaymentIn
+import com.csite.app.Objects.TransactionPaymentOut
+import com.csite.app.Objects.TransactionSalesInvoice
 import com.csite.app.R
 import com.csite.app.RecyclerViewListAdapters.MaterialTabListAdapter
 import com.google.android.material.tabs.TabLayout
@@ -44,6 +50,10 @@ class ProjectInternalMaterialFragment : Fragment() {
             newMaterialReceivedIntent.putExtra("projectId",projectId)
             startActivity(newMaterialReceivedIntent)
         }
+
+
+
+
         return view
     }
 
@@ -133,6 +143,43 @@ class ProjectInternalMaterialFragment : Fragment() {
         val memberAccess = bundle?.getString("memberAccess")
         if (projectId != null) {
             formTabLayout(requireView(), projectId )
+            val materialRequestView = view?.findViewById<TextView>(R.id.materialRequestCountView)
+            val materialReceivedView = view?.findViewById<TextView>(R.id.materialReceivedCountView)
+            val firebaseOperationsForProjectInternalMaterialTab = FirebaseOperationsForProjectInternalMaterialTab()
+            val list = ArrayList<MaterialRequestOrReceived>()
+            firebaseOperationsForProjectInternalMaterialTab.fetchMaterialRequests(projectId.toString(), object : FirebaseOperationsForProjectInternalMaterialTab.OnMaterialRequestReceived {
+                override fun onMaterialRequestReceived(materialRequestList: ArrayList<MaterialRequestOrReceived>) {
+                    list.clear()
+                    list.addAll(materialRequestList)
+                    materialRequestView?.setText(list.size.toString())
+                }
+            })
+            val list2 = ArrayList<MaterialRequestOrReceived>()
+            firebaseOperationsForProjectInternalMaterialTab.fetchMaterialReceived(projectId.toString(), object : FirebaseOperationsForProjectInternalMaterialTab.OnMaterialReceivedReceived {
+                override fun onMaterialReceivedReceived(materialRequestList: ArrayList<MaterialRequestOrReceived>) {
+                    list2.clear()
+                    list2.addAll(materialRequestList)
+                    materialReceivedView?.setText(list2.size.toString())
+                }
+            })
+
+            val totalPurchasedView = view?.findViewById<TextView>(R.id.materialPurchaseCountView)
+            val firebaseOperationsForProjectInternalTransactions = FirebaseOperationsForProjectInternalTransactions()
+            firebaseOperationsForProjectInternalTransactions.fetchTransactionsByType(projectId, object: FirebaseOperationsForProjectInternalTransactions.allTransactionFetch{
+                override fun onAllTransactionsFetched(
+                    transactions: MutableList<TransactionPaymentIn>,
+                    paymentOutTransaction: MutableList<TransactionPaymentOut>,
+                    otherExpenseTransaction: MutableList<TransactionOtherExpense>,
+                    salesInvoiceTransaction: MutableList<TransactionSalesInvoice>,
+                    materialPurchaseTransaction: MutableList<TransactionMaterialPurchase>
+                ) {
+                    totalPurchasedView?.setText(materialPurchaseTransaction.size.toString())
+                }
+
+            })
+
+
+
         }
     }
 }
