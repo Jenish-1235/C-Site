@@ -51,9 +51,6 @@ class ProjectInternalMaterialFragment : Fragment() {
             startActivity(newMaterialReceivedIntent)
         }
 
-
-
-
         return view
     }
 
@@ -79,7 +76,7 @@ class ProjectInternalMaterialFragment : Fragment() {
                         object :
                             FirebaseOperationsForProjectInternalMaterialTab.OnMaterialRequestReceived {
                             override fun onMaterialRequestReceived(materialRequestList: ArrayList<MaterialRequestOrReceived>) {
-                                val adapter = MaterialTabListAdapter(materialRequestList)
+                                val adapter = MaterialTabListAdapter(materialRequestList, projectId)
                                 materialTabRecyclerView.adapter = adapter
                                 adapter.notifyDataSetChanged()
                             }
@@ -89,7 +86,7 @@ class ProjectInternalMaterialFragment : Fragment() {
                     firebaseOperationsForProjectInternalMaterialTab.fetchMaterialReceived(projectId,
                         object : FirebaseOperationsForProjectInternalMaterialTab.OnMaterialReceivedReceived {
                             override fun onMaterialReceivedReceived(materialRequestList: ArrayList<MaterialRequestOrReceived>) {
-                                val adapter = MaterialTabListAdapter(materialRequestList)
+                                val adapter = MaterialTabListAdapter(materialRequestList, projectId)
                                 materialTabRecyclerView.adapter = adapter
                                 adapter.notifyDataSetChanged()
                             }
@@ -111,7 +108,7 @@ class ProjectInternalMaterialFragment : Fragment() {
                         object :
                             FirebaseOperationsForProjectInternalMaterialTab.OnMaterialRequestReceived {
                             override fun onMaterialRequestReceived(materialRequestList: ArrayList<MaterialRequestOrReceived>) {
-                                val adapter = MaterialTabListAdapter(materialRequestList)
+                                val adapter = MaterialTabListAdapter(materialRequestList, projectId)
                                 materialTabRecyclerView.adapter = adapter
                                 adapter.notifyDataSetChanged()
                             }
@@ -121,7 +118,7 @@ class ProjectInternalMaterialFragment : Fragment() {
                     firebaseOperationsForProjectInternalMaterialTab.fetchMaterialReceived(projectId,
                         object : FirebaseOperationsForProjectInternalMaterialTab.OnMaterialReceivedReceived {
                             override fun onMaterialReceivedReceived(materialRequestList: ArrayList<MaterialRequestOrReceived>) {
-                                val adapter = MaterialTabListAdapter(materialRequestList)
+                                val adapter = MaterialTabListAdapter(materialRequestList, projectId)
                                 materialTabRecyclerView.adapter = adapter
                                 adapter.notifyDataSetChanged()
                             }
@@ -152,6 +149,7 @@ class ProjectInternalMaterialFragment : Fragment() {
                     list.clear()
                     list.addAll(materialRequestList)
                     materialRequestView?.setText(list.size.toString())
+                    list.clear()
                 }
             })
             val list2 = ArrayList<MaterialRequestOrReceived>()
@@ -160,6 +158,7 @@ class ProjectInternalMaterialFragment : Fragment() {
                     list2.clear()
                     list2.addAll(materialRequestList)
                     materialReceivedView?.setText(list2.size.toString())
+                    list2.clear()
                 }
             })
 
