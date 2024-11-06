@@ -1,17 +1,10 @@
 package com.csite.app.FirebaseOperations
 
-import android.util.Log
-import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
 import com.csite.app.Objects.ProjectWorker
-import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.DatabaseReference.CompletionListener
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.values
 
 class FirebaseOperationsForProjectInternalAttendance {
     object FirebaseOperationsForProjectInternalAttendance{}
@@ -119,5 +112,47 @@ class FirebaseOperationsForProjectInternalAttendance {
 
     interface OnAttendanceWorkerFetched{
         fun onAttendanceWorkerFetched(workersList: ArrayList<ProjectWorker>)
+    }
+
+    fun checkCalculationExists(projectId: String, callback: (Boolean) -> Unit) {
+        projectReference.child(projectId).child("ProjectCalculation").addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val calculationExists = snapshot.exists()
+                callback(calculationExists)
+            }
+            override fun onCancelled(error: DatabaseError) {
+                callback(false)
+            }
+        })
+    }
+
+    fun saveOrUpdateCalculation(projectId: String, calculation: HashMap<String, HashMap<String, String>>, i: Int) {
+        if (i == 0){
+            projectReference.child(projectId).child("AttendanceCalculation").setValue(calculation)
+        }else{
+            projectReference.child(projectId).child("AttendanceCalculation").updateChildren(calculation as Map<String, Any>)
+        }
+    }
+
+    fun getCalculatedValues(projectId: String, date:String, callback:OnCalculatedValuesFetched){
+        val calculatedValues = HashMap<String, String>()
+        projectReference.child(projectId).child("AttendanceCalculation").child(date).addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                calculatedValues.clear()
+                for (calculatedValueSnapshot in snapshot.children) {
+                    val value = calculatedValueSnapshot.getValue(String::class.java)
+                    if (value != null) {
+                        calculatedValues[calculatedValueSnapshot.key!!] = value
+                    }
+                }
+                callback.onCalculatedValuesFetched(calculatedValues)
+            }
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
+    }
+
+    interface OnCalculatedValuesFetched{
+        fun onCalculatedValuesFetched(calculatedValues: HashMap<String, String>)
     }
 }

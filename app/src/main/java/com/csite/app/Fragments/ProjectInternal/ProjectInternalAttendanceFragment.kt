@@ -73,6 +73,16 @@ class ProjectInternalAttendanceFragment : Fragment() {
             val yesterday = date.minusDays(1)
             selectedDateTextView.text = yesterday.format(formatter)
             if (projectId != null) {
+                firebaseOperationsForProjectInternalAttendance.getCalculatedValues(projectId, selectedDateTextView.text.toString(), object : FirebaseOperationsForProjectInternalAttendance.OnCalculatedValuesFetched{
+                    override fun onCalculatedValuesFetched(calculatedHashMap: HashMap<String, String>) {
+                        val presentCountView = view.findViewById<TextView>(R.id.presentCountView)
+                        presentCountView.text = calculatedHashMap.get("totalPresent")
+                        val absentCountView = view.findViewById<TextView>(R.id.absentCountView)
+                        absentCountView.text = calculatedHashMap.get("totalAbsent")
+                        val salaryView = view.findViewById<TextView>(R.id.totalSalaryView)
+                        salaryView.text = calculatedHashMap.get("totalSalary")
+                    }
+                })
                 updateUI(view,projectId)
             }
 
@@ -87,13 +97,60 @@ class ProjectInternalAttendanceFragment : Fragment() {
                 val tomorrow = date.plusDays(1)
                 selectedDateTextView.text = tomorrow.format(formatter)
                 if (projectId != null) {
+                    firebaseOperationsForProjectInternalAttendance.getCalculatedValues(projectId, selectedDateTextView.text.toString(), object : FirebaseOperationsForProjectInternalAttendance.OnCalculatedValuesFetched{
+                        override fun onCalculatedValuesFetched(calculatedHashMap: HashMap<String, String>) {
+                            val presentCountView = view.findViewById<TextView>(R.id.presentCountView)
+                            presentCountView.text = calculatedHashMap.get("totalPresent")
+                            val absentCountView = view.findViewById<TextView>(R.id.absentCountView)
+                            absentCountView.text = calculatedHashMap.get("totalAbsent")
+                            val salaryView = view.findViewById<TextView>(R.id.totalSalaryView)
+                            salaryView.text = calculatedHashMap.get("totalSalary")
+                        }
+                    })
+                }
+                if (projectId != null) {
+
                     updateUI(view,projectId)
                 }
             }else{
                 if (projectId != null) {
+                    firebaseOperationsForProjectInternalAttendance.getCalculatedValues(projectId, selectedDateTextView.text.toString(), object : FirebaseOperationsForProjectInternalAttendance.OnCalculatedValuesFetched{
+                        override fun onCalculatedValuesFetched(calculatedHashMap: HashMap<String, String>) {
+                            val presentCountView = view.findViewById<TextView>(R.id.presentCountView)
+                            presentCountView.text = calculatedHashMap.get("totalPresent")
+                            val absentCountView = view.findViewById<TextView>(R.id.absentCountView)
+                            absentCountView.text = calculatedHashMap.get("totalAbsent")
+                            val salaryView = view.findViewById<TextView>(R.id.totalSalaryView)
+                            salaryView.text = calculatedHashMap.get("totalSalary")
+                        }
+                    })
+                }
+                if (projectId != null) {
                     updateUI(view, projectId)
                 }
             }
+        }
+
+        if (projectId != null) {
+            firebaseOperationsForProjectInternalAttendance.getCalculatedValues(projectId, selectedDateTextView.text.toString(), object : FirebaseOperationsForProjectInternalAttendance.OnCalculatedValuesFetched{
+                override fun onCalculatedValuesFetched(calculatedHashMap: HashMap<String, String>) {
+                    if (calculatedHashMap.get("totalPresent") != null) {
+                        val presentCountView = view.findViewById<TextView>(R.id.presentCountView)
+                        presentCountView.text = calculatedHashMap.get("totalPresent")
+                        val absentCountView = view.findViewById<TextView>(R.id.absentCountView)
+                        absentCountView.text = calculatedHashMap.get("totalAbsent")
+                        val salaryView = view.findViewById<TextView>(R.id.totalSalaryView)
+                        salaryView.text = "\u20b9 " +calculatedHashMap.get("totalSalary")
+                    }else{
+                        val presentCountView = view.findViewById<TextView>(R.id.presentCountView)
+                        presentCountView.text = "0"
+                        val absentCountView = view.findViewById<TextView>(R.id.absentCountView)
+                        absentCountView.text = "0"
+                        val salaryView = view.findViewById<TextView>(R.id.totalSalaryView)
+                        salaryView.text = "\u20b9 0.0"
+                    }
+                }
+            })
         }
 
         if (projectId != null) {
@@ -139,13 +196,6 @@ class ProjectInternalAttendanceFragment : Fragment() {
             }
         }
 
-
-        val saveAttendanceButton:Button = view.findViewById(R.id.saveAttendanceButton)
-        saveAttendanceButton.setOnClickListener{
-            if (projectId != null) {
-
-            }
-        }
         return view
     }
 
@@ -184,6 +234,52 @@ class ProjectInternalAttendanceFragment : Fragment() {
                                             val adapter = AttendanceListAdapter(workersList)
                                             attendanceRecyclerView.adapter = adapter
                                             adapter.notifyDataSetChanged()
+                                            val saveAttendanceButton = view.findViewById<Button>(R.id.saveAttendanceButton)
+                                            saveAttendanceButton.setOnClickListener{
+                                                var count = 0
+                                                var salary = 0.0
+//                                                Toast.makeText(requireActivity(), adapter.getAttendanceList().size.toString(), Toast.LENGTH_SHORT).show()
+                                                for(worker in adapter.getAttendanceList()){
+                                                    if (worker.value.wIsPresent.equals("true")){
+                                                        count++
+                                                        salary += worker.value.wSalaryPerDay.toDouble()
+                                                    }else{
+                                                        salary += 0
+                                                    }
+                                                }
+                                                val presentCountView = view.findViewById<TextView>(R.id.presentCountView)
+                                                presentCountView.text = count.toString()
+                                                val absentCountView = view.findViewById<TextView>(R.id.absentCountView)
+                                                absentCountView.text = (adapter.getAttendanceList().size - count).toString()
+                                                val salaryView = view.findViewById<TextView>(R.id.totalSalaryView)
+                                                salaryView.text = salary.toString()
+
+                                                firebaseOperationsForProjectInternalAttendance.updateAttendance(projectId,selectedDateTextView.text.toString(),adapter.getAttendanceList())
+
+                                                var calculatedHashMap : HashMap<String, String> = HashMap()
+                                                calculatedHashMap.put("totalPresent",count.toString())
+                                                calculatedHashMap.put("totalAbsent",(adapter.getAttendanceList().size - count).toString())
+                                                calculatedHashMap.put("totalSalary",salary.toString())
+
+                                                var calculatedHashMapWithDate = HashMap<String,HashMap<String,String>>()
+                                                calculatedHashMapWithDate.put(selectedDateTextView.text.toString(),calculatedHashMap)
+                                                var calculationHashMapWithChild = HashMap<String,HashMap<String,HashMap<String,String>>>()
+                                                calculationHashMapWithChild.put("AttendanceCalculation",calculatedHashMapWithDate)
+                                                firebaseOperationsForProjectInternalAttendance.checkCalculationExists(projectId) { calculatedExist ->
+                                                    if (calculatedExist) {
+                                                        firebaseOperationsForProjectInternalAttendance.saveOrUpdateCalculation(
+                                                            projectId,
+                                                            calculatedHashMapWithDate,0
+                                                        )
+                                                    } else {
+                                                        firebaseOperationsForProjectInternalAttendance.saveOrUpdateCalculation(
+                                                            projectId,
+                                                            calculatedHashMapWithDate,1
+                                                        )
+                                                    }
+                                                }
+
+                                            }
                                         }
                                     })
                                 }else{

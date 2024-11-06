@@ -18,4 +18,5 @@ data class ProjectWorker(
     var wSalaryPerDay: String = "",
     var wId: String = "",
     var wIsSelected: Boolean = false,
+    var wIsPresent: String = "null"
 )
