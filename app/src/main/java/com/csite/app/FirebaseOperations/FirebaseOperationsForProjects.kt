@@ -79,7 +79,7 @@ class FirebaseOperationsForProjects {
     }
 
     fun getProjectMembers(projectId: String, callback: (List<Member>) -> Unit) {
-        projectReference.child(projectId).child("projectMembers").addListenerForSingleValueEvent(object : ValueEventListener {
+        projectReference.child(projectId).child("projectMembers").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val members = mutableListOf<Member>()
                 for (memberSnapshot in snapshot.children) {
@@ -123,5 +123,15 @@ class FirebaseOperationsForProjects {
             }
 
         })
+    }
+
+    fun addProjectMember(member:Member, projectId: String){
+        projectReference.child(projectId).child("projectMembers").child(member.mobileNumber).setValue(member)
+        if (FirebaseDatabase.getInstance().getReference("Members").child(member.mobileNumber).get().isSuccessful){
+            FirebaseDatabase.getInstance().getReference("Members").child(member.mobileNumber).child("memberAccess").setValue(member.memberAccess)
+            FirebaseDatabase.getInstance().getReference("Members").child(member.mobileNumber).child("memberName").setValue(member.name)
+        }else{
+            FirebaseDatabase.getInstance().getReference("Members").child(member.mobileNumber).setValue(member)
+        }
     }
 }

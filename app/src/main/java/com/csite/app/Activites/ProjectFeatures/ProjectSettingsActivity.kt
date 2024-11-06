@@ -10,6 +10,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.csite.app.DialogFragments.AddNewProjectMemberDialogFragment
 import com.csite.app.FirebaseOperations.FirebaseOperationsForProjects
 import com.csite.app.Objects.Member
 import com.csite.app.Objects.Project
@@ -81,7 +82,8 @@ class ProjectSettingsActivity : AppCompatActivity() {
         }
 
         b.addMembersButton.setOnClickListener {
-
+            val addNewProjectMemberDialogFragment = AddNewProjectMemberDialogFragment()
+            addNewProjectMemberDialogFragment.show(supportFragmentManager, "add new member")
         }
 
         b.leaveProjectButton.setOnClickListener {
@@ -128,4 +130,5 @@ class ProjectSettingsActivity : AppCompatActivity() {
     fun backButton(view: View){
         finish()
     }
+
 }
