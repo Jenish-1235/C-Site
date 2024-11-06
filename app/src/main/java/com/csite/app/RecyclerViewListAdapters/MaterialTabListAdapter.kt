@@ -11,7 +11,7 @@ import java.text.DateFormat
 import java.text.SimpleDateFormat
 
 class MaterialTabListAdapter(materialList: ArrayList<MaterialRequestOrReceived>): RecyclerView.Adapter<MaterialTabListAdapter.MaterialTabViewHolder>() {
-    private val materialList = materialList
+    private var materialList = materialList
 
     class MaterialTabViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val dateTextView = itemView.findViewById<TextView>(R.id.materialDateView)
@@ -35,9 +35,9 @@ class MaterialTabListAdapter(materialList: ArrayList<MaterialRequestOrReceived>)
     ) {
         val currentItem = materialList[position]
         var date = currentItem.dateTimeStamp
-
-        date = date.substring(0, 10)
-        holder.dateTextView.text = date
+//
+//        date = date.substring(0, 10)
+//        holder.dateTextView.text = date
         holder.materialNameView.text = currentItem.materialName
         holder.materialQuantityView.text = currentItem.materialQuantity + " " + currentItem.materialUnit
         holder.materialCategoryView.text = currentItem.materialCategory
