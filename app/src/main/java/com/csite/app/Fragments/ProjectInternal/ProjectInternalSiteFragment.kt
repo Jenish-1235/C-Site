@@ -61,6 +61,7 @@ class ProjectInternalSiteFragment : Fragment(){
             val date = LocalDate.parse(selectedDate, formatter)
             val yesterday = date.minusDays(1)
             selectedDateView.text = yesterday.format(formatter)
+            updateUI(view, projectId.toString())
         }
 
         selectedDateView.text = getTodayDate()
@@ -74,9 +75,11 @@ class ProjectInternalSiteFragment : Fragment(){
                 Toast.makeText(context, "Can't select future date", Toast.LENGTH_SHORT).show()
             }else{
                 selectedDateView.text = tommorow.format(formatter)
+                updateUI(view, projectId.toString())
             }
         }
 
+        updateUI(view, projectId.toString())
 
         var count = 0
         createDprButton.setOnClickListener {
@@ -138,6 +141,37 @@ class ProjectInternalSiteFragment : Fragment(){
         val current = LocalDate.now()
         val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
         return current.format(formatter)
+    }
+
+    fun updateUI(view: View, projectId:String){
+        val presentCount = view.findViewById<TextView>(R.id.labourCount)
+        val materialReceivedView = view.findViewById<TextView>(R.id.recievedCount)
+        val selectedDateView = view.findViewById<TextView>(R.id.currentSelectedDateView)
+
+        firebaseOperationsForProjectInternalMaterialTab.fetchMaterialReceived(projectId, object : FirebaseOperationsForProjectInternalMaterialTab.OnMaterialReceivedReceived{
+            override fun onMaterialReceivedReceived(materialReceivedList: ArrayList<MaterialRequestOrReceived>) {
+                var count = 0
+                for(material in materialReceivedList){
+                    if(material.dateTimeStamp.substring(0, 10) == selectedDateView.text.toString()){
+                        count++
+                    }
+                }
+                materialReceivedView.text = count.toString()
+            }
+        })
+
+        firebaseOperationsForProjectInternalAttendance.getWorkersForExistingAttendance(projectId, selectedDateView.text.toString(), object : FirebaseOperationsForProjectInternalAttendance.OnAttendanceWorkerFetched{
+            override fun onAttendanceWorkerFetched(workersList: ArrayList<ProjectWorker>) {
+                var count = 0
+                for(worker in workersList) {
+                    if (worker.wIsPresent == "true") {
+                        count++
+                    }
+                }
+                presentCount.text = count.toString()
+            }
+        })
+
     }
 
 }
