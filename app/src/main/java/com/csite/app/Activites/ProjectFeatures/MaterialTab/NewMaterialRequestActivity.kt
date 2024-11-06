@@ -2,6 +2,7 @@ package com.csite.app.Activites.ProjectFeatures.MaterialTab
 
 import android.content.res.ColorStateList
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
@@ -43,22 +44,28 @@ class NewMaterialRequestActivity : AppCompatActivity(), MaterialSelectionLibrary
 
         val makeRequestButton = findViewById<Button>(R.id.makeRequestButton)
         makeRequestButton.setOnClickListener {
-            Toast.makeText(this, "Request Made", Toast.LENGTH_SHORT).show()
-            var requestedMaterialHashMap = newMaterialRequestListAdapter.getFinalMaterialList()
 
-
-            if(requestedMaterialHashMap.size == 0){
-                Toast.makeText(this, "No Materials Selected", Toast.LENGTH_SHORT).show()
-                finish()
-            }else{
-                val projectId = intent.getStringExtra("projectId")
-                val firebaseOperationsForProjectInternalMaterialTab = FirebaseOperationsForProjectInternalMaterialTab()
-                if (projectId != null) {
-                    firebaseOperationsForProjectInternalMaterialTab.saveMaterialRequests(projectId, requestedMaterialHashMap)
-                    finish()
-                }else{
-                    Toast.makeText(this, "Project id NOT FOUND", Toast.LENGTH_SHORT).show()
+            try {
+                var requestedMaterialHashMap = newMaterialRequestListAdapter.getFinalMaterialList()
+                if (requestedMaterialHashMap.size == 0) {
+                    Toast.makeText(this, "No Materials Selected", Toast.LENGTH_SHORT).show()
+                } else {
+                    val projectId = intent.getStringExtra("projectId")
+                    val firebaseOperationsForProjectInternalMaterialTab =
+                        FirebaseOperationsForProjectInternalMaterialTab()
+                    if (projectId != null) {
+                        firebaseOperationsForProjectInternalMaterialTab.saveMaterialRequests(
+                            projectId,
+                            requestedMaterialHashMap
+                        )
+                        finish()
+                    } else {
+                        Toast.makeText(this, "Project id NOT FOUND", Toast.LENGTH_SHORT).show()
+                    }
                 }
+            }catch (e:Exception){
+                Toast.makeText(this, "Error: $e", Toast.LENGTH_SHORT).show()
+                Log.e("Error", e.toString())
             }
         }
 
@@ -70,7 +77,7 @@ class NewMaterialRequestActivity : AppCompatActivity(), MaterialSelectionLibrary
     }
 
     var materialList = ArrayList<MaterialSelection>()
-    lateinit var newMaterialRequestListAdapter : NewMaterialRequestListAdapter
+    var newMaterialRequestListAdapter : NewMaterialRequestListAdapter = NewMaterialRequestListAdapter(materialList)
     override fun sendMaterialList(selectedMaterialList: ArrayList<MaterialSelection>) {
         materialList.clear()
         materialList = selectedMaterialList
