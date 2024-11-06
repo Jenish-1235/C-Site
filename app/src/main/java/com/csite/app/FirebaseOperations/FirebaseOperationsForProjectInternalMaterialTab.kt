@@ -42,24 +42,29 @@ class FirebaseOperationsForProjectInternalMaterialTab {
             ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 materialRequestList.clear()
-                for(materialRequest in snapshot.children) {
-                    dateTimeStamp = ""
-                    for (material in materialRequest.children) {
-                        val materialSelection = material.getValue(MaterialSelection::class.java)
-                        var newMaterialRequest = MaterialRequestOrReceived()
-                        newMaterialRequest.type = "Request"
-                        newMaterialRequest.dateTimeStamp = materialRequest.key.toString()
-                        if (materialSelection != null) {
-                            materialRequestList.add(materialSelection)
-                            newMaterialRequest.materialId = materialSelection.materialId
-                            newMaterialRequest.materialQuantity = materialSelection.materialQuantity
-                            newMaterialRequest.materialName = materialSelection.materialName
-                            newMaterialRequest.materialUnit = materialSelection.materialUnit
-                            newMaterialRequest.materialCategory = materialSelection.materialCategory
-                            materialRequestList2.add(newMaterialRequest)
+                if (snapshot.exists()) {
+                    for (materialRequest in snapshot.children) {
+                        dateTimeStamp = ""
+                        for (material in materialRequest.children) {
+                            val materialSelection = material.getValue(MaterialSelection::class.java)
+                            var newMaterialRequest = MaterialRequestOrReceived()
+                            newMaterialRequest.type = "Request"
+                            newMaterialRequest.dateTimeStamp = materialRequest.key.toString()
+                            if (materialSelection != null) {
+                                materialRequestList.add(materialSelection)
+                                newMaterialRequest.materialId = materialSelection.materialId
+                                newMaterialRequest.materialQuantity =
+                                    materialSelection.materialQuantity
+                                newMaterialRequest.materialName = materialSelection.materialName
+                                newMaterialRequest.materialUnit = materialSelection.materialUnit
+                                newMaterialRequest.materialCategory =
+                                    materialSelection.materialCategory
+                                materialRequestList2.add(newMaterialRequest)
+                            }
                         }
+                        callback.onMaterialRequestReceived(materialRequestList2)
                     }
-                    Log.d("TAG", "onDataChange: ${materialRequestList2[0].materialId} + ${materialRequestList2[1].materialId}")
+                }else{
                     callback.onMaterialRequestReceived(materialRequestList2)
                 }
             }
@@ -81,23 +86,29 @@ class FirebaseOperationsForProjectInternalMaterialTab {
             ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 materialRequestList.clear()
-                for(materialRequest in snapshot.children) {
-                    dateTimeStamp = ""
-                    for (material in materialRequest.children) {
-                        val materialSelection = material.getValue(MaterialSelection::class.java)
-                        var newMaterialRequest = MaterialRequestOrReceived()
-                        newMaterialRequest.type = "Received"
-                        newMaterialRequest.dateTimeStamp = materialRequest.key.toString()
-                        if (materialSelection != null) {
-                            materialRequestList.add(materialSelection)
-                            newMaterialRequest.materialId = materialSelection.materialId
-                            newMaterialRequest.materialQuantity = materialSelection.materialQuantity
-                            newMaterialRequest.materialName = materialSelection.materialName
-                            newMaterialRequest.materialUnit = materialSelection.materialUnit
-                            newMaterialRequest.materialCategory = materialSelection.materialCategory
-                            materialRequestList2.add(newMaterialRequest)
+                if (snapshot.exists()) {
+                    for (materialRequest in snapshot.children) {
+                        dateTimeStamp = ""
+                        for (material in materialRequest.children) {
+                            val materialSelection = material.getValue(MaterialSelection::class.java)
+                            var newMaterialRequest = MaterialRequestOrReceived()
+                            newMaterialRequest.type = "Received"
+                            newMaterialRequest.dateTimeStamp = materialRequest.key.toString()
+                            if (materialSelection != null) {
+                                materialRequestList.add(materialSelection)
+                                newMaterialRequest.materialId = materialSelection.materialId
+                                newMaterialRequest.materialQuantity =
+                                    materialSelection.materialQuantity
+                                newMaterialRequest.materialName = materialSelection.materialName
+                                newMaterialRequest.materialUnit = materialSelection.materialUnit
+                                newMaterialRequest.materialCategory =
+                                    materialSelection.materialCategory
+                                materialRequestList2.add(newMaterialRequest)
+                            }
                         }
+                        callback.onMaterialReceivedReceived(materialRequestList2)
                     }
+                }else{
                     callback.onMaterialReceivedReceived(materialRequestList2)
                 }
             }

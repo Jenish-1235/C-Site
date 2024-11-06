@@ -45,8 +45,6 @@ class NewMaterialReceivedActivity : AppCompatActivity(), MaterialSelectionLibrar
         makeRequestButton.setOnClickListener {
             Toast.makeText(this, "Request Made", Toast.LENGTH_SHORT).show()
             var requestedMaterialHashMap = newMaterialRequestListAdapter.getFinalMaterialList()
-
-
             if(requestedMaterialHashMap.size == 0){
                 Toast.makeText(this, "No Materials Selected", Toast.LENGTH_SHORT).show()
                 finish()

@@ -44,14 +44,12 @@ class ProjectInternalMaterialFragment : Fragment() {
             newMaterialReceivedIntent.putExtra("projectId",projectId)
             startActivity(newMaterialReceivedIntent)
         }
-
-        formTabLayout(view,projectId!!)
         return view
     }
 
     fun formTabLayout(view: View,projectId:String){
         val tabLayout = view.findViewById<TabLayout>(R.id.materialTabLLayout)
-
+        tabLayout.removeAllTabs()
         val requestTab = tabLayout.newTab()
         requestTab.setText("Request")
         tabLayout.addTab(requestTab)
@@ -64,9 +62,8 @@ class ProjectInternalMaterialFragment : Fragment() {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 val materialTabRecyclerView = view.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.materialTabRecyclerView)
                 materialTabRecyclerView.layoutManager = LinearLayoutManager(requireActivity())
-                val list = ArrayList<MaterialRequestOrReceived>()
                 val firebaseOperationsForProjectInternalMaterialTab = FirebaseOperationsForProjectInternalMaterialTab()
-
+                val list = ArrayList<MaterialRequestOrReceived>()
                 if(tab?.getPosition() == 0) {
                     firebaseOperationsForProjectInternalMaterialTab.fetchMaterialRequests(projectId,
                         object :
@@ -127,5 +124,15 @@ class ProjectInternalMaterialFragment : Fragment() {
         tabLayout.getTabAt(0)?.select()
         requestTab.select()
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val bundle = getArguments()
+        var projectId = bundle?.getString("projectId")
+        val memberAccess = bundle?.getString("memberAccess")
+        if (projectId != null) {
+            formTabLayout(requireView(), projectId )
+        }
     }
 }
