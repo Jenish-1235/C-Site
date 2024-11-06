@@ -6,17 +6,17 @@ class TransactionSalesInvoice {
     var transactionDate = "";
     var transactionParty = "";
     var siCategory = ""
-    var siAdditionalCharge:String? = null
-    var siDiscount:String? = null
+    var siAdditionalCharge:String = ""
+    var siDiscount:String = ""
     var transactionAmount = ""
-    var transactionDescription: String? = ""
+    var transactionDescription: String = ""
     var siItems: HashMap<String, MaterialSelection> =  HashMap<String, MaterialSelection>();
     var transactionId = "";
     var transactionType = "Sales Invoice"
 
     constructor()
 
-    constructor(siDate: String, siParty: String, siCategory: String, siAdditionalCharge: String?, siDiscount: String?, siTotal: String, siNotes: String?, siItems: HashMap<String, MaterialSelection>){
+    constructor(siDate: String, siParty: String, siCategory: String, siAdditionalCharge: String, siDiscount: String, siTotal: String, siNotes: String, siItems: HashMap<String, MaterialSelection>){
         this.transactionDate = siDate;
         this.transactionParty = siParty;
         this.siCategory = siCategory;

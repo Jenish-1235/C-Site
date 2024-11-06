@@ -1,17 +1,17 @@
 package com.csite.app.Objects
 
 class TransactionPaymentOut {
-    var transactionDate: String? = null
-    var transactionParty: String? = null
-    var transactionAmount: String? = null
-    var paymentOutTransactionPaymentMode: String? = null
-    var transactionDescription: String? = null
-    var paymentOutTrasactionCostCode: String? = null
-    var paymentOutTransactionCategory:String? = null
-    var transactionId: String? = null
+    var transactionDate: String = ""
+    var transactionParty: String = ""
+    var transactionAmount: String = ""
+    var paymentOutTransactionPaymentMode: String = ""
+    var transactionDescription: String = ""
+    var paymentOutTrasactionCostCode: String = ""
+    var paymentOutTransactionCategory:String = ""
+    var transactionId: String = ""
     var transactionType = "Payment Out"
 
-    constructor(paymentOutTransactionDate: String?, paymentOutTransactionPaymentToParty: String?, paymentOutTransactionAmount: String?, paymentOutTransactionDescription: String?, paymentOutTransactionPaymentMode: String?, paymentOutTrasactionCostCode: String?, paymentOutTransactionCategory:String?){
+    constructor(paymentOutTransactionDate: String, paymentOutTransactionPaymentToParty: String, paymentOutTransactionAmount: String, paymentOutTransactionDescription: String, paymentOutTransactionPaymentMode: String, paymentOutTrasactionCostCode: String, paymentOutTransactionCategory:String){
         this.transactionDate = paymentOutTransactionDate
         this.transactionParty = paymentOutTransactionPaymentToParty
         this.transactionAmount = paymentOutTransactionAmount

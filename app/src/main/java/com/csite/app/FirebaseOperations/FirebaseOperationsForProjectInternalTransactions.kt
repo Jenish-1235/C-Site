@@ -153,4 +153,65 @@ class FirebaseOperationsForProjectInternalTransactions {
     interface OnCalculated{
         fun onCalculated(calculations:ArrayList<String>)
     }
+
+
+    fun fetchTransactionsByType(projectId: String, callback: allTransactionFetch) {
+        var paymentInTransaction = mutableListOf<TransactionPaymentIn>()
+        var paymentOutTransaction = mutableListOf<TransactionPaymentOut>()
+        var otherExpenseTransaction = mutableListOf<TransactionOtherExpense>()
+        var salesInvoiceTransaction = mutableListOf<TransactionSalesInvoice>()
+        var materialPurchaseTransaction = mutableListOf<TransactionMaterialPurchase>()
+        projectReference.child(projectId).child("Transactions").addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                paymentInTransaction.clear()
+                paymentOutTransaction.clear()
+                otherExpenseTransaction.clear()
+                salesInvoiceTransaction.clear()
+                materialPurchaseTransaction.clear()
+                for (transactionSnapshot in snapshot.children) {
+                    for (transaction in transactionSnapshot.children) {
+                        when (transactionSnapshot.key) {
+                            "PaymentIn" -> {
+                                val paymentIn =
+                                    transaction.getValue(TransactionPaymentIn::class.java)
+                                paymentInTransaction.add(paymentIn!!)
+                            }
+
+                            "PaymentOut" -> {
+                                val paymentOut =
+                                    transaction.getValue(TransactionPaymentOut::class.java)
+                                paymentOutTransaction.add(paymentOut!!)
+                            }
+
+                            "OtherExpense" -> {
+                                val otherExpense =
+                                    transaction.getValue(TransactionOtherExpense::class.java)
+                                otherExpenseTransaction.add(otherExpense!!)
+                            }
+
+                            "SalesInvoice" -> {
+                                val salesInvoice =
+                                    transaction.getValue(TransactionSalesInvoice::class.java)
+                                salesInvoiceTransaction.add(salesInvoice!!)
+                            }
+
+                            "MaterialPurchase" -> {
+                                val materialPurchase =
+                                    transaction.getValue(TransactionMaterialPurchase::class.java)
+                                materialPurchaseTransaction.add(materialPurchase!!)
+                            }
+                        }
+                    }
+                    callback.onAllTransactionsFetched(paymentInTransaction,paymentOutTransaction,otherExpenseTransaction,salesInvoiceTransaction,materialPurchaseTransaction)
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
+
+    }
+    interface allTransactionFetch{
+        fun onAllTransactionsFetched(transactions: MutableList<TransactionPaymentIn>, paymentOutTransaction: MutableList<TransactionPaymentOut>,otherExpenseTransaction: MutableList<TransactionOtherExpense>, salesInvoiceTransaction: MutableList<TransactionSalesInvoice>, materialPurchaseTransaction: MutableList<TransactionMaterialPurchase>)
+
+    }
 }

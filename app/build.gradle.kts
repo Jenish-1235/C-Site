@@ -38,6 +38,7 @@ android {
     buildFeatures {
         viewBinding = true
     }
+
 }
 
 dependencies {
@@ -60,6 +61,11 @@ dependencies {
     implementation ("at.favre.lib:bcrypt:0.9.0")
     implementation ("org.apache.poi:poi-ooxml:5.2.3")
 
+    // iText PDF Library (you can use version 5.x)
+    implementation("com.itextpdf:itext7-core:7.1.15")
+
+    // For handling file paths (optional)
+    implementation ("androidx.documentfile:documentfile:1.0.1")
 
 
 }

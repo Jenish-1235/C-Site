@@ -139,9 +139,9 @@ class NewMaterialPurchaseTransactionActivity : AppCompatActivity(), PartySelecti
             val transactionDate = b.materialPurchaseTransactionDateInput.text.toString()
             val partyName = b.materialPurchaseTransactionPaymentTo.text.toString()
             val category = b.materialPurchaseTrasactionCategoryInput.text.toString()
-            var additionalCharges: String? = b.materialPurchaseTrasactionAdditionalChargesInput.text.toString()
-            var discount:String? = b.materialPurchaseTrasactionDiscountInput.text.toString()
-            var notes: String? = b.materialPurchaseTrasactionNotesInput.text.toString()
+            var additionalCharges: String = b.materialPurchaseTrasactionAdditionalChargesInput.text.toString()
+            var discount:String = b.materialPurchaseTrasactionDiscountInput.text.toString()
+            var notes: String = b.materialPurchaseTrasactionNotesInput.text.toString()
             var totalAmount = 0f
             val finalMaterialList: HashMap<String, MaterialSelection> = adapter.getFinalMaterialList()
             for(value in finalMaterialList.values){
@@ -149,25 +149,19 @@ class NewMaterialPurchaseTransactionActivity : AppCompatActivity(), PartySelecti
                 val currAmount = value.subTotal.toFloat()
                 totalAmount += currAmount
             }
-            if (additionalCharges != null) {
-                if (additionalCharges.isNotEmpty()){
-                    totalAmount += additionalCharges.toFloat()
-                }else{
-                    additionalCharges = null
-                }
+            if (additionalCharges.isNotEmpty()){
+                totalAmount += additionalCharges.toFloat()
+            }else{
+                additionalCharges = ""
             }
-            if (discount != null) {
-                if (discount.isNotEmpty()){
-                    totalAmount -= discount.toFloat()
-                }else{
-                    discount = null
-                }
+            if (discount.isNotEmpty()){
+                totalAmount -= discount.toFloat()
+            }else{
+                discount = ""
             }
 
-            if (notes != null) {
-                if (notes.isEmpty()){
-                    notes = null
-                }
+            if (notes.isEmpty()){
+                notes = ""
             }
 
             if (transactionDate.isEmpty() || partyName.isEmpty() || category.isEmpty() || finalMaterialList.isEmpty()) {
