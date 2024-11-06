@@ -24,8 +24,7 @@ import com.csite.app.databinding.ActivityNewMaterialPurchaseTransactionBinding
 import java.util.HashMap
 
 class NewMaterialPurchaseTransactionActivity : AppCompatActivity(), PartySelectionLibraryDialogFragment.OnPartySelectedListener , MaterialSelectionLibraryDialogFragment.OnMaterialListReceived{
-    
-    var selectedParty : Party? = null
+
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -134,53 +133,62 @@ class NewMaterialPurchaseTransactionActivity : AppCompatActivity(), PartySelecti
 
 
         b.saveButton.setOnClickListener {
-
-            val projectId = intent.getStringExtra("projectId")
-            val transactionDate = b.materialPurchaseTransactionDateInput.text.toString()
-            val partyName = b.materialPurchaseTransactionPaymentTo.text.toString()
-            val category = b.materialPurchaseTrasactionCategoryInput.text.toString()
-            var additionalCharges: String = b.materialPurchaseTrasactionAdditionalChargesInput.text.toString()
-            var discount:String = b.materialPurchaseTrasactionDiscountInput.text.toString()
-            var notes: String = b.materialPurchaseTrasactionNotesInput.text.toString()
-            var totalAmount = 0f
-            val finalMaterialList: HashMap<String, MaterialSelection> = adapter.getFinalMaterialList()
-            for(value in finalMaterialList.values){
-//                Toast.makeText(this, value.materialQuantity, Toast.LENGTH_SHORT).show()
-                val currAmount = value.subTotal.toFloat()
-                totalAmount += currAmount
-            }
-            if (additionalCharges.isNotEmpty()){
-                totalAmount += additionalCharges.toFloat()
-            }else{
-                additionalCharges = ""
-            }
-            if (discount.isNotEmpty()){
-                totalAmount -= discount.toFloat()
-            }else{
-                discount = ""
-            }
-
-            if (notes.isEmpty()){
-                notes = ""
-            }
-
-            if (transactionDate.isEmpty() || partyName.isEmpty() || category.isEmpty() || finalMaterialList.isEmpty()) {
-                Toast.makeText(this, "Please fill all the fields", Toast.LENGTH_SHORT).show()
-            } else {
-                val siTransaction = TransactionMaterialPurchase(transactionDate, partyName, category, additionalCharges, discount,
-                    totalAmount.toString(), notes,finalMaterialList)
-                val firebaseOperationsForProjectInternalTransactions = FirebaseOperationsForProjectInternalTransactions()
-                if (projectId != null) {
-                    firebaseOperationsForProjectInternalTransactions.saveMaterialPurchaseTransaction(projectId, siTransaction)
-                    finish()
-                }else{
-                    Toast.makeText(this, "Project ID is null", Toast.LENGTH_SHORT).show()
+            try {
+                Toast.makeText(this, selectedParty?.partyId.toString(), Toast.LENGTH_SHORT).show()
+                val projectId = intent.getStringExtra("projectId")
+                val transactionDate = b.materialPurchaseTransactionDateInput.text.toString()
+                val partyName = b.materialPurchaseTransactionPaymentTo.text.toString()
+                val category = b.materialPurchaseTrasactionCategoryInput.text.toString()
+                var additionalCharges: String =
+                    b.materialPurchaseTrasactionAdditionalChargesInput.text.toString()
+                var discount: String = b.materialPurchaseTrasactionDiscountInput.text.toString()
+                var notes: String = b.materialPurchaseTrasactionNotesInput.text.toString()
+                var totalAmount = 0f
+                val finalMaterialList: HashMap<String, MaterialSelection> =
+                    adapter.getFinalMaterialList()
+                for (value in finalMaterialList.values) {
+                    val currAmount = value.subTotal.toFloat()
+                    totalAmount += currAmount
                 }
+                if (additionalCharges.isNotEmpty()) {
+                    totalAmount += additionalCharges.toFloat()
+                } else {
+                    additionalCharges = ""
+                }
+                if (discount.isNotEmpty()) {
+                    totalAmount -= discount.toFloat()
+                } else {
+                    discount = ""
+                }
+
+                if (notes.isEmpty()) {
+                    notes = ""
+                }
+
+                if (transactionDate.isEmpty() || partyName.isEmpty() || category.isEmpty() || finalMaterialList.isEmpty()) {
+                    Toast.makeText(this, "Please fill all the fields", Toast.LENGTH_SHORT).show()
+                } else {
+                    val siTransaction = TransactionMaterialPurchase(
+                        transactionDate, partyName, category, additionalCharges, discount,
+                        totalAmount.toString(), notes, finalMaterialList
+                    )
+                    val firebaseOperationsForProjectInternalTransactions =
+                        FirebaseOperationsForProjectInternalTransactions()
+                    if (projectId != null) {
+                        firebaseOperationsForProjectInternalTransactions.saveMaterialPurchaseTransaction(
+                            projectId,
+                            siTransaction
+                        )
+
+                        finish()
+                    } else {
+                        Toast.makeText(this, "Project ID is null", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }catch (e: Exception){
+                Toast.makeText(this, "Please Fill Details Correctly", Toast.LENGTH_SHORT).show()
             }
         }
-
-
-
 
     }
     
@@ -195,7 +203,8 @@ class NewMaterialPurchaseTransactionActivity : AppCompatActivity(), PartySelecti
     fun cameraButton(view:View){
         
     }
-    
+
+    var selectedParty : Party? = null
     override fun onPartySelected(party: Party?) {
         selectedParty = party
         val materialPurchaseTransactionToInput = findViewById<EditText>(R.id.materialPurchaseTransactionPaymentTo)

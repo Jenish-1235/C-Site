@@ -4,6 +4,7 @@ import com.cmpte.app.Objects.TransactionMaterialPurchase
 import com.csite.app.Objects.CommonTransaction
 import com.csite.app.Objects.MaterialRequestOrReceived
 import com.csite.app.Objects.MaterialSelection
+import com.csite.app.Objects.PartyPayForProjects
 import com.csite.app.Objects.TransactionOtherExpense
 import com.csite.app.Objects.TransactionPaymentIn
 import com.csite.app.Objects.TransactionPaymentOut
@@ -92,7 +93,6 @@ class FirebaseOperationsForProjectInternalTransactions {
 
         val firebaseOperationsForProjectInternalMaterialTab = FirebaseOperationsForProjectInternalMaterialTab()
         firebaseOperationsForProjectInternalMaterialTab.saveMaterialReceived(projectId, listOfMaterialReceived)
-
     }
 
     // 6. Fetch All Transaction
@@ -212,6 +212,5 @@ class FirebaseOperationsForProjectInternalTransactions {
     }
     interface allTransactionFetch{
         fun onAllTransactionsFetched(transactions: MutableList<TransactionPaymentIn>, paymentOutTransaction: MutableList<TransactionPaymentOut>,otherExpenseTransaction: MutableList<TransactionOtherExpense>, salesInvoiceTransaction: MutableList<TransactionSalesInvoice>, materialPurchaseTransaction: MutableList<TransactionMaterialPurchase>)
-
     }
 }
