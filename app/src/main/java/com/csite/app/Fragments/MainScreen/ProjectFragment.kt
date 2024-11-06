@@ -64,12 +64,12 @@ class ProjectFragment : Fragment() {
         val mobileNumber: String = mobileNumberSharedPreferences.getString("mobileNumber", "").toString()
 
         // Get Project List From Firebase
-        var projectListAdapter: ProjectListAdapter = ProjectListAdapter(ArrayList())
+        var projectListAdapter: ProjectListAdapter = ProjectListAdapter(requireActivity(), ArrayList())
         val projectListRecyclerView: RecyclerView = view.findViewById(R.id.projectListRecyclerView)
         val firebaseOperationsForProjects: FirebaseOperationsForProjects = FirebaseOperationsForProjects()
         firebaseOperationsForProjects.getProjectListFromFirebase(projectReference, "Active", mobileNumber, object: FirebaseOperationsForProjects.getProjectListFromFirebaseCallback {
             override fun onProjectListFetched(projectList: List<Project>) {
-                projectListAdapter = ProjectListAdapter(projectList)
+                projectListAdapter = ProjectListAdapter(requireActivity(),projectList)
                 projectListRecyclerView.adapter = projectListAdapter
                 projectListRecyclerView.layoutManager = LinearLayoutManager(context)
                 projectListRecyclerView.setHasFixedSize(true)
@@ -84,7 +84,7 @@ class ProjectFragment : Fragment() {
                 Toast.makeText(requireActivity(), "Active", Toast.LENGTH_SHORT).show()
                 firebaseOperationsForProjects.getProjectListFromFirebase(projectReference, "Active", mobileNumber, object: FirebaseOperationsForProjects.getProjectListFromFirebaseCallback {
                     override fun onProjectListFetched(projectList: List<Project>) {
-                        projectListAdapter = ProjectListAdapter(projectList)
+                        projectListAdapter = ProjectListAdapter(requireActivity(), projectList)
                         projectListRecyclerView.adapter = projectListAdapter
                         projectListRecyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this@ProjectFragment.requireActivity())
                         projectListRecyclerView.setHasFixedSize(true)
@@ -96,7 +96,7 @@ class ProjectFragment : Fragment() {
                 Toast.makeText(requireActivity(), "Completed", Toast.LENGTH_SHORT).show()
                 firebaseOperationsForProjects.getProjectListFromFirebase(projectReference, "Completed", mobileNumber, object: FirebaseOperationsForProjects.getProjectListFromFirebaseCallback {
                     override fun onProjectListFetched(projectList: List<Project>) {
-                        projectListAdapter = ProjectListAdapter(projectList)
+                        projectListAdapter = ProjectListAdapter(requireActivity(),projectList)
                         projectListRecyclerView.adapter = projectListAdapter
                         projectListRecyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this@ProjectFragment.requireActivity())
                         projectListRecyclerView.setHasFixedSize(true)

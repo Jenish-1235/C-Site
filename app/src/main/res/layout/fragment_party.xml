@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/brown">
 
 
     <androidx.cardview.widget.CardView
@@ -103,8 +104,10 @@
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:layout_weight="1"
-            android:background="#FFFFFF"
             android:iconifiedByDefault="true"
+            android:background="@drawable/background_green_rounded_corner"
+            android:alpha="0.8"
+            android:backgroundTint="@color/yellow"
             android:inputType="text"
             android:queryHint="Search Quotation"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1">
@@ -128,9 +131,9 @@
         android:id="@+id/navigationTabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FFFFFF"
         android:paddingTop="5dp"
         android:scrollbarSize="10dp"
+        android:background="@color/brown"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -147,7 +150,8 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/externalPartiesTabRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:background="@color/white"/>
 
 </LinearLayout>
 

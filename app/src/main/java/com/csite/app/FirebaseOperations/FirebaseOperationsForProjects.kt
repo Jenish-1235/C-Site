@@ -1,6 +1,8 @@
 package com.csite.app.FirebaseOperations
 
 import android.util.Log
+import androidx.compose.animation.core.snap
+import com.csite.app.Objects.Member
 import com.csite.app.Objects.Project
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -16,6 +18,7 @@ class FirebaseOperationsForProjects {
 
     // Firebase database reference
     val metaReference = FirebaseDatabase.getInstance().getReference("Meta")
+    val projectReference = FirebaseDatabase.getInstance().getReference("Projects")
 
     // 1. Save project to Firebase
     fun saveProjectToFirebase(projectReference: DatabaseReference, project: Project) {
@@ -71,4 +74,54 @@ class FirebaseOperationsForProjects {
         fun onProjectListFetched(projectList: List<Project>)
     }
 
+    fun updateProjectStatus(projectId: String, newStatus: String) {
+        projectReference.child(projectId).child("projectStatus").setValue(newStatus)
+    }
+
+    fun getProjectMembers(projectId: String, callback: (List<Member>) -> Unit) {
+        projectReference.child(projectId).child("projectMembers").addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val members = mutableListOf<Member>()
+                for (memberSnapshot in snapshot.children) {
+                    val member = memberSnapshot.getValue(Member::class.java)
+                    if (member != null) {
+                        members.add(member)
+                        Log.d("FirebaseOperations", "Member: $member")
+                    }
+                }
+                callback(members)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+
+        })
+    }
+
+    fun updateProjectMembers(projectId: String, newMembers: Member) {
+        projectReference.child(projectId).child("projectMembers").setValue(newMembers)
+    }
+    fun leaveProject(projectId: String, mobileNumber: String) {
+        projectReference.child(projectId).child("projectMembers").addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists() && snapshot.childrenCount.toInt() == 1){
+                    projectReference.child(projectId).removeValue()
+                }else{
+                    val members = mutableListOf<Member>()
+                    for (memberSnapshot in snapshot.children) {
+                        val member = memberSnapshot.getValue(Member::class.java)
+                        if (member != null && member.mobileNumber != mobileNumber) {
+                            members.add(member)
+                            Log.d("FirebaseOperations", "Member: $member")
+                        }
+                    }
+                    projectReference.child(projectId).child("projectMembers").setValue(members)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+
+        })
+    }
 }
