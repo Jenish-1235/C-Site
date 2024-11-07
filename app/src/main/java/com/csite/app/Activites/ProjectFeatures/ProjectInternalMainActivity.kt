@@ -24,6 +24,15 @@ import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 class ProjectInternalMainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityProjectInternalMainBinding
     var projectId = ""
+    var projectName = ""
+    var projectLocation = ""
+    var projectCity = ""
+    var projectStartDate = ""
+    var projectEndDate = ""
+    var projectValue = ""
+    var projectStatus = ""
+
+
 
     lateinit var memberAccessSharedPreference:SharedPreferences
     lateinit var memberAccessValue : String
@@ -40,6 +49,13 @@ class ProjectInternalMainActivity : AppCompatActivity() {
         }
         val projectInternalIntent = getIntent()
         projectId = projectInternalIntent.getStringExtra("projectId").toString()
+        projectName = projectInternalIntent.getStringExtra("projectName").toString()
+        projectLocation = projectInternalIntent.getStringExtra("projectLocation").toString()
+        projectCity = projectInternalIntent.getStringExtra("projectCity").toString()
+        projectStartDate = projectInternalIntent.getStringExtra("projectStartDate").toString()
+        projectEndDate = projectInternalIntent.getStringExtra("projectEndDate").toString()
+        projectValue = projectInternalIntent.getStringExtra("projectValue").toString()
+        projectStatus = projectInternalIntent.getStringExtra("projectStatus").toString()
         binding.projectNameView.text = projectInternalIntent.getStringExtra("projectName")
         memberAccessSharedPreference = getSharedPreferences("memberAccess", MODE_PRIVATE)
         memberAccessValue = memberAccessSharedPreference.getString("memberAccess", "").toString()
@@ -56,9 +72,16 @@ class ProjectInternalMainActivity : AppCompatActivity() {
     }
 
     fun projectSettings(view: View){
-        val projectSettings = Intent(this, ProjectSettingsActivity::class.java)
-        projectSettings.putExtra("projectId", projectId)
-        startActivity(projectSettings)
+        val projectSettingsIntent = Intent(this, ProjectSettingsActivity::class.java)
+        projectSettingsIntent.putExtra("projectId", projectId)
+        projectSettingsIntent.putExtra("projectName", projectName)
+        projectSettingsIntent.putExtra("projectLocation", projectLocation)
+        projectSettingsIntent.putExtra("projectCity", projectCity)
+        projectSettingsIntent.putExtra("projectStartDate", projectStartDate)
+        projectSettingsIntent.putExtra("projectEndDate", projectEndDate)
+        projectSettingsIntent.putExtra("projectValue", projectValue)
+        projectSettingsIntent.putExtra("projectStatus", projectStatus)
+        startActivity(projectSettingsIntent)
     }
 
     fun projectInternalBottomTabLayoutForAdmin(){
