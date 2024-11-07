@@ -1,5 +1,6 @@
 package com.csite.app.Activites.ProjectFeatures
 
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Binder
 import android.os.Bundle
@@ -10,6 +11,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.csite.app.Activites.MainScreen.MainActivity
 import com.csite.app.DialogFragments.AddNewProjectMemberDialogFragment
 import com.csite.app.FirebaseOperations.FirebaseOperationsForProjects
 import com.csite.app.Objects.Member
@@ -70,6 +72,9 @@ class ProjectSettingsActivity : AppCompatActivity() {
                 }
                 b.projectStatusSwitch.setThumbTintList(ColorStateList.valueOf(resources.getColor(R.color.green)))
                 b.projectStatusSwitch.setTrackTintList(ColorStateList.valueOf(resources.getColor(R.color.golden)))
+                val mainActivity = Intent(this, MainActivity::class.java)
+                startActivity(mainActivity)
+                finishAffinity()
             }else{
                 b.projectStatusSwitch.text = "Completed"
                 val firebaseOperationsForProjects = FirebaseOperationsForProjects()
@@ -78,6 +83,9 @@ class ProjectSettingsActivity : AppCompatActivity() {
                 }
                 b.projectStatusSwitch.setThumbTintList(ColorStateList.valueOf(resources.getColor(R.color.red)))
                 b.projectStatusSwitch.setTrackTintList(ColorStateList.valueOf(resources.getColor(R.color.golden)))
+                val mainActivity = Intent(this, MainActivity::class.java)
+                startActivity(mainActivity)
+                finishAffinity()
             }
         }
 

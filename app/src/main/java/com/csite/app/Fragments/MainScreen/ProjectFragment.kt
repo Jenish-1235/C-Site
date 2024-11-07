@@ -100,7 +100,7 @@ class ProjectFragment : Fragment() {
                     override fun onProjectListFetched(projectList: List<Project>) {
                         projectListAdapter = ProjectListAdapter(projectList)
                         projectListRecyclerView.adapter = projectListAdapter
-                        projectListRecyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this@ProjectFragment.requireActivity())
+                        projectListRecyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this@ProjectFragment.context)
                         projectListRecyclerView.setHasFixedSize(true)
                         projectListAdapter.notifyDataSetChanged()
                     }
