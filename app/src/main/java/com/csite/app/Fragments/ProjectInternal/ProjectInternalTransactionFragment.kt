@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.csite.app.Activites.ProjectFeatures.TransactionTab.NewIPaidTransactionActivity
+import com.csite.app.Activites.ProjectFeatures.TransactionTab.NewIReceivedTransactionActivity
 import com.csite.app.Activites.ProjectFeatures.TransactionTab.NewPaymentInTransactionActivity
 import com.csite.app.Activites.ProjectFeatures.TransactionTab.NewPaymentOutTransactionActivity
 import com.csite.app.DialogFragments.MoreTransactionDialogFragment
@@ -59,6 +61,26 @@ class ProjectInternalTransactionFragment : Fragment() {
 
         }else{
             // Handle Manager Role
+            binding.projectMoreTransactionButton.visibility = View.GONE
+            binding.projectTransactionFilterTabLayout.visibility = View.VISIBLE
+
+            binding.projectPaymentInButton.text = "I paid"
+            binding.projectPaymentOutButton.text = "I Received"
+
+            transactionTabLayout(view, projectId!!)
+            binding.projectPaymentInButton.setOnClickListener{
+                val newIpaidTransactionIntent = Intent(activity, NewIPaidTransactionActivity::class.java)
+                newIpaidTransactionIntent.putExtra("projectId", projectId)
+                startActivity(newIpaidTransactionIntent)
+            }
+
+            binding.projectPaymentOutButton.setOnClickListener{
+                val newIReceivedTransactionIntent = Intent(activity, NewIReceivedTransactionActivity::class.java)
+                newIReceivedTransactionIntent.putExtra("projectId", projectId)
+                startActivity(newIReceivedTransactionIntent)
+            }
+
+
         }
 
 
@@ -78,8 +100,6 @@ class ProjectInternalTransactionFragment : Fragment() {
 
             })
         }
-
-
 
         return view
     }

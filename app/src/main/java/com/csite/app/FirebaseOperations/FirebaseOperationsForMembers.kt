@@ -3,6 +3,7 @@ package com.csite.app.FirebaseOperations
 import android.util.Log
 import androidx.appcompat.view.ActionMode.Callback
 import com.csite.app.Objects.Member
+import com.csite.app.Objects.Party
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -20,8 +21,14 @@ class FirebaseOperationsForMembers {
                 if (dataSnapshot.hasChild(value)) {
                     // Member exists
                     Log.d("FirebaseOperationsForMembers", "Member exists")
-                    callback.isMemberExists(true)
-
+                    val member = dataSnapshot.child(value).getValue(Member::class.java)
+                    if (member!!.password == "" && member!!.name.isNotEmpty()){
+                        // Member exists but password is empty
+                        Log.d("FirebaseOperationsForMembers", "Member exists but password is empty")
+                        callback.isMemberExists(false)
+                    }else{
+                        callback.isMemberExists(true)
+                    }
                 } else {
                     // Member does not exist
                     Log.d("FirebaseOperationsForMembers", "Member does not exist")
@@ -43,6 +50,15 @@ class FirebaseOperationsForMembers {
     // 2 Save new member to database
     fun saveNewMemberToDatabase(parent: DatabaseReference, member: Member) {
         parent.child(member.mobileNumber).setValue(member)
+        var party = Party()
+        party.partyName = member.name
+        party.partyType = member.memberAccess
+        party.partyCondition = "000"
+        party.partyOpeningBalanceDetails = "Fresh"
+        party.partyMobileNumber = member.mobileNumber
+        party.partyAmountToPayOrReceive = "0.0"
+        val firebaseOperationsForLibrary = FirebaseOperationsForLibrary()
+        firebaseOperationsForLibrary.addPartyToPartyLibrary(party)
     }
 
     // 3. Get member from database

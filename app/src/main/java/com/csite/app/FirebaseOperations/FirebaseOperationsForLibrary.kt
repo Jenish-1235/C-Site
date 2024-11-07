@@ -91,6 +91,15 @@ class FirebaseOperationsForLibrary {
     fun addWorkforceToWorkforceLibrary(workforce: Workforce){
         workforce.workforceId = workforceIdGenerator()
         workforceReference.child(workforce.workforceId).setValue(workforce)
+        val party = Party()
+        party.partyName = workforce.workforceType
+        party.partyCondition = "000"
+        party.partyAmountToPayOrReceive = "0.0"
+        party.partyType = "Worker"
+        party.partyOpeningBalanceDetails = "Fresh"
+        party.partyId = partyIdGenerator()
+        partyReference.child(party.partyId).setValue(party)
+
     }
     // 3.1 Generate Workforce ID
     fun workforceIdGenerator():String{

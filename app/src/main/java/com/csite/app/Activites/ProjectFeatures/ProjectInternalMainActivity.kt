@@ -295,11 +295,59 @@ class ProjectInternalMainActivity : AppCompatActivity() {
             override fun onTabUnselected(tab: TabLayout.Tab?) {
             }
 
-            override fun onTabReselected(tab: TabLayout.Tab?) {
+            override fun onTabReselected(tab: TabLayout.Tab?) { when (tab?.position) {
+
+                0 -> {
+                    val projectInternalTransactionFragment: ProjectInternalTransactionFragment = ProjectInternalTransactionFragment()
+                    projectInternalTransactionFragment.arguments = bundle
+                    supportFragmentManager.beginTransaction().replace(R.id.projectInternalFrameLayout, projectInternalTransactionFragment).commit()
+                    projectInternalTransactionTabIcon.setImageResource(R.drawable.transaction_icon_black)
+                    projectInternalSiteTabIcon.setImageResource(R.drawable.site_project_internal)
+                    projectInternalAttendanceTabIcon.setImageResource(R.drawable.attendance)
+                    projectInternalMaterialTabIcon.setImageResource(R.drawable.material)
+                }
+                1 -> {
+                    val projectInternalSiteFragment: ProjectInternalSiteFragment = ProjectInternalSiteFragment()
+                    projectInternalSiteFragment.arguments = bundle
+                    supportFragmentManager.beginTransaction().replace(R.id.projectInternalFrameLayout, projectInternalSiteFragment).commit()
+                    projectInternalTransactionTabIcon.setImageResource(R.drawable.transaction_icon_yellow)
+                    projectInternalSiteTabIcon.setImageResource(R.drawable.site_icon_black)
+                    projectInternalAttendanceTabIcon.setImageResource(R.drawable.attendance)
+                    projectInternalMaterialTabIcon.setImageResource(R.drawable.material)
+                }
+                2 -> {
+                    val projectInternalAttendanceFragment: ProjectInternalAttendanceFragment = ProjectInternalAttendanceFragment()
+                    projectInternalAttendanceFragment.arguments = bundle
+                    supportFragmentManager.beginTransaction().replace(R.id.projectInternalFrameLayout, projectInternalAttendanceFragment).commit()
+                    projectInternalTransactionTabIcon.setImageResource(R.drawable.transaction_icon_yellow)
+                    projectInternalSiteTabIcon.setImageResource(R.drawable.site_project_internal)
+                    projectInternalAttendanceTabIcon.setImageResource(R.drawable.attendance_icon_black)
+                    projectInternalMaterialTabIcon.setImageResource(R.drawable.material)
+                }
+                3 -> {
+                    val projectInternalMaterialFragment: ProjectInternalMaterialFragment = ProjectInternalMaterialFragment()
+                    projectInternalMaterialFragment.arguments = bundle
+                    supportFragmentManager.beginTransaction().replace(R.id.projectInternalFrameLayout, projectInternalMaterialFragment).commit()
+                    projectInternalTransactionTabIcon.setImageResource(R.drawable.transaction_icon_yellow)
+                    projectInternalSiteTabIcon.setImageResource(R.drawable.site_project_internal)
+                    projectInternalAttendanceTabIcon.setImageResource(R.drawable.attendance)
+                    projectInternalMaterialTabIcon.setImageResource(R.drawable.material_icon_black)
+                }
+                else -> {
+                    val projectInternalTransactionFragment: ProjectInternalTransactionFragment = ProjectInternalTransactionFragment()
+                    projectInternalTransactionFragment.arguments = bundle
+                    supportFragmentManager.beginTransaction().replace(R.id.projectInternalFrameLayout, projectInternalTransactionFragment).commit()
+                    projectInternalTransactionTabIcon.setImageResource(R.drawable.transaction_icon_black)
+                    projectInternalSiteTabIcon.setImageResource(R.drawable.site_project_internal)
+                    projectInternalAttendanceTabIcon.setImageResource(R.drawable.attendance)
+                    projectInternalMaterialTabIcon.setImageResource(R.drawable.material)
+                }
+            }
             }
 
         })
         projectInternalTransactionTab.select()
+
 
     }
 }
