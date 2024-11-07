@@ -88,7 +88,6 @@ class ProjectInternalTransactionFragment : Fragment() {
         if (projectId != null) {
             firebaseOperationsForProjectInternalTransactions.fetchAllTransactions(projectId, object : FirebaseOperationsForProjectInternalTransactions.OnTransactionsFetched{
                 override fun onTransactionsFetched(transactions: MutableList<CommonTransaction>) {
-
                 }
             }, object : FirebaseOperationsForProjectInternalTransactions.OnCalculated{
                 override fun onCalculated(calculations: ArrayList<String>) {

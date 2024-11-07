@@ -98,10 +98,6 @@ class FirebaseOperationsForProjectInternalTransactions {
     // 6. Fetch All Transaction
     fun fetchAllTransactions(projectId: String, callback: OnTransactionsFetched, callback2: OnCalculated) {
         var transactions = mutableListOf<CommonTransaction>()
-        var projectBalance = "0"
-        var projectTotalIn = "0"
-        var projectTotalOut = "0"
-        var projectTotalExpense = "0"
 
         projectReference.child(projectId).child("Transactions")
             .addValueEventListener(object : ValueEventListener {
@@ -113,6 +109,11 @@ class FirebaseOperationsForProjectInternalTransactions {
                             transactions.add(commonTransaction!!)
                         }
                     }
+
+                    var projectBalance = "0"
+                    var projectTotalIn = "0"
+                    var projectTotalOut = "0"
+                    var projectTotalExpense = "0"
                     transactions.sortBy { it.transactionDate }
                     for(transaction in transactions){
                         when(transaction.transactionType){
