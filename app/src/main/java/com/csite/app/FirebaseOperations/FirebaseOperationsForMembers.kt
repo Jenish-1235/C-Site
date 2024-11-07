@@ -15,24 +15,23 @@ class FirebaseOperationsForMembers {
 
     // 1. function to check whether a key exists in the database for given parent or not
     fun checkExistingMember(parent : DatabaseReference , value : String, callback: MemberExistenceCallback) {
-
         val memberValueEventListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.hasChild(value)) {
                     // Member exists
                     Log.d("FirebaseOperationsForMembers", "Member exists")
                     val member = dataSnapshot.child(value).getValue(Member::class.java)
-                    if (member!!.password == "" && member!!.name.isNotEmpty()){
+                    if (member!!.password == "" && member.mobileNumber.isNotEmpty()){
                         // Member exists but password is empty
                         Log.d("FirebaseOperationsForMembers", "Member exists but password is empty")
-                        callback.isMemberExists(false)
+                        callback.isMemberExists(false,member.memberAccess)
                     }else{
-                        callback.isMemberExists(true)
+                        callback.isMemberExists(true, member.memberAccess)
                     }
                 } else {
                     // Member does not exist
                     Log.d("FirebaseOperationsForMembers", "Member does not exist")
-                    callback.isMemberExists(false)
+                    callback.isMemberExists(false, "admin")
                     return
                 }
             }
@@ -44,7 +43,7 @@ class FirebaseOperationsForMembers {
     }
     // 1.1 Callback interface to handle the result of the check
     interface MemberExistenceCallback {
-        fun isMemberExists(exists: Boolean)
+        fun isMemberExists(exists: Boolean, memberAccess:String)
     }
 
     // 2 Save new member to database

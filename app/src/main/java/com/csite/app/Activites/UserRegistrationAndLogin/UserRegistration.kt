@@ -57,17 +57,19 @@ class UserRegistration : AppCompatActivity() {
         var passwordActivityIntent : Intent = Intent(this, PasswordActivity::class.java)
         firebaseOperationsForMembers.checkExistingMember(memberReference, mobileNumber, object :
             FirebaseOperationsForMembers.MemberExistenceCallback {
-            override fun isMemberExists(exists: Boolean) {
+            override fun isMemberExists(exists: Boolean, memberAccess:String) {
                 if (exists){
 //                    Toast.makeText(this@UserRegistration , "Member exists", Toast.LENGTH_SHORT).show()
                     passwordActivityIntent.putExtra("mobileNumber", mobileNumber)
                     passwordActivityIntent.putExtra("isMember", true)
+                    passwordActivityIntent.putExtra("memberAccess", memberAccess)
                     startActivity(passwordActivityIntent)
 
                 }else{
 //                    Toast.makeText(this@UserRegistration , "Member does not exist", Toast.LENGTH_SHORT).show()
                     passwordActivityIntent.putExtra("mobileNumber", mobileNumber)
                     passwordActivityIntent.putExtra("isMember", false)
+                    passwordActivityIntent.putExtra("memberAccess", memberAccess)
                     startActivity(passwordActivityIntent)
                 }
             }

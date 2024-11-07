@@ -37,7 +37,7 @@ class PasswordActivity : AppCompatActivity() {
         val passwordActivityIntent : Intent = intent
         val mobileNumber : String = passwordActivityIntent.getStringExtra("mobileNumber").toString()
         val isMember : Boolean = passwordActivityIntent.getBooleanExtra("isMember", false)
-
+        val memberAccess : String = passwordActivityIntent.getStringExtra("memberAccess").toString()
         // Get views
         val heading : TextView = findViewById(R.id.heading)
         val setOrEnterPassword : TextView = findViewById(R.id.setOrEnterPassword)
@@ -64,7 +64,7 @@ class PasswordActivity : AppCompatActivity() {
                     passwordEnter.error = "Please enter your password"
                     return@setOnClickListener
                 }else{
-                    passwordVerify(passwordEnter.text.toString(), mobileNumber)
+                    passwordVerify(passwordEnter.text.toString(), mobileNumber, memberAccess)
                 }
             }
         }
@@ -85,7 +85,7 @@ class PasswordActivity : AppCompatActivity() {
                     nameEnter.error = "Please enter your name"
                     return@setOnClickListener
                 }else{
-                    passwordSet(mobileNumber, nameEnter.text.toString().trim(), passwordHash(passwordEnter.text.toString()))
+                    passwordSet(mobileNumber, nameEnter.text.toString().trim(), passwordHash(passwordEnter.text.toString()), memberAccess)
                 }
             }
         }
@@ -97,17 +97,15 @@ class PasswordActivity : AppCompatActivity() {
     }
 
     // Verify password for existing member
-    fun passwordVerify(password: String, mobileNumber: String){
+    fun passwordVerify(password: String, mobileNumber: String, memberAccess:String){
         FirebaseOperationsForMembers().getMemberFromDatabase(memberReference, mobileNumber, object : FirebaseOperationsForMembers.MemberCallback {
             override fun onMemberRetrieved(member: Member) {
                 // Verify password
                 if (BCrypt.verifyer().verify(password.toCharArray(), member.password).verified){
                     Toast.makeText(this@PasswordActivity, "Password verified", Toast.LENGTH_SHORT).show()
-
+                    member.memberAccess = memberAccess
                     // Update login shared preferences
                     updateLoginSharedPreferences(member)
-
-
                     // Navigate to main activity
                     val mainActivityIntent : Intent = Intent(this@PasswordActivity, MainActivity::class.java)
                     startActivity(mainActivityIntent)
@@ -123,9 +121,9 @@ class PasswordActivity : AppCompatActivity() {
     }
 
     // Set password for new member
-    fun passwordSet(mobileNumber: String, name: String, password: String){
+    fun passwordSet(mobileNumber: String, name: String, password: String, memberAccess:String){
 
-        val member : Member = Member(name, mobileNumber, password, "admin")
+        val member : Member = Member(name, mobileNumber, password, memberAccess)
         FirebaseOperationsForMembers().saveNewMemberToDatabase(memberReference, member)
         Toast.makeText(this, "Created Account", Toast.LENGTH_SHORT).show()
 

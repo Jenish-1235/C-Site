@@ -43,6 +43,15 @@ class ProjectListAdapter(projectList: List<Project>): RecyclerView.Adapter<Proje
         holder.projectNameTextView.text = project.projectName
         holder.projectLocationTextView.text = project.projectCity
 
+        val memberAccess = holder.itemView.context.getSharedPreferences("memberAccess", Context.MODE_PRIVATE)
+        val memberAccessValue = memberAccess.getString("memberAccess", "admin").toString()
+        if (memberAccessValue == "admin") {
+            holder.projectSettingsButton.visibility = View.VISIBLE
+        }else{
+            holder.projectSettingsButton.visibility = View.GONE
+        }
+
+
         holder.projectSettingsButton.setOnClickListener {
 //            Toast.makeText(context, "Settings button clicked for " + project.projectName, Toast.LENGTH_SHORT).show()
             val projectSettingsIntent = Intent(holder.itemView.context, ProjectSettingsActivity::class.java)

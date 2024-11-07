@@ -31,9 +31,6 @@ class ProjectInternalMainActivity : AppCompatActivity() {
     var projectEndDate = ""
     var projectValue = ""
     var projectStatus = ""
-
-
-
     lateinit var memberAccessSharedPreference:SharedPreferences
     lateinit var memberAccessValue : String
 
@@ -61,6 +58,7 @@ class ProjectInternalMainActivity : AppCompatActivity() {
         memberAccessValue = memberAccessSharedPreference.getString("memberAccess", "").toString()
         if (memberAccessValue.equals("manager")){
             projectInternalBottomTabLayoutForManager()
+            binding.projectSettingsButton.visibility = View.GONE
         }else{
             projectInternalBottomTabLayoutForAdmin()
         }
