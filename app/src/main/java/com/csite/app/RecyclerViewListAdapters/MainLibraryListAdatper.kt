@@ -8,9 +8,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.csite.app.Activites.Library.ContractorLibraryActivity
 import com.csite.app.Activites.Library.MaterialLibraryActivity
 import com.csite.app.Activites.Library.PartyLibraryActivity
-import com.csite.app.Activites.Library.WorkforceLibraryActivity
 import com.csite.app.R
 
 class MainLibraryListAdapter(context: Context, list: HashMap<String , String>): RecyclerView.Adapter<MainLibraryListAdapter.MainLibraryViewHolder>() {
@@ -48,9 +48,9 @@ class MainLibraryListAdapter(context: Context, list: HashMap<String , String>): 
             }else if (library.equals("Party")){
                 val partyLibraryIntent: Intent = Intent(context, PartyLibraryActivity::class.java)
                 context.startActivity(partyLibraryIntent)
-            }else if (library.equals("Workforce")){
-                val workforceLibraryIntent: Intent = Intent(context, WorkforceLibraryActivity::class.java)
-                context.startActivity(workforceLibraryIntent)
+            }else if (library.equals("Contractors")){
+                val contractorLibraryIntent = Intent(context, ContractorLibraryActivity::class.java)
+                context.startActivity(contractorLibraryIntent)
             }
 
         }

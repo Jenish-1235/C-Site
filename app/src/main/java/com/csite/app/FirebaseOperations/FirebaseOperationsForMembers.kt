@@ -39,7 +39,7 @@ class FirebaseOperationsForMembers {
                 // Handle error
             }
         }
-        parent.addValueEventListener(memberValueEventListener)
+        parent.addListenerForSingleValueEvent(memberValueEventListener)
     }
     // 1.1 Callback interface to handle the result of the check
     interface MemberExistenceCallback {

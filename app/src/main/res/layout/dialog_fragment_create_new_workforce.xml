@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".DialogFragments.AddNewWorkforceDialogFragment">
+    android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/addProjectConstraintLayout"
@@ -53,7 +52,7 @@
                 app:boxStrokeWidth="1dp">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/workforceTypeInput"
+                    android:id="@+id/workerTypeInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Worker Type"
@@ -83,7 +82,7 @@
                     app:boxStrokeWidth="1dp">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/workforceSalaryPerShiftInput"
+                        android:id="@+id/salaryPerShift"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Salary per Shift"
@@ -99,16 +98,16 @@
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="15dp"
+                    android:layout_weight="1"
                     app:boxCornerRadiusBottomEnd="10dp"
                     app:boxCornerRadiusBottomStart="10dp"
                     app:boxCornerRadiusTopEnd="10dp"
                     app:boxCornerRadiusTopStart="10dp"
                     app:boxStrokeColor="@color/golden"
-                    android:layout_weight="1"
                     app:boxStrokeWidth="1dp">
 
                     <AutoCompleteTextView
-                        android:id="@+id/workforceCategoryInput"
+                        android:id="@+id/category"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="category"
@@ -120,7 +119,7 @@
 
 
             <Button
-                android:id="@+id/saveNewWorkforceButton"
+                android:id="@+id/createNewWorkforceButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
@@ -135,6 +134,4 @@
 
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 </FrameLayout>
