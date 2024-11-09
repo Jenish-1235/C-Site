@@ -26,9 +26,6 @@
             android:name=".Activites.Library.ContractorLibraryActivity"
             android:exported="false" />
         <activity
-            android:name=".Activites.ProjectFeatures.AttendanceTab.AddWorkersToProjectActivity"
-            android:exported="false" />
-        <activity
             android:name=".Activites.ProjectFeatures.MaterialTab.NewMaterialReceivedActivity"
             android:exported="false" />
         <activity
@@ -80,10 +77,6 @@
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".Activites.BankTransfer.BankTransferActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustPan" />
-        <activity
-            android:name=".Activites.Library.WorkforceLibraryActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustPan" />
         <activity
