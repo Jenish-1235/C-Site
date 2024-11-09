@@ -6,9 +6,9 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.csite.app.Activites.ProjectFeatures.ContractorSelectionActivity
 import com.csite.app.Objects.Contractor
 import com.csite.app.R
+import java.util.HashMap
 
 class ContractorSelectionListAdapter(contractorList: ArrayList<Contractor>):RecyclerView.Adapter<ContractorSelectionListAdapter.ContractorSelectionViewHolder>() {
     var contractorList = contractorList
@@ -52,7 +52,7 @@ class ContractorSelectionListAdapter(contractorList: ArrayList<Contractor>):Recy
             _, isChecked ->
             currentItem.contractorSelection = isChecked
             if (isChecked){
-                selectedContractorIdList.add(currentItem.contractorId)
+                selectedContractorIdList.put(currentItem.contractorId, currentItem)
             }else{
                 selectedContractorIdList.remove(currentItem.contractorId)
             }
@@ -60,8 +60,8 @@ class ContractorSelectionListAdapter(contractorList: ArrayList<Contractor>):Recy
 
     }
 
-    var selectedContractorIdList = ArrayList<String>()
-    fun sendSelectedContractorIdList():ArrayList<String>{
+    var selectedContractorIdList = HashMap<String,Contractor>()
+    fun sendSelectedContractorIdList():HashMap<String,Contractor>{
         return  selectedContractorIdList
     }
 }

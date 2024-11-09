@@ -1,15 +1,16 @@
-package com.csite.app.Activites.ProjectFeatures
+package com.csite.app.Activites.ProjectFeatures.AttendanceTab
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.activity.enableEdgeToEdge
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.csite.app.Activites.Library.AddNewContractorActivity
 import com.csite.app.FirebaseOperations.FirebaseOperationsForLibrary
+import com.csite.app.FirebaseOperations.FirebaseOperationsForProjectInternalAttendanceTab
 import com.csite.app.Objects.Contractor
 import com.csite.app.R
 import com.csite.app.RecyclerViewListAdapters.ContractorSelectionListAdapter
@@ -43,6 +44,20 @@ class ContractorSelectionActivity : AppCompatActivity() {
             }
         })
 
+        b.selectContractorsButton.setOnClickListener{
+            val selectedContractors = (b.contractorSelectionRecyclerView.adapter as ContractorSelectionListAdapter).sendSelectedContractorIdList()
+            val firebaseOperationsForProjectInternalAttendanceTab = FirebaseOperationsForProjectInternalAttendanceTab()
+            val path = "$projectId/ProjectAttendance/$currentDate"
+            if (selectedContractors.size != 0) {
+                firebaseOperationsForProjectInternalAttendanceTab.saveSelectedContractorsToProjectAttendance(
+                    path,
+                    selectedContractors
+                )
+            }else{
+                Toast.makeText(this, "No Contractor Selected", Toast.LENGTH_SHORT).show()
+            }
+            finish()
+        }
 
 
     }
