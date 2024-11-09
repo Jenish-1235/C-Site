@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.csite.app.Fragments.ProjectInternal.ProjectInternalAttendanceFragment
 import com.csite.app.Fragments.ProjectInternal.ProjectInternalMaterialFragment
 import com.csite.app.Fragments.ProjectInternal.ProjectInternalPartyFragment
 import com.csite.app.Fragments.ProjectInternal.ProjectInternalSiteFragment
@@ -172,7 +173,9 @@ class ProjectInternalMainActivity : AppCompatActivity() {
                         projectInternalMaterialTabIcon.setImageResource(R.drawable.material)
                     }
                     3 -> {
-                        Toast.makeText(this@ProjectInternalMainActivity, "3", Toast.LENGTH_SHORT).show()
+                        val projectInternalAttendanceFragment: ProjectInternalAttendanceFragment = ProjectInternalAttendanceFragment()
+                        projectInternalAttendanceFragment.arguments = bundle
+                        supportFragmentManager.beginTransaction().replace(R.id.projectInternalFrameLayout, projectInternalAttendanceFragment).commit()
                         projectInternalPartyTabIcon.setImageResource(R.drawable.party_icon_yellow)
                         projectInternalTransactionTabIcon.setImageResource(R.drawable.transaction_icon_yellow)
                         projectInternalSiteTabIcon.setImageResource(R.drawable.site_project_internal)
