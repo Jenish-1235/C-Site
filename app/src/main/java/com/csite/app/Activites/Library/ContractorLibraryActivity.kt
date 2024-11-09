@@ -7,7 +7,12 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.csite.app.FirebaseOperations.FirebaseOperationsForLibrary
+import com.csite.app.Objects.Contractor
 import com.csite.app.R
+import com.csite.app.RecyclerViewListAdapters.ContractorLibraryListAdapter
 
 class ContractorLibraryActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,6 +30,17 @@ class ContractorLibraryActivity : AppCompatActivity() {
             val addNewContractorActivityIntent = Intent(this, AddNewContractorActivity::class.java)
             startActivity(addNewContractorActivityIntent)
         }
+
+        val contractorRecyclerView:RecyclerView = findViewById(R.id.contractorLibraryRecyclerView)
+        val firebaseOperationsForLibrary = FirebaseOperationsForLibrary()
+        firebaseOperationsForLibrary.fetchContractorListFromLibrary(object: FirebaseOperationsForLibrary.OnContractorListReceived{
+            override fun onContractorListReceived(contractorList: ArrayList<Contractor>) {
+                val contractorListAdapter = ContractorLibraryListAdapter(contractorList)
+                contractorRecyclerView.adapter = contractorListAdapter
+                contractorRecyclerView.layoutManager = LinearLayoutManager(this@ContractorLibraryActivity)
+            }
+
+        })
 
     }
 }

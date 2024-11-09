@@ -151,5 +151,27 @@ class FirebaseOperationsForLibrary {
         return "ct" + contractorId.toString()
     }
 
+    fun fetchContractorListFromLibrary(callback: OnContractorListReceived){
+        val contractorList = ArrayList<Contractor>()
+        val contractorValueEventListener = object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                contractorList.clear()
+                for (contractorSnapshot in snapshot.children) {
+                    val contractor = contractorSnapshot.getValue(Contractor::class.java)
+                    if (contractor != null) {
+                        contractorList.add(contractor)
+                    }
+                }
+                callback.onContractorListReceived(contractorList)
+            }
 
+            override fun onCancelled(error: DatabaseError) {
+            }
+        }
+        contractorReference.addValueEventListener(contractorValueEventListener)
+    }
+
+    interface OnContractorListReceived{
+        fun onContractorListReceived(contractorList: ArrayList<Contractor>)
+    }
 }

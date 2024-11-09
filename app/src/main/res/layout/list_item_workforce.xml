@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="20dp"
+    android:layout_marginTop="7dp"
+    android:layout_marginEnd="20dp"
+    app:cardCornerRadius="10dp"
+    android:background="@android:color/transparent"
+    android:backgroundTint="#F6EED3"
+    android:elevation="10dp"
+    android:outlineAmbientShadowColor="@color/black"
+    android:outlineSpotShadowColor="@color/black"
+    android:padding="10dp">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/listItemPartyLibraryLeft"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/workforceTypeView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Workforce Type"
+                android:textColor="@color/black"
+                android:fontFamily="@font/arimo_medium"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/workforceCategoryView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Category"
+                android:textColor="@color/black"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/listItemPartyLibraryRight"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/workforceSalaryPerDayView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="\u20b9 Salary per day"
+                android:textColor="@color/black"
+                android:fontFamily="@font/arimo_medium"
+                android:textStyle="bold"
+                android:textAlignment="textEnd"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/workforceNumberOfWorkersView"
+                    android:text="No. of Workers: "
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/arimo_medium"
+                    android:textStyle="bold"
+                    android:layout_weight="1"
+                    android:gravity="start"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
