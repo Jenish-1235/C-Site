@@ -54,4 +54,34 @@ class FirebaseOperationsForProjectInternalAttendanceTab {
 
         })
     }
+
+
+    fun fetchTotalCounts(projectId:String, currentDate: String, callback: fetchTotalAttendanceCounts){
+        projectReference.child(projectId).child("ProjectAttendance").child(currentDate).addValueEventListener(object :ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                var presentCount = 0
+                var absentCount = 0
+                var totalSalary = 0.0
+                for(contractor in snapshot.children){
+                    for (workforce in contractor.child("contractorWorkforce").children){
+                        val currentWorkforce = workforce.getValue(Workforce::class.java)
+                        presentCount+= currentWorkforce!!.workforcePresentWorkers.toInt()
+                        absentCount+= currentWorkforce!!.workforceAbsentWorkers.toInt()
+                        val salaryPerWorker = (currentWorkforce!!.workforceSalaryPerDay.toDouble() * currentWorkforce!!.workforcePresentWorkers.toDouble()) + currentWorkforce!!.workforceOverTimePay.toDouble() - currentWorkforce!!.workforceLateFine.toDouble() + currentWorkforce!!.workforceAllowance.toDouble() - currentWorkforce!!.workforceDeduction.toDouble()
+                        totalSalary+= salaryPerWorker
+                    }
+                }
+                callback.onTotalCountReceived(presentCount.toString(), absentCount.toString(), totalSalary.toString())
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+        })
+    }
+
+
+    interface fetchTotalAttendanceCounts{
+        fun onTotalCountReceived(presentCount:String, absentCount:String, totalSalary:String)
+    }
 }

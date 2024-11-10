@@ -91,6 +91,7 @@ class MarkAttendanceActivity : AppCompatActivity() {
             updatedWorkforce.workforceAllowance = allowancePay
             updatedWorkforce.workforceDeduction = deductionPay
             updatedWorkforce.workforceNotes = notes
+            updatedWorkforce.workforceNumberOfWorkers = workforceTotalWorkers!!
             if (salaryPerDay != null) {
                 updatedWorkforce.workforceSalaryPerDay = salaryPerDay
             }

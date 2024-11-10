@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -97,8 +98,33 @@ class ProjectInternalAttendanceFragment : Fragment() {
                 attendanceTabRecyclerView.layoutManager = LinearLayoutManager(requireActivity())
                 attendanceTabAdapter.notifyDataSetChanged()
 
+                firebaseOperationsForProjectInternalAttendanceTab.fetchTotalCounts(projectId, currentDate, object : FirebaseOperationsForProjectInternalAttendanceTab.fetchTotalAttendanceCounts{
+                    override fun onTotalCountReceived(
+                        presentCount: String,
+                        absentCount: String,
+                        totalSalary: String
+                    ) {
+                        val totalPresentView = view.findViewById<TextView>(R.id.totalPresentCountView)
+                        val totalAbsentView = view.findViewById<TextView>(R.id.totalAbsentCountView)
+                        val totalSalaryView = view.findViewById<TextView>(R.id.totalSalaryView)
+                        totalSalaryView.text = totalSalary
+                        totalPresentView.text = presentCount
+                        totalAbsentView.text = absentCount
+                    }
+
+                })
             }
 
         })
     }
+
+    override fun onResume() {
+        super.onResume()
+        val bundle = arguments
+        val projectName = bundle?.getString("projectName")
+        val projectId = bundle?.getString("projectId")
+        val currentDate = view?.findViewById<TextView>(R.id.currentSelectedDateView)?.text.toString()
+        updateUI(requireView(), projectId.toString(), currentDate)
+    }
+
 }
