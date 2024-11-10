@@ -1,6 +1,7 @@
 package com.csite.app.FirebaseOperations
 
 import com.csite.app.Objects.Contractor
+import com.csite.app.Objects.Workforce
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -35,5 +36,22 @@ class FirebaseOperationsForProjectInternalAttendanceTab {
 
     interface getAttendanceContractorList{
         fun onAttendanceContractorListReceived(contractorList: HashMap<String, Contractor>)
+    }
+
+    fun markAttendance(projectId: String, contractorName:String, workforceId:String, currentDate: String, updatedWorkforce:Workforce){
+        projectReference.child(projectId).child("ProjectAttendance").child(currentDate).addListenerForSingleValueEvent(object :ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for(contractor in snapshot.children){
+                    val currentContractor = contractor.getValue(Contractor::class.java)
+                    if (contractorName == currentContractor!!.contractorName){
+                        contractor.ref.child("contractorWorkforce").child(workforceId).setValue(updatedWorkforce)
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+
+        })
     }
 }

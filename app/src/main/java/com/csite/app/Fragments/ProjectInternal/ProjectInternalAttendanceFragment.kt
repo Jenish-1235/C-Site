@@ -92,7 +92,7 @@ class ProjectInternalAttendanceFragment : Fragment() {
                 }
 
                 val attendanceTabRecyclerView = view.findViewById<RecyclerView>(R.id.attendanceListRecyclerView)
-                val attendanceTabAdapter = AttendanceTabListAdapter(workforceHashMap, currentDate, size)
+                val attendanceTabAdapter = AttendanceTabListAdapter(workforceHashMap, currentDate, size, projectId)
                 attendanceTabRecyclerView.adapter = attendanceTabAdapter
                 attendanceTabRecyclerView.layoutManager = LinearLayoutManager(requireActivity())
                 attendanceTabAdapter.notifyDataSetChanged()
