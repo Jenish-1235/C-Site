@@ -1,8 +1,10 @@
 package com.csite.app.Objects
 
+import androidx.compose.foundation.pager.PagerState
 import com.cmpte.app.Objects.TransactionMaterialPurchase
 import com.itextpdf.io.font.constants.StandardFonts
 import com.itextpdf.kernel.pdf.PdfDocument
+import com.itextpdf.kernel.pdf.PdfPage
 import com.itextpdf.kernel.pdf.PdfWriter
 import com.itextpdf.layout.Document
 import com.itextpdf.layout.element.AreaBreak
@@ -17,8 +19,10 @@ object PdfGenerator {
     fun generateDPR(
         outputPath: String,
         materialRequests: List<MaterialRequestOrReceived>,
+        attendanceData: HashMap<String, ArrayList<Workforce>>,
         projectName: String?,
-        selectedDate: String
+        selectedDate: String,
+        size: Int
     ) {
         // Initialize a new document
         val pdfWriter = PdfWriter(FileOutputStream(File(outputPath)))
@@ -75,16 +79,35 @@ object PdfGenerator {
 
         document.add(Paragraph("Attendance Report").setFont(com.itextpdf.kernel.font.PdfFontFactory.createFont(StandardFonts.HELVETICA_BOLD))
             .setFontSize(18F))
-        val attendanceTable = Table(8)
-        attendanceTable.addCell(Cell().add(Paragraph("Name")))
-        attendanceTable.addCell(Cell().add(Paragraph("Attendance")))
-        attendanceTable.addCell(Cell().add(Paragraph("Salary Per Day")))
-        attendanceTable.addCell(Cell().add(Paragraph("Overtime Pay")))
-        attendanceTable.addCell(Cell().add(Paragraph("Late Fine")))
-        attendanceTable.addCell(Cell().add(Paragraph("Deduction")))
-        attendanceTable.addCell(Cell().add(Paragraph("Allowance")))
-        attendanceTable.addCell(Cell().add(Paragraph("Total")))
+        val attendanceTable = Table(6)
+        attendanceTable.addCell(Cell().add(Paragraph("Contractor Name")))
+        attendanceTable.addCell(Cell().add(Paragraph("Workforce Type")))
+        attendanceTable.addCell(Cell().add(Paragraph("Present Workers")))
+        attendanceTable.addCell(Cell().add(Paragraph("Absent Workers")))
+        attendanceTable.addCell(Cell().add(Paragraph("Total Salary")))
+        attendanceTable.addCell(Cell().add(Paragraph("Notes")))
 
+        val contractorNameList = ArrayList<String>()
+        val workforceList = ArrayList<Workforce>()
+
+        for (workforce in attendanceData){
+            for (workforceItem in workforce.value){
+                workforceList.add(workforceItem)
+                contractorNameList.add(workforce.key)
+            }
+        }
+
+        var i = 0
+        for (workforce in workforceList){
+            attendanceTable.addCell(Cell().add(Paragraph(contractorNameList[i])))
+            attendanceTable.addCell(Cell().add(Paragraph(workforce.workforceType)))
+            attendanceTable.addCell(Cell().add(Paragraph(workforce.workforcePresentWorkers.toString())))
+            attendanceTable.addCell(Cell().add(Paragraph(workforce.workforceAbsentWorkers.toString())))
+            val salary = (workforce.workforcePresentWorkers.toInt() * workforce.workforceSalaryPerDay.toDouble()) + workforce.workforceOverTimePay.toDouble() + workforce.workforceAllowance.toDouble() - workforce.workforceLateFine.toDouble() - workforce.workforceDeduction.toDouble()
+            attendanceTable.addCell(Cell().add(Paragraph(salary.toString())))
+            attendanceTable.addCell(Cell().add(Paragraph(workforce.workforceNotes)))
+        }
+        document.add(attendanceTable)
         // todo: attendance
 
         // Close the document to finalize the PDF

@@ -6,7 +6,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import java.util.HashMap
+import kotlin.collections.HashMap
 
 class FirebaseOperationsForProjectInternalAttendanceTab {
 
@@ -80,8 +80,9 @@ class FirebaseOperationsForProjectInternalAttendanceTab {
         })
     }
 
-
     interface fetchTotalAttendanceCounts{
         fun onTotalCountReceived(presentCount:String, absentCount:String, totalSalary:String)
     }
+
+
 }
