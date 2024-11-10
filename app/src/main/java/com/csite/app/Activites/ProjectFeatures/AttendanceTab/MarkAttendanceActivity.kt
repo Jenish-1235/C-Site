@@ -106,7 +106,7 @@ class MarkAttendanceActivity : AppCompatActivity() {
             }
 
             if (workforceTotalWorkers != null) {
-                if (workforceTotalWorkers < numberOfPresent + numberOfAbsent) {
+                if (workforceTotalWorkers.toInt() < numberOfPresent.toInt() + numberOfAbsent.toInt()) {
                     Toast.makeText(this,"Total workers cannot be less than present + absent. Total workers are $workforceTotalWorkers", Toast.LENGTH_SHORT).show()
                 }else {
                     val firebaseOperationsForProjectInternalAttendanceTab = FirebaseOperationsForProjectInternalAttendanceTab()
