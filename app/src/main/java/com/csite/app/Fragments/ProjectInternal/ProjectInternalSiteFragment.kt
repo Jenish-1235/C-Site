@@ -10,14 +10,17 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.cmpte.app.Objects.TransactionMaterialPurchase
+import com.csite.app.FirebaseOperations.FirebaseOperationsForProjectInternalAttendanceTab
 import com.csite.app.FirebaseOperations.FirebaseOperationsForProjectInternalMaterialTab
 import com.csite.app.FirebaseOperations.FirebaseOperationsForProjectInternalTransactions
+import com.csite.app.Objects.Contractor
 import com.csite.app.Objects.MaterialRequestOrReceived
 import com.csite.app.Objects.PdfGenerator
 import com.csite.app.Objects.TransactionOtherExpense
 import com.csite.app.Objects.TransactionPaymentIn
 import com.csite.app.Objects.TransactionPaymentOut
 import com.csite.app.Objects.TransactionSalesInvoice
+import com.csite.app.Objects.Workforce
 import com.csite.app.R
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -86,6 +89,24 @@ class ProjectInternalSiteFragment : Fragment(){
                 firebaseOperationsForProjectInternalMaterialTab.fetchMaterialRequests(projectId, object : FirebaseOperationsForProjectInternalMaterialTab.OnMaterialRequestReceived{
                     override fun onMaterialRequestReceived(materialRequestList: ArrayList<MaterialRequestOrReceived>) {
                         // TODO: Send ATTENDANCE And Material DATA FOR DPR
+                        val materialRequestListForSite = materialRequestList
+                        val firebaseOperationsForProjectInternalAttendanceTab = FirebaseOperationsForProjectInternalAttendanceTab()
+                        firebaseOperationsForProjectInternalAttendanceTab.fetchContractorListFromAttendance(projectId, selectedDate, object: FirebaseOperationsForProjectInternalAttendanceTab.getAttendanceContractorList{
+                            override fun onAttendanceContractorListReceived(contractorList: HashMap<String, Contractor>) {
+                                val workforceHashMap = HashMap<String, ArrayList<Workforce>>()
+                                var size = 0
+                                for (contractor in contractorList){
+                                    val workforceList = ArrayList<Workforce>()
+                                    for (workforce in contractor.value.contractorWorkforce.values){
+                                        workforceList.add(workforce)
+                                        size++
+                                    }
+                                    workforceHashMap[contractor.value.contractorName] = workforceList
+                                }
+                                PdfGenerator.generateDPR(filepath, materialRequestListForSite, workforceHashMap, projectName, selectedDate, size)
+                            }
+
+                        })
                     }
                 })
             }
