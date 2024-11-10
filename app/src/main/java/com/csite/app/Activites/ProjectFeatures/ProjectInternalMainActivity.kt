@@ -284,9 +284,7 @@ class ProjectInternalMainActivity : AppCompatActivity() {
                         projectInternalMaterialTabIcon.setImageResource(R.drawable.material)
                     }
                     2 -> {
-                        val projectInternalAttendanceFragment: ProjectInternalAttendanceFragment = ProjectInternalAttendanceFragment()
-                        projectInternalAttendanceFragment.arguments = bundle
-                        supportFragmentManager.beginTransaction().replace(R.id.projectInternalFrameLayout, projectInternalAttendanceFragment).commit()
+                        Toast.makeText(this@ProjectInternalMainActivity, "2", Toast.LENGTH_SHORT).show()
                         projectInternalTransactionTabIcon.setImageResource(R.drawable.transaction_icon_yellow)
                         projectInternalSiteTabIcon.setImageResource(R.drawable.site_project_internal)
                         projectInternalAttendanceTabIcon.setImageResource(R.drawable.attendance_icon_black)
@@ -337,9 +335,7 @@ class ProjectInternalMainActivity : AppCompatActivity() {
                     projectInternalMaterialTabIcon.setImageResource(R.drawable.material)
                 }
                 2 -> {
-                    val projectInternalAttendanceFragment: ProjectInternalAttendanceFragment = ProjectInternalAttendanceFragment()
-                    projectInternalAttendanceFragment.arguments = bundle
-                    supportFragmentManager.beginTransaction().replace(R.id.projectInternalFrameLayout, projectInternalAttendanceFragment).commit()
+                    Toast.makeText(this@ProjectInternalMainActivity, "2", Toast.LENGTH_SHORT).show()
                     projectInternalTransactionTabIcon.setImageResource(R.drawable.transaction_icon_yellow)
                     projectInternalSiteTabIcon.setImageResource(R.drawable.site_project_internal)
                     projectInternalAttendanceTabIcon.setImageResource(R.drawable.attendance_icon_black)

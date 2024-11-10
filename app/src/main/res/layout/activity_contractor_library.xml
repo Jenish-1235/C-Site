@@ -5,10 +5,10 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activites.Library.WorkforceLibraryActivity">
+    tools:context=".Activites.Library.MaterialLibraryActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar4"
+        android:id="@+id/toolbar2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
@@ -31,7 +31,7 @@
             android:id="@+id/libraryNameTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Workforce Library"
+            android:text="Contractor Library"
             android:textColor="@color/white"
             android:textSize="24sp" />
 
@@ -45,7 +45,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar4">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar2">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -53,29 +53,28 @@
             android:orientation="horizontal">
 
             <SearchView
-                android:id="@+id/searchMaterialLibrary"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <Button
-                android:id="@+id/addNewWorkforceButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:id="@+id/searchContractorLibrary"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/addNewContractorButton"
                 android:backgroundTint="@color/yellow"
-                android:fontFamily="@font/arimo_medium"
-                android:text="+ New Workforce"
+                android:text="+ New Contractor"
                 android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold"/>
+                android:fontFamily="@font/arimo_medium"
+                android:textStyle="bold"
+                android:textSize="16sp"/>
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/workforceLibraryRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:id="@+id/contractorLibraryRecyclerView"/>
 
     </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,311 +1,130 @@
 package com.csite.app.Fragments.ProjectInternal
 
 import android.content.Intent
-import android.content.res.ColorStateList
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.csite.app.Activites.ProjectFeatures.AttendanceTab.AddWorkersToProjectActivity
-import com.csite.app.FirebaseOperations.FirebaseOperationsForProjectInternalAttendance
-import com.csite.app.Objects.ProjectWorker
+import androidx.recyclerview.widget.RecyclerView
+import com.csite.app.Activites.ProjectFeatures.AttendanceTab.ContractorSelectionActivity
+import com.csite.app.FirebaseOperations.FirebaseOperationsForProjectInternalAttendanceTab
+import com.csite.app.Objects.Contractor
+import com.csite.app.Objects.Workforce
 import com.csite.app.R
-import com.csite.app.RecyclerViewListAdapters.AttendanceListAdapter
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.firebase.database.FirebaseDatabase
+import com.csite.app.RecyclerViewListAdapters.AttendanceTabListAdapter
+import com.csite.app.databinding.FragmentProjectInternalAttendanceBinding
+import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.util.Date
 import kotlin.collections.HashMap
 
-
 class ProjectInternalAttendanceFragment : Fragment() {
-    val pref = FirebaseDatabase.getInstance().getReference("Projects")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        val view = inflater.inflate(R.layout.fragment_project_internal_attendance, container, false)
+        val b = FragmentProjectInternalAttendanceBinding.bind(view)
 
-
-        val view =  inflater.inflate(R.layout.fragment_project_internal_attendance, container, false)
-
-        val bundle = getArguments()
+        val bundle = arguments
+        val projectName = bundle?.getString("projectName")
         val projectId = bundle?.getString("projectId")
-        val memberAccess = bundle?.getString("memberAccess")
-
-        val attendanceRecyclerView = view.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.projectWorkersRecyclerView)
-        val emptyWorkerList = ArrayList<ProjectWorker>()
-        val adapter = AttendanceListAdapter(emptyWorkerList)
-        attendanceRecyclerView.adapter = adapter
-        attendanceRecyclerView.layoutManager = LinearLayoutManager(requireActivity())
 
 
-        val addDayButton = view.findViewById<Button>(R.id.addDayButton)
-        addDayButton.text = "Add Day"
-        addDayButton.backgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.yellow))
-
-        val currentDate = getCurrentDate()
-        val selectedDateTextView = view.findViewById<TextView>(R.id.selectedDateView)
-        selectedDateTextView.text = currentDate
-
-
-        val addWorkerButton: FloatingActionButton = view.findViewById(R.id.addWorkersButton)
-        addWorkerButton.setOnClickListener{
-            val addWorkerToProjectIntent = Intent(activity, AddWorkersToProjectActivity::class.java)
-            addWorkerToProjectIntent.putExtra("projectId",projectId)
-            addWorkerToProjectIntent.putExtra("memberAccess",memberAccess)
-            startActivity(addWorkerToProjectIntent)
-        }
-
-        val firebaseOperationsForProjectInternalAttendance = FirebaseOperationsForProjectInternalAttendance()
-
-        val yesterdayDateButton:ImageView = view.findViewById(R.id.yesterdayDateButton)
-        yesterdayDateButton.setOnClickListener{
-            var selectedDate = selectedDateTextView.text.toString()
+        b.yesterdayDateButton.setOnClickListener{
+            val currentSelectedDate = b.currentSelectedDateView.text
             val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
-            val date = LocalDate.parse(selectedDate, formatter)
+            val date = LocalDate.parse(currentSelectedDate, formatter)
             val yesterday = date.minusDays(1)
-            selectedDateTextView.text = yesterday.format(formatter)
-            if (projectId != null) {
-                firebaseOperationsForProjectInternalAttendance.getCalculatedValues(projectId, selectedDateTextView.text.toString(), object : FirebaseOperationsForProjectInternalAttendance.OnCalculatedValuesFetched{
-                    override fun onCalculatedValuesFetched(calculatedHashMap: HashMap<String, String>) {
-                        val presentCountView = view.findViewById<TextView>(R.id.presentCountView)
-                        presentCountView.text = calculatedHashMap.get("totalPresent")
-                        val absentCountView = view.findViewById<TextView>(R.id.absentCountView)
-                        absentCountView.text = calculatedHashMap.get("totalAbsent")
-                        val salaryView = view.findViewById<TextView>(R.id.totalSalaryView)
-                        salaryView.text = calculatedHashMap.get("totalSalary")
-                    }
-                })
-                updateUI(view,projectId)
-            }
+            b.currentSelectedDateView.text = formatter.format(yesterday).toString()
+            updateUI(view, projectId.toString(), b.currentSelectedDateView.text.toString())
 
         }
 
-        val tomorrowDateButton:ImageView = view.findViewById(R.id.tomorrowDateButton)
-        tomorrowDateButton.setOnClickListener {
-            var selectedDate = selectedDateTextView.text.toString()
-            if (selectedDate != getCurrentDate()){
-                val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
-                val date = LocalDate.parse(selectedDate, formatter)
-                val tomorrow = date.plusDays(1)
-                selectedDateTextView.text = tomorrow.format(formatter)
-                if (projectId != null) {
-                    firebaseOperationsForProjectInternalAttendance.getCalculatedValues(projectId, selectedDateTextView.text.toString(), object : FirebaseOperationsForProjectInternalAttendance.OnCalculatedValuesFetched{
-                        override fun onCalculatedValuesFetched(calculatedHashMap: HashMap<String, String>) {
-                            val presentCountView = view.findViewById<TextView>(R.id.presentCountView)
-                            presentCountView.text = calculatedHashMap.get("totalPresent")
-                            val absentCountView = view.findViewById<TextView>(R.id.absentCountView)
-                            absentCountView.text = calculatedHashMap.get("totalAbsent")
-                            val salaryView = view.findViewById<TextView>(R.id.totalSalaryView)
-                            salaryView.text = calculatedHashMap.get("totalSalary")
-                        }
-                    })
-                }
-                if (projectId != null) {
+        b.currentSelectedDateView.text = getDateTimeWithTime()
 
-                    updateUI(view,projectId)
-                }
-            }else{
-                if (projectId != null) {
-                    firebaseOperationsForProjectInternalAttendance.getCalculatedValues(projectId, selectedDateTextView.text.toString(), object : FirebaseOperationsForProjectInternalAttendance.OnCalculatedValuesFetched{
-                        override fun onCalculatedValuesFetched(calculatedHashMap: HashMap<String, String>) {
-                            val presentCountView = view.findViewById<TextView>(R.id.presentCountView)
-                            presentCountView.text = calculatedHashMap.get("totalPresent")
-                            val absentCountView = view.findViewById<TextView>(R.id.absentCountView)
-                            absentCountView.text = calculatedHashMap.get("totalAbsent")
-                            val salaryView = view.findViewById<TextView>(R.id.totalSalaryView)
-                            salaryView.text = calculatedHashMap.get("totalSalary")
-                        }
-                    })
-                }
-                if (projectId != null) {
-                    updateUI(view, projectId)
-                }
-            }
+        b.tomorrowDateButton.setOnClickListener{
+            val currentSelectedDate = b.currentSelectedDateView.text
+            val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+            val date = LocalDate.parse(currentSelectedDate, formatter)
+            val tomorrow = date.plusDays(1)
+            b.currentSelectedDateView.text =
+                formatter.format(tomorrow).toString()
+            updateUI(view, projectId.toString(), b.currentSelectedDateView.text.toString())
         }
 
-        if (projectId != null) {
-            firebaseOperationsForProjectInternalAttendance.getCalculatedValues(projectId, selectedDateTextView.text.toString(), object : FirebaseOperationsForProjectInternalAttendance.OnCalculatedValuesFetched{
-                override fun onCalculatedValuesFetched(calculatedHashMap: HashMap<String, String>) {
-                    if (calculatedHashMap.get("totalPresent") != null) {
-                        val presentCountView = view.findViewById<TextView>(R.id.presentCountView)
-                        presentCountView.text = calculatedHashMap.get("totalPresent")
-                        val absentCountView = view.findViewById<TextView>(R.id.absentCountView)
-                        absentCountView.text = calculatedHashMap.get("totalAbsent")
-                        val salaryView = view.findViewById<TextView>(R.id.totalSalaryView)
-                        salaryView.text = "\u20b9 " +calculatedHashMap.get("totalSalary")
-                    }else{
-                        val presentCountView = view.findViewById<TextView>(R.id.presentCountView)
-                        presentCountView.text = "0"
-                        val absentCountView = view.findViewById<TextView>(R.id.absentCountView)
-                        absentCountView.text = "0"
-                        val salaryView = view.findViewById<TextView>(R.id.totalSalaryView)
-                        salaryView.text = "\u20b9 0.0"
-                    }
-                }
-            })
+        b.addContractorButton.setOnClickListener{
+            val contractorSelectionIntent = Intent(context, ContractorSelectionActivity::class.java)
+            contractorSelectionIntent.putExtra("projectId", projectId)
+            contractorSelectionIntent.putExtra("currentDate", b.currentSelectedDateView.text.toString())
+            startActivity(contractorSelectionIntent)
         }
 
-        if (projectId != null) {
-            updateUI(view, projectId)
-        }
-
-        addDayButton.setOnClickListener{
-            if (projectId != null) {
-                firebaseOperationsForProjectInternalAttendance.checkWorkerExist(projectId){exist->
-                    if (exist){
-                        addWorkerButton.backgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.green))
-                        var projectWorkerList = ArrayList<ProjectWorker>()
-                        firebaseOperationsForProjectInternalAttendance.fetchProjectWorkers(projectId,
-                            object : FirebaseOperationsForProjectInternalAttendance.OnProjectWorkersFetched {
-                                override fun onProjectWorkersFetched(workersList: ArrayList<ProjectWorker>) {
-                                    projectWorkerList = workersList
-                                    firebaseOperationsForProjectInternalAttendance.checkAttendanceExists(projectId){attendanceExist ->
-                                        if (attendanceExist){
-                                            val attendanceHashMap = HashMap<String, ProjectWorker>()
-                                            for (worker in projectWorkerList){
-                                                attendanceHashMap.put(worker.wId,worker)
-                                            }
-                                            firebaseOperationsForProjectInternalAttendance.updateAttendance(projectId,selectedDateTextView.text.toString(),attendanceHashMap)
-                                            updateUI(view,projectId)
-                                        }else{
-                                            val attendanceHashMap = HashMap<String, ProjectWorker>()
-                                            for (worker in projectWorkerList){
-                                                attendanceHashMap.put(worker.wId,worker)
-                                            }
-                                            firebaseOperationsForProjectInternalAttendance.saveAttendance(projectId,selectedDateTextView.text.toString(),attendanceHashMap)
-                                        }
-                                    }
-                                }
-                            })
-                    }else{
-                        Toast.makeText(requireActivity(), "No Workers Found", Toast.LENGTH_SHORT).show()
-                        val addWorkerToProjectIntent = Intent(activity, AddWorkersToProjectActivity::class.java)
-                        addWorkerToProjectIntent.putExtra("projectId",projectId)
-                        addWorkerToProjectIntent.putExtra("memberAccess",memberAccess)
-                        startActivity(addWorkerToProjectIntent)
-                    }
-                }
-            }
-        }
-
+        updateUI(view, projectId.toString(), b.currentSelectedDateView.text.toString())
         return view
     }
 
-
-    fun getCurrentDate():String{
-        val today = LocalDate.now()
-        val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
-        return today.format(formatter)
+    fun getDateTimeWithTime(): String {
+        val date = Date()
+        val formatter = SimpleDateFormat("dd-MM-yyyy")
+        return formatter.format(date)
     }
 
-    fun updateUI(view: View,projectId:String){
-        val firebaseOperationsForProjectInternalAttendance = FirebaseOperationsForProjectInternalAttendance()
-        val addWorkerButton: FloatingActionButton = view.findViewById(R.id.addWorkersButton)
-        val addDayButton = view.findViewById<Button>(R.id.addDayButton)
-        val selectedDateTextView = view.findViewById<TextView>(R.id.selectedDateView)
-        val attendanceRecyclerView = view.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.projectWorkersRecyclerView)
-        attendanceRecyclerView.layoutManager = LinearLayoutManager(requireActivity())
-        val emptyWorkerList = ArrayList<ProjectWorker>()
-        val adapter = AttendanceListAdapter(emptyWorkerList)
-        attendanceRecyclerView.adapter = adapter
+    fun updateUI(view:View, projectId: String, currentDate:String){
+        val firebaseOperationsForProjectInternalAttendanceTab = FirebaseOperationsForProjectInternalAttendanceTab()
+        firebaseOperationsForProjectInternalAttendanceTab.fetchContractorListFromAttendance(projectId, currentDate, object :FirebaseOperationsForProjectInternalAttendanceTab.getAttendanceContractorList{
+            override fun onAttendanceContractorListReceived(contractorList: HashMap<String, Contractor>) {
 
-        if (projectId != null) {
-            firebaseOperationsForProjectInternalAttendance.checkWorkerExist(projectId){workerExist ->
-                if (workerExist){
+                val workforceHashMap = HashMap<String, ArrayList<Workforce>>()
+                var size = 0
+                for (contractor in contractorList){
+                    val workforceList = ArrayList<Workforce>()
+                    for (workforce in contractor.value.contractorWorkforce.values){
+                        workforceList.add(workforce)
+                        size++
+                    }
+                    workforceHashMap[contractor.value.contractorName] = workforceList
+                }
 
-                    addWorkerButton.setBackgroundColor(getResources().getColor(R.color.green))
-                    addWorkerButton.setImageDrawable(getResources().getDrawable(R.drawable.icon_edit))
+                val attendanceTabRecyclerView = view.findViewById<RecyclerView>(R.id.attendanceListRecyclerView)
+                val attendanceTabAdapter = AttendanceTabListAdapter(workforceHashMap, currentDate, size, projectId)
+                attendanceTabRecyclerView.adapter = attendanceTabAdapter
+                attendanceTabRecyclerView.layoutManager = LinearLayoutManager(requireActivity())
+                attendanceTabAdapter.notifyDataSetChanged()
 
-                    firebaseOperationsForProjectInternalAttendance.checkAttendanceExists(projectId){attendanceExist ->
-                        if (attendanceExist){
-                            firebaseOperationsForProjectInternalAttendance.checkDateExists(projectId,selectedDateTextView.text.toString()){dateExist ->
-                                if (dateExist){
-                                    addDayButton.text = "Update Workers"
-                                    firebaseOperationsForProjectInternalAttendance.getWorkersForExistingAttendance(projectId, selectedDateTextView.text.toString(), object : FirebaseOperationsForProjectInternalAttendance.OnAttendanceWorkerFetched {
-                                        override fun onAttendanceWorkerFetched(workersList: ArrayList<ProjectWorker>) {
-                                            val adapter = AttendanceListAdapter(workersList)
-                                            attendanceRecyclerView.adapter = adapter
-                                            adapter.notifyDataSetChanged()
-                                            val saveAttendanceButton = view.findViewById<Button>(R.id.saveAttendanceButton)
-                                            saveAttendanceButton.setOnClickListener{
-                                                var count = 0
-                                                var salary = 0.0
-//                                                Toast.makeText(requireActivity(), adapter.getAttendanceList().size.toString(), Toast.LENGTH_SHORT).show()
-                                                for(worker in adapter.getAttendanceList()){
-                                                    if (worker.value.wIsPresent.equals("true")){
-                                                        count++
-                                                        salary += worker.value.wSalaryPerDay.toDouble()
-                                                    }else{
-                                                        salary += 0
-                                                    }
-                                                }
-                                                val presentCountView = view.findViewById<TextView>(R.id.presentCountView)
-                                                presentCountView.text = count.toString()
-                                                val absentCountView = view.findViewById<TextView>(R.id.absentCountView)
-                                                absentCountView.text = (adapter.getAttendanceList().size - count).toString()
-                                                val salaryView = view.findViewById<TextView>(R.id.totalSalaryView)
-                                                salaryView.text = salary.toString()
-
-                                                firebaseOperationsForProjectInternalAttendance.updateAttendance(projectId,selectedDateTextView.text.toString(),adapter.getAttendanceList())
-
-                                                var calculatedHashMap : HashMap<String, String> = HashMap()
-                                                calculatedHashMap.put("totalPresent",count.toString())
-                                                calculatedHashMap.put("totalAbsent",(adapter.getAttendanceList().size - count).toString())
-                                                calculatedHashMap.put("totalSalary",salary.toString())
-
-                                                var calculatedHashMapWithDate = HashMap<String,HashMap<String,String>>()
-                                                calculatedHashMapWithDate.put(selectedDateTextView.text.toString(),calculatedHashMap)
-                                                var calculationHashMapWithChild = HashMap<String,HashMap<String,HashMap<String,String>>>()
-                                                calculationHashMapWithChild.put("AttendanceCalculation",calculatedHashMapWithDate)
-                                                firebaseOperationsForProjectInternalAttendance.checkCalculationExists(projectId) { calculatedExist ->
-                                                    if (calculatedExist) {
-                                                        firebaseOperationsForProjectInternalAttendance.saveOrUpdateCalculation(
-                                                            projectId,
-                                                            calculatedHashMapWithDate,0
-                                                        )
-                                                    } else {
-                                                        firebaseOperationsForProjectInternalAttendance.saveOrUpdateCalculation(
-                                                            projectId,
-                                                            calculatedHashMapWithDate,1
-                                                        )
-                                                    }
-                                                }
-
-                                            }
-                                        }
-                                    })
-                                }else{
-                                    addDayButton.text = "Add Day"
-                                    addDayButton.backgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.yellow))
-                                }
-                            }
-                        }else{
-                            addDayButton.text = "Add Day"
-                            addDayButton.backgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.yellow))
-                        }
+                firebaseOperationsForProjectInternalAttendanceTab.fetchTotalCounts(projectId, currentDate, object : FirebaseOperationsForProjectInternalAttendanceTab.fetchTotalAttendanceCounts{
+                    override fun onTotalCountReceived(
+                        presentCount: String,
+                        absentCount: String,
+                        totalSalary: String
+                    ) {
+                        val totalPresentView = view.findViewById<TextView>(R.id.totalPresentCountView)
+                        val totalAbsentView = view.findViewById<TextView>(R.id.totalAbsentCountView)
+                        val totalSalaryView = view.findViewById<TextView>(R.id.totalSalaryView)
+                        totalSalaryView.text = totalSalary
+                        totalPresentView.text = presentCount
+                        totalAbsentView.text = absentCount
                     }
 
-                }else{
-
-                    Toast.makeText(requireActivity(), "No Workers Found", Toast.LENGTH_SHORT).show()
-                    addDayButton.text = "Add Day"
-
-                    addDayButton.backgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.yellow))
-                    addWorkerButton.backgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.yellow))
-                    addWorkerButton.setImageDrawable(getResources().getDrawable(R.drawable.party_icon_black))
-                }
+                })
             }
-        }
 
+        })
     }
 
+    override fun onResume() {
+        super.onResume()
+        val bundle = arguments
+        val projectName = bundle?.getString("projectName")
+        val projectId = bundle?.getString("projectId")
+        val currentDate = view?.findViewById<TextView>(R.id.currentSelectedDateView)?.text.toString()
+        updateUI(requireView(), projectId.toString(), currentDate)
+    }
 
 }

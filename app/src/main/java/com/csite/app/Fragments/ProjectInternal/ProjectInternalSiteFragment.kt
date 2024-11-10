@@ -10,12 +10,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.cmpte.app.Objects.TransactionMaterialPurchase
-import com.csite.app.FirebaseOperations.FirebaseOperationsForProjectInternalAttendance
 import com.csite.app.FirebaseOperations.FirebaseOperationsForProjectInternalMaterialTab
 import com.csite.app.FirebaseOperations.FirebaseOperationsForProjectInternalTransactions
 import com.csite.app.Objects.MaterialRequestOrReceived
 import com.csite.app.Objects.PdfGenerator
-import com.csite.app.Objects.ProjectWorker
 import com.csite.app.Objects.TransactionOtherExpense
 import com.csite.app.Objects.TransactionPaymentIn
 import com.csite.app.Objects.TransactionPaymentOut
@@ -30,10 +28,8 @@ class ProjectInternalSiteFragment : Fragment(){
 
     private val firebaseOperationsForProjectInternalMaterialTab = FirebaseOperationsForProjectInternalMaterialTab()
     private val firebaseOperationsForProjectInternalTransactions = FirebaseOperationsForProjectInternalTransactions()
-    private val firebaseOperationsForProjectInternalAttendance = FirebaseOperationsForProjectInternalAttendance()
 
     var materialRequestListForSite = ArrayList<MaterialRequestOrReceived>()
-    var attendanceList = ArrayList<ProjectWorker>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -89,21 +85,7 @@ class ProjectInternalSiteFragment : Fragment(){
             if (projectId != null) {
                 firebaseOperationsForProjectInternalMaterialTab.fetchMaterialRequests(projectId, object : FirebaseOperationsForProjectInternalMaterialTab.OnMaterialRequestReceived{
                     override fun onMaterialRequestReceived(materialRequestList: ArrayList<MaterialRequestOrReceived>) {
-
-                        firebaseOperationsForProjectInternalAttendance.getWorkersForExistingAttendance(projectId, selectedDate, object : FirebaseOperationsForProjectInternalAttendance.OnAttendanceWorkerFetched{
-                            override fun onAttendanceWorkerFetched(workersList: ArrayList<ProjectWorker>) {
-
-                                for (materialRequest in materialRequestList){
-                                    if (materialRequest.dateTimeStamp.substring(0, 10) == selectedDate){
-                                        materialRequestListForSite.add(materialRequest)
-                                    }
-                                }
-                                PdfGenerator.generateDPR(filepath, materialRequestListForSite, workersList, projectName, selectedDate)
-                                count++
-                                Toast.makeText(context, "DPR created", Toast.LENGTH_SHORT).show()
-                            }
-                        })
-
+                        // TODO: Send ATTENDANCE And Material DATA FOR DPR
                     }
                 })
             }
@@ -160,17 +142,7 @@ class ProjectInternalSiteFragment : Fragment(){
             }
         })
 
-        firebaseOperationsForProjectInternalAttendance.getWorkersForExistingAttendance(projectId, selectedDateView.text.toString(), object : FirebaseOperationsForProjectInternalAttendance.OnAttendanceWorkerFetched{
-            override fun onAttendanceWorkerFetched(workersList: ArrayList<ProjectWorker>) {
-                var count = 0
-                for(worker in workersList) {
-                    if (worker.wIsPresent == "true") {
-                        count++
-                    }
-                }
-                presentCount.text = count.toString()
-            }
-        })
+        // TODO: update the labour count
 
     }
 

@@ -1,16 +1,20 @@
 package com.csite.app.Objects
 
-class Workforce {
-    var workforceType: String = ""
-    var workforceSalaryPerShift = ""
-    var workforceCategory: String = ""
-    var workforceId: String = ""
-
-    constructor(workforceType: String, workforceSalaryPerShift: String, workforceCategory: String) {
-        this.workforceType = workforceType
-        this.workforceSalaryPerShift = workforceSalaryPerShift
-        this.workforceCategory = workforceCategory
-        this.workforceId = ""
-    }
-    constructor()
-}
+data class Workforce(
+    var workforceType:String = "",
+    var workforceSalaryPerDay:String = "",
+    var workforceCategory:String = "",
+    var workforceNumberOfWorkers:String = "0",
+    var workforceId:String = "",
+    var workforceIsLate:Boolean = false,
+    var workforceIsOverTime:Boolean = false,
+    var workforceOverTimePay:String = "0",
+    var workforceLateFine:String = "0",
+    var workforceHasAllowance:Boolean = false,
+    var workforceAllowance:String = "0",
+    var workforceHasDeduction:Boolean = false,
+    var workforceDeduction:String = "0",
+    var workforceNotes:String = "",
+    var workforcePresentWorkers:String = "0",
+    var workforceAbsentWorkers:String = "0"
+)

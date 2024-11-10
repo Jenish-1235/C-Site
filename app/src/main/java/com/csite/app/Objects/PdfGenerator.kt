@@ -17,7 +17,6 @@ object PdfGenerator {
     fun generateDPR(
         outputPath: String,
         materialRequests: List<MaterialRequestOrReceived>,
-        attendanceList: ArrayList<ProjectWorker>,
         projectName: String?,
         selectedDate: String
     ) {
@@ -86,38 +85,7 @@ object PdfGenerator {
         attendanceTable.addCell(Cell().add(Paragraph("Allowance")))
         attendanceTable.addCell(Cell().add(Paragraph("Total")))
 
-        for (worker in attendanceList) {
-            attendanceTable.addCell(Cell().add(Paragraph(worker.wName)))
-            if (worker.wIsPresent == "true") {
-                attendanceTable.addCell(Cell().add(Paragraph("Present")))
-            } else {
-                attendanceTable.addCell(Cell().add(Paragraph("Absent")))
-            }
-            attendanceTable.addCell(Cell().add(Paragraph(worker.wSalaryPerDay.toString())))
-            attendanceTable.addCell(Cell().add(Paragraph(worker.wOvertimeAmount.toString())))
-            attendanceTable.addCell(Cell().add(Paragraph(worker.wLateAmount.toString())))
-            attendanceTable.addCell(Cell().add(Paragraph(worker.wDeductionAmount.toString())))
-            attendanceTable.addCell(Cell().add(Paragraph(worker.wAllowanceAmount.toString())))
-            var total = 0.0
-            if (worker.wIsPresent == "true") {
-                total += worker.wSalaryPerDay.toDouble() + worker.wOvertimeAmount.toDouble()
-            }
-            if (worker.wIsOvertime){
-                total += worker.wOvertimeAmount.toDouble()
-            }
-            if (worker.wIsLate){
-                total -= worker.wLateAmount.toDouble()
-            }
-            if (worker.wIsDeduction){
-                total -= worker.wDeductionAmount.toDouble()
-            }
-            if (worker.wIsAllowance){
-                total += worker.wAllowanceAmount.toDouble()
-            }
-            attendanceTable.addCell(Cell().add(Paragraph(total.toString())))
-
-        }
-        document.add(attendanceTable)
+        // todo: attendance
 
         // Close the document to finalize the PDF
         document.close()

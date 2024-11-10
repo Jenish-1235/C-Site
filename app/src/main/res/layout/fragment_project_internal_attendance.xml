@@ -28,7 +28,7 @@
                 app:tint="@color/black" />
 
             <TextView
-                android:id="@+id/selectedDateView"
+                android:id="@+id/currentSelectedDateView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="Date"
@@ -104,7 +104,7 @@
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/presentCountView"
+                            android:id="@+id/totalPresentCountView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="0"
@@ -116,10 +116,11 @@
                     </LinearLayout>
 
                     <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_width="3dp"
+                        android:layout_height="30dp"
                         android:layout_gravity="center_vertical"
-                        android:layout_weight="1.48"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
                         android:src="@drawable/background_grey_circle"
                         app:tint="@color/black" />
 
@@ -139,7 +140,7 @@
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/absentCountView"
+                            android:id="@+id/totalAbsentCountView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="0"
@@ -151,9 +152,10 @@
                     </LinearLayout>
 
                     <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1.48"
+                        android:layout_width="3dp"
+                        android:layout_height="30dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
                         android:src="@drawable/background_grey_circle"
                         app:tint="@color/black" />
 
@@ -183,6 +185,7 @@
                             android:textStyle="bold" />
 
                     </LinearLayout>
+
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -192,61 +195,26 @@
                 android:layout_marginTop="10dp">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/projectWorkersRecyclerView"
+                    android:id="@+id/attendanceListRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
+                    app:layout_constraintBottom_toTopOf="@+id/addContractorButton"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/yellow"
-                    android:src="@drawable/party_icon_black"
-                    app:layout_constraintBottom_toBottomOf="@+id/projectWorkersRecyclerView"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.954"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/projectWorkersRecyclerView"
-                    app:layout_constraintVertical_bias="0.957"
-                    android:id="@+id/addWorkersButton"/>
-
-                <LinearLayout
-                    android:id="@+id/linearLayout4"
+                <Button
+                    android:id="@+id/addContractorButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:backgroundTint="#FFD249"
+                    android:text="Add Contractor"
+                    android:textColor="#000000"
+                    android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent">
+                    app:layout_constraintStart_toStartOf="parent" />
 
-                    <Button
-                        android:id="@+id/addDayButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:backgroundTint="@color/yellow"
-                        android:text="Add Worker"
-                        android:textColor="#000000"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        android:layout_weight="1"
-                        app:layout_constraintStart_toStartOf="parent" />
-
-                    <Button
-                        android:id="@+id/saveAttendanceButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:backgroundTint="@color/green"
-                        android:text="Save"
-                        android:textColor="#000000"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        android:layout_weight="1"/>
-
-                </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 

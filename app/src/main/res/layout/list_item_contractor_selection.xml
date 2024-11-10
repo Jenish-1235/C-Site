@@ -43,11 +43,11 @@
 
 
                 <TextView
-                    android:id="@+id/workforceTypeView"
+                    android:id="@+id/contractorNameView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/arimo_medium"
-                    android:text="Workforce Name"
+                    android:text="Contractor Name"
                     android:textColor="@color/black"
                     android:textSize="20dp"
                     android:textStyle="bold"
@@ -56,16 +56,30 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/workforceCategoryView"
+                    android:id="@+id/numberOfWorkforceView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/arimo_medium"
-                    android:text="Workforce Category "
+                    android:text="Workforces: "
                     android:textColor="@color/black"
                     android:textSize="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/contractorPhoneNumberView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/arimo_medium"
+                    android:gravity="start"
+                    android:text="Phone Number: "
+                    android:textColor="@color/black"
+                    android:textSize="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
 
             </LinearLayout>
 
@@ -86,12 +100,12 @@
 
 
                 <TextView
-                    android:id="@+id/workforceSalaryPerShiftView"
+                    android:id="@+id/contractorTotalSalaryView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/arimo_medium"
                     android:gravity="end"
-                    android:text="payment/day"
+                    android:text="Total Salary: "
                     android:textColor="#4BBA22"
                     android:textSize="18dp"
                     android:textStyle="bold"
@@ -99,13 +113,20 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <CheckBox
+                    android:id="@+id/contractorSelectedInput"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|bottom"
+                    android:fontFamily="@font/arimo_medium"
+                    android:textColor="@color/black"
+                    android:textSize="16dp" />
+
+
+
             </LinearLayout>
 
         </LinearLayout>
-
-
-
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

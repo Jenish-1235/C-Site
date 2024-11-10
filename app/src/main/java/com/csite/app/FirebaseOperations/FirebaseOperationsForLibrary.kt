@@ -1,8 +1,8 @@
 package com.csite.app.FirebaseOperations
 
+import com.csite.app.Objects.Contractor
 import com.csite.app.Objects.Material
 import com.csite.app.Objects.Party
-import com.csite.app.Objects.Workforce
 import com.google.android.material.datepicker.MaterialTextInputPicker
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -14,7 +14,7 @@ class FirebaseOperationsForLibrary {
 
     val libraryReference: DatabaseReference = FirebaseDatabase.getInstance().getReference("Library")
     val materialReference: DatabaseReference = FirebaseDatabase.getInstance().getReference("Library/Material")
-    val workforceReference: DatabaseReference = FirebaseDatabase.getInstance().getReference("Library/Workforce")
+    val contractorReference: DatabaseReference = FirebaseDatabase.getInstance().getReference("Library/Contractors")
     val partyReference: DatabaseReference = FirebaseDatabase.getInstance().getReference("Library/Party")
 
 
@@ -87,51 +87,6 @@ class FirebaseOperationsForLibrary {
         fun onMaterialListReceived(materialList: ArrayList<Material>)
     }
 
-    // 3. Save Workforce to library
-    fun addWorkforceToWorkforceLibrary(workforce: Workforce){
-        workforce.workforceId = workforceIdGenerator()
-        workforceReference.child(workforce.workforceId).setValue(workforce)
-        val party = Party()
-        party.partyName = workforce.workforceType
-        party.partyCondition = "000"
-        party.partyAmountToPayOrReceive = "0.0"
-        party.partyType = "Worker"
-        party.partyOpeningBalanceDetails = "Fresh"
-        party.partyId = partyIdGenerator()
-        partyReference.child(party.partyId).setValue(party)
-
-    }
-    // 3.1 Generate Workforce ID
-    fun workforceIdGenerator():String{
-        val random = java.util.Random()
-        val workforceId = random.nextInt(900000) + 100000
-        return "wf" + workforceId.toString()
-    }
-
-    // 3.2 Fetch Workforce from Workforce Library
-    fun fetchWorkforceFromWorkforceLibrary(callback: onWorkforceListReceived):ArrayList<Workforce>{
-        val workforceList = ArrayList<Workforce>()
-        val workforceValueEventListener = object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                workforceList.clear()
-                for (workforceSnapshot in snapshot.children) {
-                    val workforce = workforceSnapshot.getValue(Workforce::class.java)
-                    if (workforce != null) {
-                        workforceList.add(workforce)
-                    }
-                }
-                callback.onWorkforceListReceived(workforceList)
-                }
-            override fun onCancelled(error: DatabaseError) {
-            }
-        }
-        workforceReference.addValueEventListener(workforceValueEventListener)
-        return workforceList
-    }
-    // 3.3 Fetch Workforce from Workforce Library
-    interface onWorkforceListReceived{
-        fun onWorkforceListReceived(workforceList: ArrayList<Workforce>)
-    }
 
 
     // 4. Save Party to library
@@ -185,7 +140,38 @@ class FirebaseOperationsForLibrary {
         partyReference.child(partyId).setValue(party)
     }
 
+    // 5. Add New Contractor to library
+    fun addNewContractorToLibrary(contractor: Contractor){
+        contractor.contractorId = contractorIdGenerator()
+        contractorReference.child(contractor.contractorId).setValue(contractor)
+    }
+    fun contractorIdGenerator():String{
+        val random = java.util.Random()
+        val contractorId = random.nextInt(900000) + 100000
+        return "ct" + contractorId.toString()
+    }
 
+    fun fetchContractorListFromLibrary(callback: OnContractorListReceived){
+        val contractorList = ArrayList<Contractor>()
+        val contractorValueEventListener = object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                contractorList.clear()
+                for (contractorSnapshot in snapshot.children) {
+                    val contractor = contractorSnapshot.getValue(Contractor::class.java)
+                    if (contractor != null) {
+                        contractorList.add(contractor)
+                    }
+                }
+                callback.onContractorListReceived(contractorList)
+            }
 
+            override fun onCancelled(error: DatabaseError) {
+            }
+        }
+        contractorReference.addValueEventListener(contractorValueEventListener)
+    }
 
+    interface OnContractorListReceived{
+        fun onContractorListReceived(contractorList: ArrayList<Contractor>)
+    }
 }
