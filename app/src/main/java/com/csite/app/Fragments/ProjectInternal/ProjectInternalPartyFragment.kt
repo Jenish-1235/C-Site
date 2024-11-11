@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.csite.app.FirebaseOperations.FirebaseOperationsForLibrary
@@ -60,6 +61,10 @@ class ProjectInternalPartyFragment : Fragment() {
                                                 amount -= transaction.transactionAmount.toDouble()
                                             }else if (transaction.transactionType == "Sales Invoice"){
                                                 amount += transaction.transactionAmount.toDouble()
+                                            }else if (transaction.transactionType == "I Paid") {
+                                                amount += transaction.transactionAmount.toDouble()
+                                            }else if (transaction.transactionType == "I Received") {
+                                                amount -= transaction.transactionAmount.toDouble()
                                             }
                                         }
                                     }
@@ -68,6 +73,16 @@ class ProjectInternalPartyFragment : Fragment() {
                                     partyRecyclerView.adapter = adapter
                                     partyRecyclerView.setHasFixedSize(true)
                                     partyRecyclerView.adapter?.notifyDataSetChanged()
+
+                                    var count = 0
+                                    for(amount in paymentsHashMap.values){
+                                        if (amount != 0.0){
+                                            count++
+                                        }
+                                    }
+                                    val partyMemberCount = view.findViewById<TextView>(R.id.teamMembersValue)
+                                    partyMemberCount.text = count.toString() + " Team Members"
+
                                 }
 
                                 val partyAdapter = PaymentsListAdapter(paymentsHashMap)
