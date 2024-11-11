@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.csite.app.Activites.Library.AddNewPartyActivity
 import com.csite.app.FirebaseOperations.FirebaseOperationsForLibrary
-import com.csite.app.FirebaseOperations.FirebaseOperationsForProjectInternalTransactions
+import com.csite.app.FirebaseOperations.FirebaseOperationsForProjectInternalTransactionsTab
 import com.csite.app.Objects.CommonTransaction
 import com.csite.app.Objects.Party
 import com.csite.app.R
@@ -42,7 +42,7 @@ class PartyFragment : Fragment() {
 
         val firebaseOperationsForLibrary = FirebaseOperationsForLibrary()
         val projectReference = FirebaseDatabase.getInstance().getReference("Projects")
-        val firebaseOperationsForProjectInternalTransactions = FirebaseOperationsForProjectInternalTransactions()
+        val firebaseOperationsForProjectInternalTransactionsTab = FirebaseOperationsForProjectInternalTransactionsTab()
 
         var paymentsHashMap = HashMap<String, Double>()
         firebaseOperationsForLibrary.fetchPartyFromPartyLibrary(object : FirebaseOperationsForLibrary.onPartyListReceived{
@@ -53,7 +53,7 @@ class PartyFragment : Fragment() {
                             for(projectSnapshot in snapshot.children){
                                 if (projectSnapshot.hasChild("Transactions")){
                                     val projectId = projectSnapshot.child("projectId").value.toString()
-                                    firebaseOperationsForProjectInternalTransactions.fetchAllTransactions(projectId, object : FirebaseOperationsForProjectInternalTransactions.OnTransactionsFetched{
+                                    firebaseOperationsForProjectInternalTransactionsTab.fetchAllTransactions(projectId, object : FirebaseOperationsForProjectInternalTransactionsTab.OnTransactionsFetched{
                                         override fun onTransactionsFetched(transactions: MutableList<CommonTransaction>) {
                                             for(party in partyList){
                                                 var amount = 0.0
@@ -95,7 +95,7 @@ class PartyFragment : Fragment() {
                                             }
                                         }
 
-                                    }, object : FirebaseOperationsForProjectInternalTransactions.OnCalculated{
+                                    }, object : FirebaseOperationsForProjectInternalTransactionsTab.OnCalculated{
                                         override fun onCalculated(calculations: ArrayList<String>) {
                                         }
 

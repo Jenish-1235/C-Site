@@ -2,9 +2,7 @@ package com.csite.app.FirebaseOperations
 
 import com.cmpte.app.Objects.TransactionMaterialPurchase
 import com.csite.app.Objects.CommonTransaction
-import com.csite.app.Objects.MaterialRequestOrReceived
 import com.csite.app.Objects.MaterialSelection
-import com.csite.app.Objects.PartyPayForProjects
 import com.csite.app.Objects.TransactionOtherExpense
 import com.csite.app.Objects.TransactionPaymentIn
 import com.csite.app.Objects.TransactionPaymentOut
@@ -16,7 +14,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import java.util.HashMap
 
-class FirebaseOperationsForProjectInternalTransactions {
+class FirebaseOperationsForProjectInternalTransactionsTab {
 
     val projectReference: DatabaseReference =
         FirebaseDatabase.getInstance().getReference("Projects")

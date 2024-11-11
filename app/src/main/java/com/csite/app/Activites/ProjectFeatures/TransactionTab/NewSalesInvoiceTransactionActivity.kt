@@ -12,7 +12,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.csite.app.DialogFragments.MaterialSelectionLibraryDialogFragment
 import com.csite.app.DialogFragments.PartySelectionLibraryDialogFragment
-import com.csite.app.FirebaseOperations.FirebaseOperationsForProjectInternalTransactions
+import com.csite.app.FirebaseOperations.FirebaseOperationsForProjectInternalTransactionsTab
 import com.csite.app.Objects.MaterialSelection
 import com.csite.app.Objects.Party
 import com.csite.app.Objects.TransactionSalesInvoice
@@ -167,9 +167,9 @@ class NewSalesInvoiceTransactionActivity : AppCompatActivity() , PartySelectionL
             } else {
                 val siTransaction = TransactionSalesInvoice(transactionDate, partyName, category, additionalCharges, discount,
                     totalAmount.toString(), notes,finalMaterialList)
-                val firebaseOperationsForProjectInternalTransactions = FirebaseOperationsForProjectInternalTransactions()
+                val firebaseOperationsForProjectInternalTransactionsTab = FirebaseOperationsForProjectInternalTransactionsTab()
                 if (projectId != null) {
-                    firebaseOperationsForProjectInternalTransactions.saveSalesInvoiceTransaction(projectId, siTransaction)
+                    firebaseOperationsForProjectInternalTransactionsTab.saveSalesInvoiceTransaction(projectId, siTransaction)
                     finish()
                 }else{
                     Toast.makeText(this, "Project ID is null", Toast.LENGTH_SHORT).show()

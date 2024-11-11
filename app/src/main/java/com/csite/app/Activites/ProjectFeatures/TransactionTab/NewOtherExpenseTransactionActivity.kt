@@ -9,18 +9,15 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.csite.app.DialogFragments.PartySelectionLibraryDialogFragment
-import com.csite.app.FirebaseOperations.FirebaseOperationsForProjectInternalTransactions
+import com.csite.app.FirebaseOperations.FirebaseOperationsForProjectInternalTransactionsTab
 import com.csite.app.Objects.Party
 import com.csite.app.Objects.TransactionOtherExpense
 import com.csite.app.R
 import com.csite.app.databinding.ActivityNewOtherExpenseTransactionBinding
-import com.csite.app.databinding.ActivityNewPaymentInTransactionBinding
 
 class NewOtherExpenseTransactionActivity : AppCompatActivity(), PartySelectionLibraryDialogFragment.OnPartySelectedListener{
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -460,10 +457,10 @@ class NewOtherExpenseTransactionActivity : AppCompatActivity(), PartySelectionLi
                     otherExpenseTransactionNotes
                 )
                 // save Transaction and update party
-                val firebaseOperationsForProjectInternalTransactions = FirebaseOperationsForProjectInternalTransactions()
+                val firebaseOperationsForProjectInternalTransactionsTab = FirebaseOperationsForProjectInternalTransactionsTab()
                 try{
                     if (projectId!= null)
-                        firebaseOperationsForProjectInternalTransactions.saveOtherExpenseTransaction(projectId, transactionOtherExpense)
+                        firebaseOperationsForProjectInternalTransactionsTab.saveOtherExpenseTransaction(projectId, transactionOtherExpense)
                     finish()
                 }catch (e:Exception){
                     Toast.makeText(this, e.message , Toast.LENGTH_SHORT).show()

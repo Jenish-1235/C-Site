@@ -3,19 +3,17 @@ package com.csite.app.Activites.ProjectFeatures.TransactionTab
 import android.app.DatePickerDialog
 import android.icu.util.Calendar
 import android.os.Bundle
-import android.renderscript.ScriptGroup.Binding
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.cmpte.app.Objects.TransactionMaterialPurchase
 import com.csite.app.DialogFragments.MaterialSelectionLibraryDialogFragment
 import com.csite.app.DialogFragments.PartySelectionLibraryDialogFragment
-import com.csite.app.FirebaseOperations.FirebaseOperationsForProjectInternalTransactions
+import com.csite.app.FirebaseOperations.FirebaseOperationsForProjectInternalTransactionsTab
 import com.csite.app.Objects.MaterialSelection
 import com.csite.app.Objects.Party
 import com.csite.app.R
@@ -172,10 +170,10 @@ class NewMaterialPurchaseTransactionActivity : AppCompatActivity(), PartySelecti
                         transactionDate, partyName, category, additionalCharges, discount,
                         totalAmount.toString(), notes, finalMaterialList
                     )
-                    val firebaseOperationsForProjectInternalTransactions =
-                        FirebaseOperationsForProjectInternalTransactions()
+                    val firebaseOperationsForProjectInternalTransactionsTab =
+                        FirebaseOperationsForProjectInternalTransactionsTab()
                     if (projectId != null) {
-                        firebaseOperationsForProjectInternalTransactions.saveMaterialPurchaseTransaction(
+                        firebaseOperationsForProjectInternalTransactionsTab.saveMaterialPurchaseTransaction(
                             projectId,
                             siTransaction
                         )
