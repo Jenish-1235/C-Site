@@ -1,7 +1,6 @@
 package com.csite.app.Objects
 
-class TransactionIReceived {
-
+class TransactionIPaid {
     var transactionDate = ""
     var transactionAmount = ""
     var transactionCostCode = ""

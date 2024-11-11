@@ -16,6 +16,8 @@ import com.csite.app.FirebaseOperations.FirebaseOperationsForProjectInternalTran
 import com.csite.app.Objects.Contractor
 import com.csite.app.Objects.MaterialRequestOrReceived
 import com.csite.app.Objects.PdfGenerator
+import com.csite.app.Objects.TransactionIPaid
+import com.csite.app.Objects.TransactionIReceived
 import com.csite.app.Objects.TransactionOtherExpense
 import com.csite.app.Objects.TransactionPaymentIn
 import com.csite.app.Objects.TransactionPaymentOut
@@ -124,7 +126,9 @@ class ProjectInternalSiteFragment : Fragment(){
                         paymentOutTransaction: MutableList<TransactionPaymentOut>,
                         otherExpenseTransaction: MutableList<TransactionOtherExpense>,
                         salesInvoiceTransaction: MutableList<TransactionSalesInvoice>,
-                        materialPurchaseTransaction: MutableList<TransactionMaterialPurchase>
+                        materialPurchaseTransaction: MutableList<TransactionMaterialPurchase>,
+                        iPaidTransaction: MutableList<TransactionIPaid>,
+                        iReceiveTransaction: MutableList<TransactionIReceived>
                     ) {
 
 
