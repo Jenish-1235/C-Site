@@ -92,6 +92,35 @@ class NewIPaidTransactionActivity : AppCompatActivity() {
                                 iPaidTransaction.transactionParty = party.partyName
                                 val firebaseOperationsForProjectInternalTransactionsTab = FirebaseOperationsForProjectInternalTransactionsTab()
                                 firebaseOperationsForProjectInternalTransactionsTab.saveIPaidTransaction(projectId!!, iPaidTransaction)
+
+                                if (party.partyOpeningBalanceDetails.equals("Fresh")){
+                                    party.partyAmountToPayOrReceive = (party.partyAmountToPayOrReceive!!.toDouble() + amount.toString().toDouble()).toString()
+                                    if (party.partyAmountToPayOrReceive!!.toDouble() > 0){
+                                        party.partyOpeningBalanceDetails = "Will Receive"
+                                    }
+                                }else if (party.partyOpeningBalanceDetails.equals("Will Pay")){
+                                    party.partyAmountToPayOrReceive = (party.partyAmountToPayOrReceive!!.toDouble() + amount.toString().toDouble()).toString()
+                                    if (party.partyAmountToPayOrReceive!!.toDouble() < 0){
+                                        party.partyOpeningBalanceDetails = "Will Pay"
+                                    }else if (party.partyAmountToPayOrReceive!!.toDouble() == 0.0){
+                                        party.partyOpeningBalanceDetails = "Fresh"
+                                    }else if (party.partyAmountToPayOrReceive!!.toDouble() > 0){
+                                        party.partyOpeningBalanceDetails = "Will Recieve"
+                                    }
+
+                                }else if (party.partyOpeningBalanceDetails.equals("Will Receive")){
+                                    party.partyAmountToPayOrReceive = (party.partyAmountToPayOrReceive!!.toDouble() + amount.toString().toDouble()).toString()
+                                    if (party.partyAmountToPayOrReceive!!.toDouble() < 0){
+                                        party.partyOpeningBalanceDetails = "Will Pay"
+                                    }else if (party.partyAmountToPayOrReceive!!.toDouble() == 0.0){
+                                        party.partyOpeningBalanceDetails = "Fresh"
+                                    }else if (party.partyAmountToPayOrReceive!!.toDouble() > 0){
+                                        party.partyOpeningBalanceDetails = "Will Receive"
+                                    }
+                                }
+                                val firebaseOperationsForLibrary = FirebaseOperationsForLibrary()
+                                firebaseOperationsForLibrary.updateParty(party.partyId, party)
+
                                 finish()
                             }
                         }
