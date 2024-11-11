@@ -12,7 +12,7 @@ import com.cmpte.app.Objects.TransactionMaterialPurchase
 import com.csite.app.Activites.ProjectFeatures.MaterialTab.NewMaterialReceivedActivity
 import com.csite.app.Activites.ProjectFeatures.MaterialTab.NewMaterialRequestActivity
 import com.csite.app.FirebaseOperations.FirebaseOperationsForProjectInternalMaterialTab
-import com.csite.app.FirebaseOperations.FirebaseOperationsForProjectInternalTransactions
+import com.csite.app.FirebaseOperations.FirebaseOperationsForProjectInternalTransactionsTab
 import com.csite.app.Objects.MaterialRequestOrReceived
 import com.csite.app.Objects.TransactionOtherExpense
 import com.csite.app.Objects.TransactionPaymentIn
@@ -163,8 +163,8 @@ class ProjectInternalMaterialFragment : Fragment() {
             })
 
             val totalPurchasedView = view?.findViewById<TextView>(R.id.materialPurchaseCountView)
-            val firebaseOperationsForProjectInternalTransactions = FirebaseOperationsForProjectInternalTransactions()
-            firebaseOperationsForProjectInternalTransactions.fetchTransactionsByType(projectId, object: FirebaseOperationsForProjectInternalTransactions.allTransactionFetch{
+            val firebaseOperationsForProjectInternalTransactionsTab = FirebaseOperationsForProjectInternalTransactionsTab()
+            firebaseOperationsForProjectInternalTransactionsTab.fetchTransactionsByType(projectId, object: FirebaseOperationsForProjectInternalTransactionsTab.allTransactionFetch{
                 override fun onAllTransactionsFetched(
                     transactions: MutableList<TransactionPaymentIn>,
                     paymentOutTransaction: MutableList<TransactionPaymentOut>,

@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.csite.app.DialogFragments.PartySelectionLibraryDialogFragment
-import com.csite.app.FirebaseOperations.FirebaseOperationsForProjectInternalTransactions
+import com.csite.app.FirebaseOperations.FirebaseOperationsForProjectInternalTransactionsTab
 import com.csite.app.Objects.Party
 import com.csite.app.Objects.TransactionPaymentIn
 import com.csite.app.R
@@ -103,9 +103,9 @@ class NewPaymentInTransactionActivity : AppCompatActivity() , PartySelectionLibr
             if (paymentInTransactionDate.isEmpty() || paymentInTransactionAmount.isEmpty() || paymentInTransactionDescription.isEmpty() || paymentInTransactionPaymentFrom.isEmpty() || paymentInTransactionCostCode.isEmpty() || paymentInTransactionCategory.isEmpty() || paymentInTransactionPaymentMode.equals("")){
                 Toast.makeText(this, "Please fill all the fields", Toast.LENGTH_SHORT).show()
             } else {
-                val firebaseOperationsForProjectInternalTransactions = FirebaseOperationsForProjectInternalTransactions()
+                val firebaseOperationsForProjectInternalTransactionsTab = FirebaseOperationsForProjectInternalTransactionsTab()
                 if (projectId != null) {
-                    firebaseOperationsForProjectInternalTransactions.savePaymentInTransaction(
+                    firebaseOperationsForProjectInternalTransactionsTab.savePaymentInTransaction(
                         projectId,
                         TransactionPaymentIn(
                             paymentInTransactionDate,

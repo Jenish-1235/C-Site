@@ -1,29 +1,23 @@
 package com.csite.app.Activites.MainScreen
 
 import android.app.DatePickerDialog
-import android.content.Intent
 import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
-import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.csite.app.DialogFragments.MaterialSelectionLibraryDialogFragment
 import com.csite.app.DialogFragments.PartySelectionLibraryDialogFragment
-import com.csite.app.FirebaseOperations.FirebaseOperationsForProjectInternalTransactions
 import com.csite.app.FirebaseOperations.FirebaseOperationsForQuotations
 import com.csite.app.Objects.MaterialSelection
 import com.csite.app.Objects.Party
-import com.csite.app.Objects.TransactionSalesInvoice
 import com.csite.app.R
 import com.csite.app.RecyclerViewListAdapters.SelectedMaterialsListAdapter
 import com.csite.app.databinding.ActivityNewQuotationBinding
-import com.csite.app.databinding.ActivityNewSalesInvoiceTransactionBinding
 import com.site.app.Objects.Quotation
 import java.util.HashMap
 

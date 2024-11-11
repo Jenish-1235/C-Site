@@ -7,12 +7,11 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.csite.app.DialogFragments.PartySelectionLibraryDialogFragment
-import com.csite.app.FirebaseOperations.FirebaseOperationsForProjectInternalTransactions
+import com.csite.app.FirebaseOperations.FirebaseOperationsForProjectInternalTransactionsTab
 import com.csite.app.Objects.Party
 import com.csite.app.Objects.TransactionPaymentOut
 import com.csite.app.R
@@ -114,10 +113,10 @@ class NewPaymentOutTransactionActivity : AppCompatActivity(), PartySelectionLibr
             ) {
                 Toast.makeText(this, "Please fill all the fields", Toast.LENGTH_SHORT).show()
             } else {
-                val firebaseOperationsForProjectInternalTransactions =
-                    FirebaseOperationsForProjectInternalTransactions()
+                val firebaseOperationsForProjectInternalTransactionsTab =
+                    FirebaseOperationsForProjectInternalTransactionsTab()
                 if (projectId != null) {
-                    firebaseOperationsForProjectInternalTransactions.savePaymentOutTransaction(
+                    firebaseOperationsForProjectInternalTransactionsTab.savePaymentOutTransaction(
                         projectId,
                         TransactionPaymentOut(
                             paymentOutTransactionDate,

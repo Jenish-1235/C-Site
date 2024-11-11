@@ -12,7 +12,7 @@ import android.widget.Toast
 import com.cmpte.app.Objects.TransactionMaterialPurchase
 import com.csite.app.FirebaseOperations.FirebaseOperationsForProjectInternalAttendanceTab
 import com.csite.app.FirebaseOperations.FirebaseOperationsForProjectInternalMaterialTab
-import com.csite.app.FirebaseOperations.FirebaseOperationsForProjectInternalTransactions
+import com.csite.app.FirebaseOperations.FirebaseOperationsForProjectInternalTransactionsTab
 import com.csite.app.Objects.Contractor
 import com.csite.app.Objects.MaterialRequestOrReceived
 import com.csite.app.Objects.PdfGenerator
@@ -30,7 +30,7 @@ class ProjectInternalSiteFragment : Fragment(){
 
 
     private val firebaseOperationsForProjectInternalMaterialTab = FirebaseOperationsForProjectInternalMaterialTab()
-    private val firebaseOperationsForProjectInternalTransactions = FirebaseOperationsForProjectInternalTransactions()
+    private val firebaseOperationsForProjectInternalTransactionsTab = FirebaseOperationsForProjectInternalTransactionsTab()
 
     var materialRequestListForSite = ArrayList<MaterialRequestOrReceived>()
 
@@ -118,7 +118,7 @@ class ProjectInternalSiteFragment : Fragment(){
             var count = 0
             var filepath = Environment.getExternalStorageDirectory().absolutePath.toString() + "/Download/TransactionReport${selectedDate}_${count}.pdf"
             if (projectId != null) {
-                firebaseOperationsForProjectInternalTransactions.fetchTransactionsByType(projectId, object : FirebaseOperationsForProjectInternalTransactions.allTransactionFetch{
+                firebaseOperationsForProjectInternalTransactionsTab.fetchTransactionsByType(projectId, object : FirebaseOperationsForProjectInternalTransactionsTab.allTransactionFetch{
                     override fun onAllTransactionsFetched(
                         transactions: MutableList<TransactionPaymentIn>,
                         paymentOutTransaction: MutableList<TransactionPaymentOut>,

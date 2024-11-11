@@ -14,7 +14,7 @@ import com.csite.app.Activites.ProjectFeatures.TransactionTab.NewIReceivedTransa
 import com.csite.app.Activites.ProjectFeatures.TransactionTab.NewPaymentInTransactionActivity
 import com.csite.app.Activites.ProjectFeatures.TransactionTab.NewPaymentOutTransactionActivity
 import com.csite.app.DialogFragments.MoreTransactionDialogFragment
-import com.csite.app.FirebaseOperations.FirebaseOperationsForProjectInternalTransactions
+import com.csite.app.FirebaseOperations.FirebaseOperationsForProjectInternalTransactionsTab
 import com.csite.app.Objects.CommonTransaction
 import com.csite.app.R
 import com.csite.app.RecyclerViewListAdapters.TransactionListAdapter
@@ -24,6 +24,7 @@ import com.google.android.material.tabs.TabLayout.Tab
 
 class ProjectInternalTransactionFragment : Fragment() {
 
+    lateinit var projectId: String;
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -34,7 +35,7 @@ class ProjectInternalTransactionFragment : Fragment() {
         val binding = FragmentProjectInternalTransactionBinding.bind(view)
 
         val bundle = getArguments()
-        var projectId = bundle?.getString("projectId")
+        projectId = bundle?.getString("projectId").toString()
         val memberAccess = bundle?.getString("memberAccess")
 
         if (!memberAccess.equals("manager")){
@@ -84,12 +85,12 @@ class ProjectInternalTransactionFragment : Fragment() {
         }
 
 
-        val firebaseOperationsForProjectInternalTransactions = FirebaseOperationsForProjectInternalTransactions()
+        val firebaseOperationsForProjectInternalTransactionsTab = FirebaseOperationsForProjectInternalTransactionsTab()
         if (projectId != null) {
-            firebaseOperationsForProjectInternalTransactions.fetchAllTransactions(projectId, object : FirebaseOperationsForProjectInternalTransactions.OnTransactionsFetched{
+            firebaseOperationsForProjectInternalTransactionsTab.fetchAllTransactions(projectId, object : FirebaseOperationsForProjectInternalTransactionsTab.OnTransactionsFetched{
                 override fun onTransactionsFetched(transactions: MutableList<CommonTransaction>) {
                 }
-            }, object : FirebaseOperationsForProjectInternalTransactions.OnCalculated{
+            }, object : FirebaseOperationsForProjectInternalTransactionsTab.OnCalculated{
                 override fun onCalculated(calculations: ArrayList<String>) {
                     binding.projectBalanceView.text = "\u20b9" +  calculations.get(0)
                     binding.projectTotalExpenseView.text = "\u20b9" + calculations.get(3)
@@ -137,16 +138,16 @@ class ProjectInternalTransactionFragment : Fragment() {
                 val transactionRecyclerView = view.findViewById<RecyclerView>(R.id.projectTransactionRecyclerView)
                 transactionRecyclerView.layoutManager = LinearLayoutManager(requireActivity())
                 var filteredTransactions = mutableListOf<CommonTransaction>()
-                val firebaseOperationsForProjectInternalTransactions = FirebaseOperationsForProjectInternalTransactions()
+                val firebaseOperationsForProjectInternalTransactionsTab = FirebaseOperationsForProjectInternalTransactionsTab()
                 when(position){
                     0 -> {
-                        firebaseOperationsForProjectInternalTransactions.fetchAllTransactions(projectId, object : FirebaseOperationsForProjectInternalTransactions.OnTransactionsFetched{
+                        firebaseOperationsForProjectInternalTransactionsTab.fetchAllTransactions(projectId, object : FirebaseOperationsForProjectInternalTransactionsTab.OnTransactionsFetched{
                             override fun onTransactionsFetched(transactions: MutableList<CommonTransaction>) {
-                                val transactionListAdapter = TransactionListAdapter(transactions)
+                                val transactionListAdapter = TransactionListAdapter(transactions, projectId)
                                 transactionRecyclerView.adapter = transactionListAdapter
                                 transactionListAdapter.notifyDataSetChanged()
                             }
-                        }, object : FirebaseOperationsForProjectInternalTransactions.OnCalculated{
+                        }, object : FirebaseOperationsForProjectInternalTransactionsTab.OnCalculated{
                             override fun onCalculated(calculations: ArrayList<String>) {
                             }
 
@@ -154,18 +155,18 @@ class ProjectInternalTransactionFragment : Fragment() {
                     }
                     1-> {
                         filteredTransactions.clear()
-                        firebaseOperationsForProjectInternalTransactions.fetchAllTransactions(projectId, object : FirebaseOperationsForProjectInternalTransactions.OnTransactionsFetched{
+                        firebaseOperationsForProjectInternalTransactionsTab.fetchAllTransactions(projectId, object : FirebaseOperationsForProjectInternalTransactionsTab.OnTransactionsFetched{
                             override fun onTransactionsFetched(transactions: MutableList<CommonTransaction>) {
                                 for (transaction in transactions){
                                     if(transaction.transactionType.equals("Payment In")){
                                         filteredTransactions.add(transaction)
                                     }
                                 }
-                                val transactionListAdapter = TransactionListAdapter(filteredTransactions)
+                                val transactionListAdapter = TransactionListAdapter(filteredTransactions, projectId)
                                 transactionRecyclerView.adapter = transactionListAdapter
                                 transactionListAdapter.notifyDataSetChanged()
                             }
-                        }, object : FirebaseOperationsForProjectInternalTransactions.OnCalculated{
+                        }, object : FirebaseOperationsForProjectInternalTransactionsTab.OnCalculated{
                             override fun onCalculated(calculations: ArrayList<String>) {
                             }
 
@@ -174,18 +175,18 @@ class ProjectInternalTransactionFragment : Fragment() {
                     2-> {
                         filteredTransactions.clear()
                         Toast.makeText(requireActivity(), "Payment Out", Toast.LENGTH_SHORT).show()
-                        firebaseOperationsForProjectInternalTransactions.fetchAllTransactions(projectId, object : FirebaseOperationsForProjectInternalTransactions.OnTransactionsFetched{
+                        firebaseOperationsForProjectInternalTransactionsTab.fetchAllTransactions(projectId, object : FirebaseOperationsForProjectInternalTransactionsTab.OnTransactionsFetched{
                             override fun onTransactionsFetched(transactions: MutableList<CommonTransaction>) {
                                 for (transaction in transactions){
                                     if(transaction.transactionType.equals("Payment Out")){
                                         filteredTransactions.add(transaction)
                                     }
                                 }
-                                val transactionListAdapter = TransactionListAdapter(filteredTransactions)
+                                val transactionListAdapter = TransactionListAdapter(filteredTransactions, projectId)
                                 transactionRecyclerView.adapter = transactionListAdapter
                                 transactionListAdapter.notifyDataSetChanged()
                             }
-                        }, object : FirebaseOperationsForProjectInternalTransactions.OnCalculated{
+                        }, object : FirebaseOperationsForProjectInternalTransactionsTab.OnCalculated{
                             override fun onCalculated(calculations: ArrayList<String>) {
                             }
 
@@ -193,54 +194,54 @@ class ProjectInternalTransactionFragment : Fragment() {
                     }
                     3->{
                         filteredTransactions.clear()
-                        firebaseOperationsForProjectInternalTransactions.fetchAllTransactions(projectId, object : FirebaseOperationsForProjectInternalTransactions.OnTransactionsFetched{
+                        firebaseOperationsForProjectInternalTransactionsTab.fetchAllTransactions(projectId, object : FirebaseOperationsForProjectInternalTransactionsTab.OnTransactionsFetched{
                             override fun onTransactionsFetched(transactions: MutableList<CommonTransaction>) {
                                 for (transaction in transactions){
                                     if(transaction.transactionType.equals("Sales Invoice")){
                                         filteredTransactions.add(transaction)
                                     }
                                 }
-                                val transactionListAdapter = TransactionListAdapter(filteredTransactions)
+                                val transactionListAdapter = TransactionListAdapter(filteredTransactions, projectId)
                                 transactionRecyclerView.adapter = transactionListAdapter
                                 transactionListAdapter.notifyDataSetChanged()
                             }
-                        }, object : FirebaseOperationsForProjectInternalTransactions.OnCalculated{
+                        }, object : FirebaseOperationsForProjectInternalTransactionsTab.OnCalculated{
                             override fun onCalculated(calculations: ArrayList<String>) {
                             }
 
                         })
                     }4->{
                         filteredTransactions.clear()
-                    firebaseOperationsForProjectInternalTransactions.fetchAllTransactions(projectId, object : FirebaseOperationsForProjectInternalTransactions.OnTransactionsFetched{
+                    firebaseOperationsForProjectInternalTransactionsTab.fetchAllTransactions(projectId, object : FirebaseOperationsForProjectInternalTransactionsTab.OnTransactionsFetched{
                         override fun onTransactionsFetched(transactions: MutableList<CommonTransaction>) {
                             for (transaction in transactions){
                                 if(transaction.transactionType.equals("Material Purchase")){
                                     filteredTransactions.add(transaction)
                                 }
                             }
-                            val transactionListAdapter = TransactionListAdapter(filteredTransactions)
+                            val transactionListAdapter = TransactionListAdapter(filteredTransactions, projectId)
                             transactionRecyclerView.adapter = transactionListAdapter
                             transactionListAdapter.notifyDataSetChanged()
                         }
-                    }, object : FirebaseOperationsForProjectInternalTransactions.OnCalculated{
+                    }, object : FirebaseOperationsForProjectInternalTransactionsTab.OnCalculated{
                         override fun onCalculated(calculations: ArrayList<String>) {
                         }
 
                     })
                     }5-> {
                         filteredTransactions.clear()
-                    firebaseOperationsForProjectInternalTransactions.fetchAllTransactions(projectId, object : FirebaseOperationsForProjectInternalTransactions.OnTransactionsFetched{
+                    firebaseOperationsForProjectInternalTransactionsTab.fetchAllTransactions(projectId, object : FirebaseOperationsForProjectInternalTransactionsTab.OnTransactionsFetched{
                         override fun onTransactionsFetched(transactions: MutableList<CommonTransaction>) {
                             for (transaction in transactions){
                                 if(transaction.transactionType.equals("Other Expense")){
                                     filteredTransactions.add(transaction)
                                 }
                             }
-                            val transactionListAdapter = TransactionListAdapter(filteredTransactions)
+                            val transactionListAdapter = TransactionListAdapter(filteredTransactions, projectId)
                             transactionRecyclerView.adapter = transactionListAdapter
                             transactionListAdapter.notifyDataSetChanged()
                         }
-                    }, object : FirebaseOperationsForProjectInternalTransactions.OnCalculated{
+                    }, object : FirebaseOperationsForProjectInternalTransactionsTab.OnCalculated{
                         override fun onCalculated(calculations: ArrayList<String>) {
                         }
 
@@ -259,16 +260,16 @@ class ProjectInternalTransactionFragment : Fragment() {
                 val transactionRecyclerView = view.findViewById<RecyclerView>(R.id.projectTransactionRecyclerView)
                 transactionRecyclerView.layoutManager = LinearLayoutManager(requireActivity())
                 var filteredTransactions = mutableListOf<CommonTransaction>()
-                val firebaseOperationsForProjectInternalTransactions = FirebaseOperationsForProjectInternalTransactions()
+                val firebaseOperationsForProjectInternalTransactionsTab = FirebaseOperationsForProjectInternalTransactionsTab()
                 when(position){
                     0 -> {
-                        firebaseOperationsForProjectInternalTransactions.fetchAllTransactions(projectId, object : FirebaseOperationsForProjectInternalTransactions.OnTransactionsFetched{
+                        firebaseOperationsForProjectInternalTransactionsTab.fetchAllTransactions(projectId, object : FirebaseOperationsForProjectInternalTransactionsTab.OnTransactionsFetched{
                             override fun onTransactionsFetched(transactions: MutableList<CommonTransaction>) {
-                                val transactionListAdapter = TransactionListAdapter(transactions)
+                                val transactionListAdapter = TransactionListAdapter(transactions, projectId)
                                 transactionRecyclerView.adapter = transactionListAdapter
                                 transactionListAdapter.notifyDataSetChanged()
                             }
-                        }, object : FirebaseOperationsForProjectInternalTransactions.OnCalculated{
+                        }, object : FirebaseOperationsForProjectInternalTransactionsTab.OnCalculated{
                             override fun onCalculated(calculations: ArrayList<String>) {
                             }
 
@@ -276,18 +277,18 @@ class ProjectInternalTransactionFragment : Fragment() {
                     }
                     1-> {
                         filteredTransactions.clear()
-                        firebaseOperationsForProjectInternalTransactions.fetchAllTransactions(projectId, object : FirebaseOperationsForProjectInternalTransactions.OnTransactionsFetched{
+                        firebaseOperationsForProjectInternalTransactionsTab.fetchAllTransactions(projectId, object : FirebaseOperationsForProjectInternalTransactionsTab.OnTransactionsFetched{
                             override fun onTransactionsFetched(transactions: MutableList<CommonTransaction>) {
                                 for (transaction in transactions){
                                     if(transaction.transactionType.equals("Payment In")){
                                         filteredTransactions.add(transaction)
                                     }
                                 }
-                                val transactionListAdapter = TransactionListAdapter(filteredTransactions)
+                                val transactionListAdapter = TransactionListAdapter(filteredTransactions, projectId)
                                 transactionRecyclerView.adapter = transactionListAdapter
                                 transactionListAdapter.notifyDataSetChanged()
                             }
-                        }, object : FirebaseOperationsForProjectInternalTransactions.OnCalculated{
+                        }, object : FirebaseOperationsForProjectInternalTransactionsTab.OnCalculated{
                             override fun onCalculated(calculations: ArrayList<String>) {
                             }
 
@@ -296,18 +297,18 @@ class ProjectInternalTransactionFragment : Fragment() {
                     2-> {
                         filteredTransactions.clear()
                         Toast.makeText(requireActivity(), "Payment Out", Toast.LENGTH_SHORT).show()
-                        firebaseOperationsForProjectInternalTransactions.fetchAllTransactions(projectId, object : FirebaseOperationsForProjectInternalTransactions.OnTransactionsFetched{
+                        firebaseOperationsForProjectInternalTransactionsTab.fetchAllTransactions(projectId, object : FirebaseOperationsForProjectInternalTransactionsTab.OnTransactionsFetched{
                             override fun onTransactionsFetched(transactions: MutableList<CommonTransaction>) {
                                 for (transaction in transactions){
                                     if(transaction.transactionType.equals("Payment Out")){
                                         filteredTransactions.add(transaction)
                                     }
                                 }
-                                val transactionListAdapter = TransactionListAdapter(filteredTransactions)
+                                val transactionListAdapter = TransactionListAdapter(filteredTransactions, projectId)
                                 transactionRecyclerView.adapter = transactionListAdapter
                                 transactionListAdapter.notifyDataSetChanged()
                             }
-                        }, object : FirebaseOperationsForProjectInternalTransactions.OnCalculated{
+                        }, object : FirebaseOperationsForProjectInternalTransactionsTab.OnCalculated{
                             override fun onCalculated(calculations: ArrayList<String>) {
                             }
 
@@ -315,54 +316,54 @@ class ProjectInternalTransactionFragment : Fragment() {
                     }
                     3->{
                         filteredTransactions.clear()
-                        firebaseOperationsForProjectInternalTransactions.fetchAllTransactions(projectId, object : FirebaseOperationsForProjectInternalTransactions.OnTransactionsFetched{
+                        firebaseOperationsForProjectInternalTransactionsTab.fetchAllTransactions(projectId, object : FirebaseOperationsForProjectInternalTransactionsTab.OnTransactionsFetched{
                             override fun onTransactionsFetched(transactions: MutableList<CommonTransaction>) {
                                 for (transaction in transactions){
                                     if(transaction.transactionType.equals("Sales Invoice")){
                                         filteredTransactions.add(transaction)
                                     }
                                 }
-                                val transactionListAdapter = TransactionListAdapter(filteredTransactions)
+                                val transactionListAdapter = TransactionListAdapter(filteredTransactions, projectId)
                                 transactionRecyclerView.adapter = transactionListAdapter
                                 transactionListAdapter.notifyDataSetChanged()
                             }
-                        },object : FirebaseOperationsForProjectInternalTransactions.OnCalculated{
+                        },object : FirebaseOperationsForProjectInternalTransactionsTab.OnCalculated{
                             override fun onCalculated(calculations: ArrayList<String>) {
                             }
 
                         })
                     }4->{
                     filteredTransactions.clear()
-                    firebaseOperationsForProjectInternalTransactions.fetchAllTransactions(projectId, object : FirebaseOperationsForProjectInternalTransactions.OnTransactionsFetched{
+                    firebaseOperationsForProjectInternalTransactionsTab.fetchAllTransactions(projectId, object : FirebaseOperationsForProjectInternalTransactionsTab.OnTransactionsFetched{
                         override fun onTransactionsFetched(transactions: MutableList<CommonTransaction>) {
                             for (transaction in transactions){
                                 if(transaction.transactionType.equals("Material Purchase")){
                                     filteredTransactions.add(transaction)
                                 }
                             }
-                            val transactionListAdapter = TransactionListAdapter(filteredTransactions)
+                            val transactionListAdapter = TransactionListAdapter(filteredTransactions, projectId)
                             transactionRecyclerView.adapter = transactionListAdapter
                             transactionListAdapter.notifyDataSetChanged()
                         }
-                    }, object : FirebaseOperationsForProjectInternalTransactions.OnCalculated{
+                    }, object : FirebaseOperationsForProjectInternalTransactionsTab.OnCalculated{
                         override fun onCalculated(calculations: ArrayList<String>) {
                         }
 
                     })
                 }5-> {
                     filteredTransactions.clear()
-                    firebaseOperationsForProjectInternalTransactions.fetchAllTransactions(projectId, object : FirebaseOperationsForProjectInternalTransactions.OnTransactionsFetched{
+                    firebaseOperationsForProjectInternalTransactionsTab.fetchAllTransactions(projectId, object : FirebaseOperationsForProjectInternalTransactionsTab.OnTransactionsFetched{
                         override fun onTransactionsFetched(transactions: MutableList<CommonTransaction>) {
                             for (transaction in transactions){
                                 if(transaction.transactionType.equals("Other Expense")){
                                     filteredTransactions.add(transaction)
                                 }
                             }
-                            val transactionListAdapter = TransactionListAdapter(filteredTransactions)
+                            val transactionListAdapter = TransactionListAdapter(filteredTransactions, projectId)
                             transactionRecyclerView.adapter = transactionListAdapter
                             transactionListAdapter.notifyDataSetChanged()
                         }
-                    },object : FirebaseOperationsForProjectInternalTransactions.OnCalculated{
+                    },object : FirebaseOperationsForProjectInternalTransactionsTab.OnCalculated{
                         override fun onCalculated(calculations: ArrayList<String>) {
                         }
 

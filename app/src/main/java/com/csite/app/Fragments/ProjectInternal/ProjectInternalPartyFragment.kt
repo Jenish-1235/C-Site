@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.csite.app.FirebaseOperations.FirebaseOperationsForLibrary
-import com.csite.app.FirebaseOperations.FirebaseOperationsForProjectInternalTransactions
+import com.csite.app.FirebaseOperations.FirebaseOperationsForProjectInternalTransactionsTab
 import com.csite.app.Objects.CommonTransaction
 import com.csite.app.Objects.Party
 import com.csite.app.R
@@ -38,13 +38,13 @@ class ProjectInternalPartyFragment : Fragment() {
         firebaseOperationsForLibrary.fetchPartyFromPartyLibrary(object : FirebaseOperationsForLibrary.onPartyListReceived {
             override fun onPartyListReceived(partyList: ArrayList<Party>) {
                 val paymentsHashMap = HashMap<String, Double>()
-                val firebaseOperationsForProjectInternalTransactions =
-                    FirebaseOperationsForProjectInternalTransactions()
+                val firebaseOperationsForProjectInternalTransactionsTab =
+                    FirebaseOperationsForProjectInternalTransactionsTab()
                 if (projectId != null) {
-                    firebaseOperationsForProjectInternalTransactions.fetchAllTransactions(
+                    firebaseOperationsForProjectInternalTransactionsTab.fetchAllTransactions(
                         projectId,
                         object :
-                            FirebaseOperationsForProjectInternalTransactions.OnTransactionsFetched {
+                            FirebaseOperationsForProjectInternalTransactionsTab.OnTransactionsFetched {
                             override fun onTransactionsFetched(transactions: MutableList<CommonTransaction>) {
                                 for (party in partyList) {
                                     var amount = 0.0
@@ -76,7 +76,7 @@ class ProjectInternalPartyFragment : Fragment() {
 
                             }
                         },
-                        object : FirebaseOperationsForProjectInternalTransactions.OnCalculated {
+                        object : FirebaseOperationsForProjectInternalTransactionsTab.OnCalculated {
                             override fun onCalculated(calculations: ArrayList<String>) {
 
                             }

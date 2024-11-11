@@ -2,9 +2,7 @@ package com.csite.app.FirebaseOperations
 
 import com.cmpte.app.Objects.TransactionMaterialPurchase
 import com.csite.app.Objects.CommonTransaction
-import com.csite.app.Objects.MaterialRequestOrReceived
 import com.csite.app.Objects.MaterialSelection
-import com.csite.app.Objects.PartyPayForProjects
 import com.csite.app.Objects.TransactionOtherExpense
 import com.csite.app.Objects.TransactionPaymentIn
 import com.csite.app.Objects.TransactionPaymentOut
@@ -16,7 +14,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import java.util.HashMap
 
-class FirebaseOperationsForProjectInternalTransactions {
+class FirebaseOperationsForProjectInternalTransactionsTab {
 
     val projectReference: DatabaseReference =
         FirebaseDatabase.getInstance().getReference("Projects")
@@ -214,4 +212,96 @@ class FirebaseOperationsForProjectInternalTransactions {
     interface allTransactionFetch{
         fun onAllTransactionsFetched(transactions: MutableList<TransactionPaymentIn>, paymentOutTransaction: MutableList<TransactionPaymentOut>,otherExpenseTransaction: MutableList<TransactionOtherExpense>, salesInvoiceTransaction: MutableList<TransactionSalesInvoice>, materialPurchaseTransaction: MutableList<TransactionMaterialPurchase>)
     }
+
+    fun fetchPaymentInTransaction(projectId: String, transactionId:String, callback: OnPaymentInTransactionFetched){
+        projectReference.child(projectId).child("Transactions").child("PaymentIn").child(transactionId).addValueEventListener(object :ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val paymentIn = snapshot.getValue(TransactionPaymentIn::class.java)
+                if (paymentIn != null) {
+                    callback.onTransactionFetched(paymentIn)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+
+        })
+    }
+
+    interface OnPaymentInTransactionFetched{
+        fun onTransactionFetched(paymentIn: TransactionPaymentIn)
+    }
+
+    fun fetchPaymentOutTransaction(projectId: String, transactionId:String, callback:OnPaymentOutTransactionFetched){
+        projectReference.child(projectId).child("Transactions").child("PaymentOut").child(transactionId).addListenerForSingleValueEvent(object :ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val paymentOut = snapshot.getValue(TransactionPaymentOut::class.java)
+                if (paymentOut != null) {
+                    callback.onTransactionFetched(paymentOut)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+        })
+    }
+
+    interface OnPaymentOutTransactionFetched{
+        fun onTransactionFetched(paymentOut: TransactionPaymentOut)
+    }
+
+    fun fetchSalesInvoiceTransaction(projectId: String, transactionId:String, callback:OnSalesInvoiceTransactionFetched){
+        projectReference.child(projectId).child("Transactions").child("SalesInvoice").child(transactionId).addListenerForSingleValueEvent(object :ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val salesInvoice = snapshot.getValue(TransactionSalesInvoice::class.java)
+                if (salesInvoice != null) {
+                    callback.onTransactionFetched(salesInvoice)
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
+
+    }
+
+    interface OnSalesInvoiceTransactionFetched{
+        fun onTransactionFetched(salesInvoice: TransactionSalesInvoice)
+    }
+
+    fun fetchMaterialPurchaseTransaction(projectId: String, transactionId:String, callback:OnMaterialPurchaseTransactionFetched){
+        projectReference.child(projectId).child("Transactions").child("MaterialPurchase").child(transactionId).addListenerForSingleValueEvent(object :ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val materialPurchase = snapshot.getValue(TransactionMaterialPurchase::class.java)
+                if (materialPurchase != null) {
+                    callback.onTransactionFetched(materialPurchase)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
+    }
+
+    interface OnMaterialPurchaseTransactionFetched{
+        fun onTransactionFetched(materialPurchase: TransactionMaterialPurchase)
+    }
+
+    fun fetchOtherExpenseTransaction(projectId: String, transactionId:String, callback:OnOtherExpenseTransactionFetched){
+        projectReference.child(projectId).child("Transactions").child("OtherExpense").child(transactionId).addListenerForSingleValueEvent(object :ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val otherExpense = snapshot.getValue(TransactionOtherExpense::class.java)
+                if (otherExpense != null) {
+                    callback.onTransactionFetched(otherExpense)
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
+    }
+
+    interface OnOtherExpenseTransactionFetched{
+        fun onTransactionFetched(otherExpense: TransactionOtherExpense)
+    }
+
 }
