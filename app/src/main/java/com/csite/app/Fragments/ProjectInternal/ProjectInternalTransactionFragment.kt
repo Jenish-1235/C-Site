@@ -24,6 +24,7 @@ import com.google.android.material.tabs.TabLayout.Tab
 
 class ProjectInternalTransactionFragment : Fragment() {
 
+    lateinit var projectId: String;
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -34,7 +35,7 @@ class ProjectInternalTransactionFragment : Fragment() {
         val binding = FragmentProjectInternalTransactionBinding.bind(view)
 
         val bundle = getArguments()
-        var projectId = bundle?.getString("projectId")
+        projectId = bundle?.getString("projectId").toString()
         val memberAccess = bundle?.getString("memberAccess")
 
         if (!memberAccess.equals("manager")){
@@ -142,7 +143,7 @@ class ProjectInternalTransactionFragment : Fragment() {
                     0 -> {
                         firebaseOperationsForProjectInternalTransactionsTab.fetchAllTransactions(projectId, object : FirebaseOperationsForProjectInternalTransactionsTab.OnTransactionsFetched{
                             override fun onTransactionsFetched(transactions: MutableList<CommonTransaction>) {
-                                val transactionListAdapter = TransactionListAdapter(transactions)
+                                val transactionListAdapter = TransactionListAdapter(transactions, projectId)
                                 transactionRecyclerView.adapter = transactionListAdapter
                                 transactionListAdapter.notifyDataSetChanged()
                             }
@@ -161,7 +162,7 @@ class ProjectInternalTransactionFragment : Fragment() {
                                         filteredTransactions.add(transaction)
                                     }
                                 }
-                                val transactionListAdapter = TransactionListAdapter(filteredTransactions)
+                                val transactionListAdapter = TransactionListAdapter(filteredTransactions, projectId)
                                 transactionRecyclerView.adapter = transactionListAdapter
                                 transactionListAdapter.notifyDataSetChanged()
                             }
@@ -181,7 +182,7 @@ class ProjectInternalTransactionFragment : Fragment() {
                                         filteredTransactions.add(transaction)
                                     }
                                 }
-                                val transactionListAdapter = TransactionListAdapter(filteredTransactions)
+                                val transactionListAdapter = TransactionListAdapter(filteredTransactions, projectId)
                                 transactionRecyclerView.adapter = transactionListAdapter
                                 transactionListAdapter.notifyDataSetChanged()
                             }
@@ -200,7 +201,7 @@ class ProjectInternalTransactionFragment : Fragment() {
                                         filteredTransactions.add(transaction)
                                     }
                                 }
-                                val transactionListAdapter = TransactionListAdapter(filteredTransactions)
+                                val transactionListAdapter = TransactionListAdapter(filteredTransactions, projectId)
                                 transactionRecyclerView.adapter = transactionListAdapter
                                 transactionListAdapter.notifyDataSetChanged()
                             }
@@ -218,7 +219,7 @@ class ProjectInternalTransactionFragment : Fragment() {
                                     filteredTransactions.add(transaction)
                                 }
                             }
-                            val transactionListAdapter = TransactionListAdapter(filteredTransactions)
+                            val transactionListAdapter = TransactionListAdapter(filteredTransactions, projectId)
                             transactionRecyclerView.adapter = transactionListAdapter
                             transactionListAdapter.notifyDataSetChanged()
                         }
@@ -236,7 +237,7 @@ class ProjectInternalTransactionFragment : Fragment() {
                                     filteredTransactions.add(transaction)
                                 }
                             }
-                            val transactionListAdapter = TransactionListAdapter(filteredTransactions)
+                            val transactionListAdapter = TransactionListAdapter(filteredTransactions, projectId)
                             transactionRecyclerView.adapter = transactionListAdapter
                             transactionListAdapter.notifyDataSetChanged()
                         }
@@ -264,7 +265,7 @@ class ProjectInternalTransactionFragment : Fragment() {
                     0 -> {
                         firebaseOperationsForProjectInternalTransactionsTab.fetchAllTransactions(projectId, object : FirebaseOperationsForProjectInternalTransactionsTab.OnTransactionsFetched{
                             override fun onTransactionsFetched(transactions: MutableList<CommonTransaction>) {
-                                val transactionListAdapter = TransactionListAdapter(transactions)
+                                val transactionListAdapter = TransactionListAdapter(transactions, projectId)
                                 transactionRecyclerView.adapter = transactionListAdapter
                                 transactionListAdapter.notifyDataSetChanged()
                             }
@@ -283,7 +284,7 @@ class ProjectInternalTransactionFragment : Fragment() {
                                         filteredTransactions.add(transaction)
                                     }
                                 }
-                                val transactionListAdapter = TransactionListAdapter(filteredTransactions)
+                                val transactionListAdapter = TransactionListAdapter(filteredTransactions, projectId)
                                 transactionRecyclerView.adapter = transactionListAdapter
                                 transactionListAdapter.notifyDataSetChanged()
                             }
@@ -303,7 +304,7 @@ class ProjectInternalTransactionFragment : Fragment() {
                                         filteredTransactions.add(transaction)
                                     }
                                 }
-                                val transactionListAdapter = TransactionListAdapter(filteredTransactions)
+                                val transactionListAdapter = TransactionListAdapter(filteredTransactions, projectId)
                                 transactionRecyclerView.adapter = transactionListAdapter
                                 transactionListAdapter.notifyDataSetChanged()
                             }
@@ -322,7 +323,7 @@ class ProjectInternalTransactionFragment : Fragment() {
                                         filteredTransactions.add(transaction)
                                     }
                                 }
-                                val transactionListAdapter = TransactionListAdapter(filteredTransactions)
+                                val transactionListAdapter = TransactionListAdapter(filteredTransactions, projectId)
                                 transactionRecyclerView.adapter = transactionListAdapter
                                 transactionListAdapter.notifyDataSetChanged()
                             }
@@ -340,7 +341,7 @@ class ProjectInternalTransactionFragment : Fragment() {
                                     filteredTransactions.add(transaction)
                                 }
                             }
-                            val transactionListAdapter = TransactionListAdapter(filteredTransactions)
+                            val transactionListAdapter = TransactionListAdapter(filteredTransactions, projectId)
                             transactionRecyclerView.adapter = transactionListAdapter
                             transactionListAdapter.notifyDataSetChanged()
                         }
@@ -358,7 +359,7 @@ class ProjectInternalTransactionFragment : Fragment() {
                                     filteredTransactions.add(transaction)
                                 }
                             }
-                            val transactionListAdapter = TransactionListAdapter(filteredTransactions)
+                            val transactionListAdapter = TransactionListAdapter(filteredTransactions, projectId)
                             transactionRecyclerView.adapter = transactionListAdapter
                             transactionListAdapter.notifyDataSetChanged()
                         }

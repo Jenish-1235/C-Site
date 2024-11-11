@@ -1,16 +1,18 @@
 package com.csite.app.RecyclerViewListAdapters
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.csite.app.Activites.ProjectFeatures.TransactionTab.TransactionDetails.PaymentInOutTransactionDetails
 import com.csite.app.Objects.CommonTransaction
 import com.csite.app.R
 
-class TransactionListAdapter(transactionList: MutableList<CommonTransaction>): RecyclerView.Adapter <TransactionListAdapter.TransactionListViewHolder>() {
+class TransactionListAdapter(transactionList: MutableList<CommonTransaction>, projectId:String): RecyclerView.Adapter <TransactionListAdapter.TransactionListViewHolder>() {
     private var transactionList: MutableList<CommonTransaction> = transactionList
-
+    var projectId = projectId;
     class  TransactionListViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val transactionPartyView = itemView.findViewById<TextView>(R.id.transactionPartyView)
         val transactionAmountView = itemView.findViewById<TextView>(R.id.transactionAmountView)
@@ -40,6 +42,17 @@ class TransactionListAdapter(transactionList: MutableList<CommonTransaction>): R
             holder.transactionAmountView.setTextColor(holder.transactionAmountView.resources.getColor(R.color.green))
         } else {
             holder.transactionAmountView.setTextColor(holder.transactionAmountView.resources.getColor(R.color.red))
+        }
+
+
+        if (currentItem.transactionType.equals("Payment In") || currentItem.transactionType.equals("Payment Out")){
+            holder.itemView.setOnClickListener{
+                val intent = Intent(holder.itemView.context, PaymentInOutTransactionDetails::class.java)
+                intent.putExtra("transactionType", currentItem.transactionType)
+                intent.putExtra("transactionId", currentItem.transactionId)
+                intent.putExtra("projectId", projectId)
+                holder.itemView.context.startActivity(intent)
+            }
         }
 
     }
