@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activites.ProjectFeatures.TransactionTab.TransactionDetails.PaymentInOutTransactionDetails">
+    tools:context=".Activites.ProjectFeatures.TransactionTab.TransactionDetails.PaymentInOutTransactionDetailsActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar6"

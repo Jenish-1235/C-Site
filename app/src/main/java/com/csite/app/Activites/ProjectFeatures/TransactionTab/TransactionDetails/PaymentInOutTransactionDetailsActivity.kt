@@ -2,8 +2,6 @@ package com.csite.app.Activites.ProjectFeatures.TransactionTab.TransactionDetail
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -13,7 +11,7 @@ import com.csite.app.Objects.TransactionPaymentOut
 import com.csite.app.R
 import com.csite.app.databinding.ActivityPaymentInOutTransactionDetailsBinding
 
-class PaymentInOutTransactionDetails : AppCompatActivity() {
+class PaymentInOutTransactionDetailsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val b = ActivityPaymentInOutTransactionDetailsBinding.inflate(layoutInflater)
