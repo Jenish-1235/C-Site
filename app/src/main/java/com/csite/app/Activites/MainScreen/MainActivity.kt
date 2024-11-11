@@ -68,6 +68,12 @@ class MainActivity : AppCompatActivity() {
                         val editor: SharedPreferences.Editor = memberAccess.edit()
                         editor.putString("memberAccess", "admin")
                         editor.commit()
+                    }else if (it.value.toString() == "super admin"){
+                        bottomTabLayoutFormationForAdmins(view)
+                        val memberAccess: SharedPreferences = getSharedPreferences("memberAccess", MODE_PRIVATE)
+                        val editor: SharedPreferences.Editor = memberAccess.edit()
+                        editor.putString("memberAccess", "super admin")
+                        editor.commit()
                     }else if (it.value.toString() == "manager"){
                         bottomTabLayoutFormationForManagers(view)
                         val memberAccess: SharedPreferences = getSharedPreferences("memberAccess", MODE_PRIVATE)
