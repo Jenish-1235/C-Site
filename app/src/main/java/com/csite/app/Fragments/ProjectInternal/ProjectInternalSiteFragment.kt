@@ -164,6 +164,19 @@ class ProjectInternalSiteFragment : Fragment(){
                     }
                 }
                 materialReceivedView.text = count.toString()
+
+                val firebaseOperationsForProjectInternalAttendanceTab = FirebaseOperationsForProjectInternalAttendanceTab()
+                firebaseOperationsForProjectInternalAttendanceTab.fetchTotalCounts(projectId, selectedDateView.text.toString(), object : FirebaseOperationsForProjectInternalAttendanceTab.fetchTotalAttendanceCounts{
+                    override fun onTotalCountReceived(
+                        presentCount: String,
+                        absentCount: String,
+                        totalSalary: String
+                    ) {
+                        val labourView = view.findViewById<TextView>(R.id.labourCount)
+                        labourView.text = presentCount
+                    }
+
+                } )
             }
         })
 

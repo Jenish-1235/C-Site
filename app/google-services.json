@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "354951138622",
-    "project_id": "c-site-project",
-    "storage_bucket": "c-site-project.appspot.com"
+    "project_number": "455779854799",
+    "project_id": "c-site-d1b10",
+    "storage_bucket": "c-site-d1b10.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:354951138622:android:a3e6f5aa37db942971b06f",
+        "mobilesdk_app_id": "1:455779854799:android:6fd24e5556f12e4a674aba",
         "android_client_info": {
           "package_name": "com.csite.app"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCO77-iRIPJ0GIqCJNJhnlc1nZP8rVe2LM"
+          "current_key": "AIzaSyDaWwecVvpvVgjylxb6ozubf9VY5RRPxVc"
         }
       ],
       "services": {
