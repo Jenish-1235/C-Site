@@ -3,6 +3,8 @@ package com.csite.app.FirebaseOperations
 import com.cmpte.app.Objects.TransactionMaterialPurchase
 import com.csite.app.Objects.CommonTransaction
 import com.csite.app.Objects.MaterialSelection
+import com.csite.app.Objects.TransactionIPaid
+import com.csite.app.Objects.TransactionIReceived
 import com.csite.app.Objects.TransactionOtherExpense
 import com.csite.app.Objects.TransactionPaymentIn
 import com.csite.app.Objects.TransactionPaymentOut
@@ -129,6 +131,11 @@ class FirebaseOperationsForProjectInternalTransactionsTab {
                             }
                             "Sales Invoice" -> {
                                 projectBalance = (projectBalance.toDouble() + transaction.transactionAmount.toDouble()).toString()
+                                projectTotalIn = (projectTotalIn.toDouble() + transaction.transactionAmount.toDouble()).toString()
+                            }
+                            "Material Purchase" ->{
+                                projectBalance = (projectBalance.toDouble() - transaction.transactionAmount.toDouble()).toString()
+                                projectTotalOut = (projectTotalOut.toDouble() + transaction.transactionAmount.toDouble()).toString()
                             }
 
                             }
@@ -160,6 +167,8 @@ class FirebaseOperationsForProjectInternalTransactionsTab {
         var otherExpenseTransaction = mutableListOf<TransactionOtherExpense>()
         var salesInvoiceTransaction = mutableListOf<TransactionSalesInvoice>()
         var materialPurchaseTransaction = mutableListOf<TransactionMaterialPurchase>()
+        var iPaidTransaction = mutableListOf<TransactionIPaid>()
+        var iReceivedTransaction = mutableListOf<TransactionIReceived>()
         projectReference.child(projectId).child("Transactions").addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 paymentInTransaction.clear()
@@ -167,6 +176,8 @@ class FirebaseOperationsForProjectInternalTransactionsTab {
                 otherExpenseTransaction.clear()
                 salesInvoiceTransaction.clear()
                 materialPurchaseTransaction.clear()
+                iPaidTransaction.clear()
+                iReceivedTransaction.clear()
                 for (transactionSnapshot in snapshot.children) {
                     for (transaction in transactionSnapshot.children) {
                         when (transactionSnapshot.key) {
@@ -199,9 +210,19 @@ class FirebaseOperationsForProjectInternalTransactionsTab {
                                     transaction.getValue(TransactionMaterialPurchase::class.java)
                                 materialPurchaseTransaction.add(materialPurchase!!)
                             }
+
+                            "IPaid" ->{
+                                val iPaid = transaction.getValue(TransactionIPaid::class.java)
+                                iPaidTransaction.add(iPaid!!)
+                            }
+                            "IReceived" ->{
+                                val iReceived = transaction.getValue(TransactionIReceived::class.java)
+                                iReceivedTransaction.add(iReceived!!)
+                            }
+
                         }
                     }
-                    callback.onAllTransactionsFetched(paymentInTransaction,paymentOutTransaction,otherExpenseTransaction,salesInvoiceTransaction,materialPurchaseTransaction)
+                    callback.onAllTransactionsFetched(paymentInTransaction,paymentOutTransaction,otherExpenseTransaction,salesInvoiceTransaction,materialPurchaseTransaction, iPaidTransaction, iReceivedTransaction)
                 }
             }
             override fun onCancelled(error: DatabaseError) {
@@ -210,7 +231,7 @@ class FirebaseOperationsForProjectInternalTransactionsTab {
 
     }
     interface allTransactionFetch{
-        fun onAllTransactionsFetched(transactions: MutableList<TransactionPaymentIn>, paymentOutTransaction: MutableList<TransactionPaymentOut>,otherExpenseTransaction: MutableList<TransactionOtherExpense>, salesInvoiceTransaction: MutableList<TransactionSalesInvoice>, materialPurchaseTransaction: MutableList<TransactionMaterialPurchase>)
+        fun onAllTransactionsFetched(transactions: MutableList<TransactionPaymentIn>, paymentOutTransaction: MutableList<TransactionPaymentOut>,otherExpenseTransaction: MutableList<TransactionOtherExpense>, salesInvoiceTransaction: MutableList<TransactionSalesInvoice>, materialPurchaseTransaction: MutableList<TransactionMaterialPurchase>, ipaidTransaction: MutableList<TransactionIPaid>, ireceivedTransaction: MutableList<TransactionIReceived>)
     }
 
     fun fetchPaymentInTransaction(projectId: String, transactionId:String, callback: OnPaymentInTransactionFetched){
@@ -304,4 +325,51 @@ class FirebaseOperationsForProjectInternalTransactionsTab {
         fun onTransactionFetched(otherExpense: TransactionOtherExpense)
     }
 
+    fun saveIPaidTransaction(projectId: String, ipaidTransaction: TransactionIPaid){
+        val transactionId = "tIPAID" + randomSixDigitIdGenerator()
+        ipaidTransaction.transactionId = transactionId
+        projectReference.child(projectId).child("Transactions/IPaid").child(transactionId).setValue(ipaidTransaction)
+    }
+
+    fun saveIReceivedTransaction(projectId: String, ireceivedTransaction:TransactionIReceived){
+        val transactionId = "tIRECEIVED" + randomSixDigitIdGenerator()
+        ireceivedTransaction.transactionId = transactionId
+        projectReference.child(projectId).child("Transactions/IReceived").child(transactionId).setValue(ireceivedTransaction)
+    }
+
+    fun fetchIPaidTransaction(projectId: String, transactionId:String, callback: OnIPaidTransactionFetched){
+        projectReference.child(projectId).child("Transactions").child("IPaid").child(transactionId).addListenerForSingleValueEvent(object :ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val ipaid = snapshot.getValue(TransactionIPaid::class.java)
+                if (ipaid != null) {
+                    callback.onTransactionFetched(ipaid)
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+        })
+    }
+
+    interface OnIPaidTransactionFetched {
+        fun onTransactionFetched(ipaid: TransactionIPaid)
+    }
+
+    fun fetchIReceivedTransaction(projectId: String, transactionId:String, callback: OnIReceivedTransactionFetched){
+        projectReference.child(projectId).child("Transactions").child("IReceived").child(transactionId).addListenerForSingleValueEvent(object :ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val ireceived = snapshot.getValue(TransactionIReceived::class.java)
+                if (ireceived != null) {
+                    callback.onTransactionFetched(ireceived)
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+        })
+    }
+
+    interface OnIReceivedTransactionFetched{
+        fun onTransactionFetched(ireceived: TransactionIReceived)
+    }
 }

@@ -127,7 +127,7 @@ class FirebaseOperationsForLibrary {
             override fun onCancelled(error: DatabaseError) {
             }
         }
-        partyReference.addValueEventListener(partyValueEventListener)
+        partyReference.addListenerForSingleValueEvent(partyValueEventListener)
         return partyList
     }
     // 4.3 Fetch Party from Party Library
@@ -174,4 +174,5 @@ class FirebaseOperationsForLibrary {
     interface OnContractorListReceived{
         fun onContractorListReceived(contractorList: ArrayList<Contractor>)
     }
+
 }

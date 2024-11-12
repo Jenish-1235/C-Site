@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.csite.app.Activites.ProjectFeatures.TransactionTab.TransactionDetails.IPaidOrIReceivedTransactionDetails
 import com.csite.app.Activites.ProjectFeatures.TransactionTab.TransactionDetails.MaterialPurchaseOrSalesInvoiceTransactionDetailsActivity
 import com.csite.app.Activites.ProjectFeatures.TransactionTab.TransactionDetails.OtherExpenseTransactionDetailsActivity
 import com.csite.app.Activites.ProjectFeatures.TransactionTab.TransactionDetails.PaymentInOutTransactionDetailsActivity
@@ -66,6 +67,14 @@ class TransactionListAdapter(transactionList: MutableList<CommonTransaction>, pr
         }else if (currentItem.transactionType.equals("Material Purchase") || currentItem.transactionType.equals("Sales Invoice")){
             holder.itemView.setOnClickListener{
                 val intent = Intent(holder.itemView.context, MaterialPurchaseOrSalesInvoiceTransactionDetailsActivity::class.java)
+                intent.putExtra("transactionType", currentItem.transactionType)
+                intent.putExtra("transactionId", currentItem.transactionId)
+                intent.putExtra("projectId", projectId)
+                holder.itemView.context.startActivity(intent)
+            }
+        }else if (currentItem.transactionType.equals("I Paid") || currentItem.transactionType.equals("I Received")){
+            holder.itemView.setOnClickListener{
+                val intent = Intent(holder.itemView.context, IPaidOrIReceivedTransactionDetails::class.java)
                 intent.putExtra("transactionType", currentItem.transactionType)
                 intent.putExtra("transactionId", currentItem.transactionId)
                 intent.putExtra("projectId", projectId)
