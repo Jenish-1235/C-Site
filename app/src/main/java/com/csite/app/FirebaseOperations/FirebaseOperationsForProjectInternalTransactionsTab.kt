@@ -337,4 +337,39 @@ class FirebaseOperationsForProjectInternalTransactionsTab {
         projectReference.child(projectId).child("Transactions/IReceived").child(transactionId).setValue(ireceivedTransaction)
     }
 
+    fun fetchIPaidTransaction(projectId: String, transactionId:String, callback: OnIPaidTransactionFetched){
+        projectReference.child(projectId).child("Transactions").child("IPaid").child(transactionId).addListenerForSingleValueEvent(object :ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val ipaid = snapshot.getValue(TransactionIPaid::class.java)
+                if (ipaid != null) {
+                    callback.onTransactionFetched(ipaid)
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+        })
+    }
+
+    interface OnIPaidTransactionFetched {
+        fun onTransactionFetched(ipaid: TransactionIPaid)
+    }
+
+    fun fetchIReceivedTransaction(projectId: String, transactionId:String, callback: OnIReceivedTransactionFetched){
+        projectReference.child(projectId).child("Transactions").child("IReceived").child(transactionId).addListenerForSingleValueEvent(object :ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val ireceived = snapshot.getValue(TransactionIReceived::class.java)
+                if (ireceived != null) {
+                    callback.onTransactionFetched(ireceived)
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+        })
+    }
+
+    interface OnIReceivedTransactionFetched{
+        fun onTransactionFetched(ireceived: TransactionIReceived)
+    }
 }
