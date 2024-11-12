@@ -14,6 +14,8 @@ import com.csite.app.Activites.ProjectFeatures.MaterialTab.NewMaterialRequestAct
 import com.csite.app.FirebaseOperations.FirebaseOperationsForProjectInternalMaterialTab
 import com.csite.app.FirebaseOperations.FirebaseOperationsForProjectInternalTransactionsTab
 import com.csite.app.Objects.MaterialRequestOrReceived
+import com.csite.app.Objects.TransactionIPaid
+import com.csite.app.Objects.TransactionIReceived
 import com.csite.app.Objects.TransactionOtherExpense
 import com.csite.app.Objects.TransactionPaymentIn
 import com.csite.app.Objects.TransactionPaymentOut
@@ -170,11 +172,12 @@ class ProjectInternalMaterialFragment : Fragment() {
                     paymentOutTransaction: MutableList<TransactionPaymentOut>,
                     otherExpenseTransaction: MutableList<TransactionOtherExpense>,
                     salesInvoiceTransaction: MutableList<TransactionSalesInvoice>,
-                    materialPurchaseTransaction: MutableList<TransactionMaterialPurchase>
+                    materialPurchaseTransaction: MutableList<TransactionMaterialPurchase>,
+                    ipaidTransaction: MutableList<TransactionIPaid>,
+                    ireceivedTransaction: MutableList<TransactionIReceived>
                 ) {
                     totalPurchasedView?.setText(materialPurchaseTransaction.size.toString())
                 }
-
             })
 
 
