@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "455779854799",
-    "project_id": "c-site-d1b10",
-    "storage_bucket": "c-site-d1b10.firebasestorage.app"
+    "project_number": "593687595657",
+    "project_id": "c-site-a",
+    "storage_bucket": "c-site-a.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:455779854799:android:6fd24e5556f12e4a674aba",
+        "mobilesdk_app_id": "1:593687595657:android:610d2bbd39294ffe071458",
         "android_client_info": {
           "package_name": "com.csite.app"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDaWwecVvpvVgjylxb6ozubf9VY5RRPxVc"
+          "current_key": "AIzaSyDKyHu7EW83iXkHZKdOFIIpr7e_EP5kiec"
         }
       ],
       "services": {
