@@ -34,7 +34,7 @@ class PaymentsListAdapter (paymentsHashMap: HashMap<String, Double>): RecyclerVi
     ) {
         val partyName = paymentsHashMap.keys.elementAt(position)
         val partyAmount = paymentsHashMap[partyName]
-        holder.partyNameTextView.text = partyName
+        holder.partyNameTextView.text = partyName.substring(8)
         holder.partyAmountTextView.text = partyAmount.toString()
         holder.partyTypeView.text = "Payment"
         if (partyAmount.toString().contains("-")) {

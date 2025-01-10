@@ -68,7 +68,9 @@ class ProjectInternalPartyFragment : Fragment() {
                                             }
                                         }
                                     }
-                                    paymentsHashMap[party.partyName] = amount
+                                    if (amount.toInt() != 0) {
+                                        paymentsHashMap[party.partyId + party.partyName] = amount
+                                    }
                                     var adapter = PaymentsListAdapter(paymentsHashMap)
                                     partyRecyclerView.adapter = adapter
                                     partyRecyclerView.setHasFixedSize(true)
