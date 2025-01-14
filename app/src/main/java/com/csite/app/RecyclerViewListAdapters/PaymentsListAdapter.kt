@@ -1,10 +1,12 @@
 package com.csite.app.RecyclerViewListAdapters
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.csite.app.Activites.CommonActivities.PartyWiseTransactionDetailsActivity
 import com.csite.app.R
 import java.util.HashMap
 
@@ -34,7 +36,7 @@ class PaymentsListAdapter (paymentsHashMap: HashMap<String, Double>): RecyclerVi
     ) {
         val partyName = paymentsHashMap.keys.elementAt(position)
         val partyAmount = paymentsHashMap[partyName]
-        holder.partyNameTextView.text = partyName
+        holder.partyNameTextView.text = partyName.substring(8)
         holder.partyAmountTextView.text = partyAmount.toString()
         holder.partyTypeView.text = "Payment"
         if (partyAmount.toString().contains("-")) {
@@ -45,6 +47,12 @@ class PaymentsListAdapter (paymentsHashMap: HashMap<String, Double>): RecyclerVi
             holder.partyAmountTextView.setTextColor(holder.itemView.resources.getColor(R.color.green))
             holder.partyRemarkView.text = "To Pay"
             ToPay += partyAmount.toString().toDouble()
+        }
+        val partyId = partyName.substring(0, 8)
+        holder.itemView.setOnClickListener {
+            val partyPaymentDetailIntent = Intent(holder.itemView.context, PartyWiseTransactionDetailsActivity::class.java)
+            partyPaymentDetailIntent.putExtra("partyId", partyId)
+            holder.itemView.context.startActivity(partyPaymentDetailIntent)
         }
     }
 

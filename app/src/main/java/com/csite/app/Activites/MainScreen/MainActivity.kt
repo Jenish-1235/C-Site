@@ -1,5 +1,6 @@
 package com.csite.app.Activites.MainScreen
 
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
@@ -227,6 +228,10 @@ class MainActivity : AppCompatActivity() {
                         mainScreenFrameLayout.removeAllViews()
                         val partyFragment = PartyFragment()
                         supportFragmentManager.beginTransaction().replace(R.id.mainScreenFrameLayout, partyFragment).commit()
+                        val sharedPreferences = getSharedPreferences("projectId", MODE_PRIVATE)
+                        val editor = sharedPreferences.edit()
+                        editor.putString("projectId", "")
+                        editor.commit()
                     }
                 }
             }
@@ -275,6 +280,10 @@ class MainActivity : AppCompatActivity() {
                         mainScreenFrameLayout.removeAllViews()
                         val partyFragment = PartyFragment()
                         supportFragmentManager.beginTransaction().replace(R.id.mainScreenFrameLayout, partyFragment).commit()
+                        val sharedPreferences = getSharedPreferences("projectId", MODE_PRIVATE)
+                        val editor = sharedPreferences.edit()
+                        editor.putString("projectId", "")
+                        editor.commit()
                     }
                 }
             }

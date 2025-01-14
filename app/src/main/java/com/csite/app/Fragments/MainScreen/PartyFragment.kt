@@ -74,10 +74,12 @@ class PartyFragment : Fragment() {
                                                     }
                                                 }
                                                 try{
-
-                                                    paymentsHashMap[party.partyName] = paymentsHashMap[party.partyName]!!.toDouble() + amount
+                                                    paymentsHashMap[party.partyId + party.partyName] = paymentsHashMap[party.partyId+party.partyName]!!.toDouble() + amount
                                                 }catch (e: Exception){
-                                                    paymentsHashMap[party.partyName] = amount
+                                                    if (amount.toInt() != 0) {
+                                                        paymentsHashMap[party.partyId + party.partyName] =
+                                                            amount
+                                                    }
                                                 }
                                                 var adapter = PaymentsListAdapter(paymentsHashMap)
                                                 externalPartiesTabRecyclerView.adapter = adapter

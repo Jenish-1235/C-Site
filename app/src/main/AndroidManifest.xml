@@ -17,6 +17,9 @@
         android:theme="@style/Theme.CSite"
         tools:targetApi="31">
         <activity
+            android:name=".Activites.CommonActivities.PartyWiseTransactionDetailsActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activites.ProjectFeatures.TransactionTab.TransactionDetails.IPaidOrIReceivedTransactionDetails"
             android:exported="false" />
         <activity

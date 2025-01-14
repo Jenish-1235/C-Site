@@ -5,6 +5,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.csite.app.FirebaseOperations.FirebaseOperationsForExternalPartyTab
 import com.csite.app.FirebaseOperations.FirebaseOperationsForProjectInternalTransactionsTab
 import com.csite.app.Objects.TransactionPaymentIn
 import com.csite.app.Objects.TransactionPaymentOut
@@ -28,38 +29,109 @@ class PaymentInOutTransactionDetailsActivity : AppCompatActivity() {
         val projectId = intent.getStringExtra("projectId")
         val firebaseOperationsForProjectInternalTransactionsTab = FirebaseOperationsForProjectInternalTransactionsTab()
         if (transactionType == "Payment In"){
-            if (transactionId != null) {
-                if (projectId != null) {
-                    firebaseOperationsForProjectInternalTransactionsTab.fetchPaymentInTransaction(projectId, transactionId, object : FirebaseOperationsForProjectInternalTransactionsTab.OnPaymentInTransactionFetched{
-                        override fun onTransactionFetched(paymentIn: TransactionPaymentIn) {
+            if (projectId != "") {
+                if (transactionId != null) {
+                    if (projectId != null) {
+                        firebaseOperationsForProjectInternalTransactionsTab.fetchPaymentInTransaction(
+                            projectId,
+                            transactionId,
+                            object :
+                                FirebaseOperationsForProjectInternalTransactionsTab.OnPaymentInTransactionFetched {
+                                override fun onTransactionFetched(paymentIn: TransactionPaymentIn) {
 
+                                    b.transactionName.text = "Payment In"
+                                    b.txnDateView.text = "Date: " + paymentIn.transactionDate
+                                    b.txnPartyNameView.text =
+                                        "Party Name: " + paymentIn.transactionParty
+                                    b.txnAmountView.text =
+                                        "Amount: \u20b9" + paymentIn.transactionAmount
+                                    b.txnCostCodeView.text =
+                                        "Cost Code: " + paymentIn.paymentInTrasactionCostCode
+                                    b.txnDescriptionView.text =
+                                        "Description: " + paymentIn.transactionDescription
+                                    b.txnCategoryView.text =
+                                        "Category: " + paymentIn.paymentInTransactionCategory
+                                    b.txnModeView.text =
+                                        "Mode: " + paymentIn.paymentInTransactionPaymentMode
+
+                                }
+
+                            })
+                    }
+                }
+            }else{
+                if (transactionId != null) {
+                    val firebaseOperationsForExternalPartyTab = FirebaseOperationsForExternalPartyTab()
+                    firebaseOperationsForExternalPartyTab.fetchPaymentInTransaction(transactionId, object : FirebaseOperationsForExternalPartyTab.OnPaymentInTransactionFetched {
+                        override fun onTransactionFetched(paymentIn: TransactionPaymentIn) {
                             b.transactionName.text = "Payment In"
                             b.txnDateView.text = "Date: " + paymentIn.transactionDate
-                            b.txnPartyNameView.text = "Party Name: " + paymentIn.transactionParty
-                            b.txnAmountView.text = "Amount: \u20b9" + paymentIn.transactionAmount
-                            b.txnCostCodeView.text = "Cost Code: " + paymentIn.paymentInTrasactionCostCode
-                            b.txnDescriptionView.text = "Description: " + paymentIn.transactionDescription
-                            b.txnCategoryView.text = "Category: " + paymentIn.paymentInTransactionCategory
-                            b.txnModeView.text = "Mode: " + paymentIn.paymentInTransactionPaymentMode
+                            b.txnPartyNameView.text =
+                                "Party Name: " + paymentIn.transactionParty
+                            b.txnAmountView.text =
+                                "Amount: \u20b9" + paymentIn.transactionAmount
+                            b.txnCostCodeView.text =
+                                "Cost Code: " + paymentIn.paymentInTrasactionCostCode
+                            b.txnDescriptionView.text =
+                                "Description: " + paymentIn.transactionDescription
+                            b.txnCategoryView.text =
+                                "Category: " + paymentIn.paymentInTransactionCategory
+                            b.txnModeView.text =
+                                "Mode: " + paymentIn.paymentInTransactionPaymentMode
 
                         }
-
                     })
                 }
+
             }
-        }else if (transactionType == "Payment Out"){
-            if (transactionId != null) {
-                if (projectId != null) {
-                    firebaseOperationsForProjectInternalTransactionsTab.fetchPaymentOutTransaction(projectId, transactionId, object : FirebaseOperationsForProjectInternalTransactionsTab.OnPaymentOutTransactionFetched{
-                      override fun onTransactionFetched(paymentOut: TransactionPaymentOut) {
-                          b.transactionName.text = "Payment In"
-                          b.txnDateView.text = "Date: " + paymentOut.transactionDate
-                          b.txnPartyNameView.text = "Party Name: " + paymentOut.transactionParty
-                          b.txnAmountView.text = "Amount: \u20b9" + paymentOut.transactionAmount
-                          b.txnCostCodeView.text = "Cost Code: " + paymentOut.paymentOutTrasactionCostCode
-                          b.txnDescriptionView.text = "Description: " + paymentOut.transactionDescription
-                          b.txnCategoryView.text = "Category: " + paymentOut.paymentOutTransactionCategory
-                          b.txnModeView.text = "Mode: " + paymentOut.paymentOutTransactionPaymentMode
+        }
+        else if (transactionType == "Payment Out"){
+            if(projectId != "") {
+                if (transactionId != null) {
+                    if (projectId != null) {
+                        firebaseOperationsForProjectInternalTransactionsTab.fetchPaymentOutTransaction(
+                            projectId,
+                            transactionId,
+                            object :
+                                FirebaseOperationsForProjectInternalTransactionsTab.OnPaymentOutTransactionFetched {
+                                override fun onTransactionFetched(paymentOut: TransactionPaymentOut) {
+                                    b.transactionName.text = "Payment Out"
+                                    b.txnDateView.text = "Date: " + paymentOut.transactionDate
+                                    b.txnPartyNameView.text =
+                                        "Party Name: " + paymentOut.transactionParty
+                                    b.txnAmountView.text =
+                                        "Amount: \u20b9" + paymentOut.transactionAmount
+                                    b.txnCostCodeView.text =
+                                        "Cost Code: " + paymentOut.paymentOutTrasactionCostCode
+                                    b.txnDescriptionView.text =
+                                        "Description: " + paymentOut.transactionDescription
+                                    b.txnCategoryView.text =
+                                        "Category: " + paymentOut.paymentOutTransactionCategory
+                                    b.txnModeView.text =
+                                        "Mode: " + paymentOut.paymentOutTransactionPaymentMode
+                                }
+                            })
+                    }
+                }
+            }else{
+                if (transactionId != null) {
+                    val firebaseOperationsForExternalPartyTab = FirebaseOperationsForExternalPartyTab()
+                    firebaseOperationsForExternalPartyTab.fetchPaymentOutTransaction(transactionId, object : FirebaseOperationsForExternalPartyTab.OnPaymentOutTransactionFetched {
+                        override fun onTransactionFetched(paymentOut: TransactionPaymentOut) {
+                            b.transactionName.text = "Payment Out"
+                            b.txnDateView.text = "Date: " + paymentOut.transactionDate
+                            b.txnPartyNameView.text =
+                                "Party Name: " + paymentOut.transactionParty
+                            b.txnAmountView.text =
+                                "Amount: \u20b9" + paymentOut.transactionAmount
+                            b.txnCostCodeView.text =
+                                "Cost Code: " + paymentOut.paymentOutTrasactionCostCode
+                            b.txnDescriptionView.text =
+                                "Description: " + paymentOut.transactionDescription
+                            b.txnCategoryView.text =
+                                "Category: " + paymentOut.paymentOutTransactionCategory
+                            b.txnModeView.text =
+                                "Mode: " + paymentOut.paymentOutTransactionPaymentMode
                         }
                     })
                 }
