@@ -78,6 +78,10 @@ class ProjectListAdapter(projectList: List<Project>): RecyclerView.Adapter<Proje
             projectInternalMainActivityIntent.putExtra("projectValue", project.projectValue)
             projectInternalMainActivityIntent.putExtra("projectStatus", project.projectStatus)
 
+            val sharedPreferences = holder.itemView.context.getSharedPreferences("projectId", Context.MODE_PRIVATE)
+            val editor = sharedPreferences.edit()
+            editor.putString("projectId", project.projectId)
+            editor.apply()
             holder.itemView.context.startActivity(projectInternalMainActivityIntent)
 
         }
@@ -93,6 +97,12 @@ class ProjectListAdapter(projectList: List<Project>): RecyclerView.Adapter<Proje
             projectInternalMainActivityIntent.putExtra("projectEndDate", project.projectEndDate)
             projectInternalMainActivityIntent.putExtra("projectValue", project.projectValue)
             projectInternalMainActivityIntent.putExtra("projectStatus", project.projectStatus)
+
+            val sharedPreferences = holder.itemView.context.getSharedPreferences("projectId", Context.MODE_PRIVATE)
+            val editor = sharedPreferences.edit()
+            editor.putString("projectId", project.projectId)
+            editor.apply()
+
             holder.itemView.context.startActivity(projectInternalMainActivityIntent)
         }
     }
