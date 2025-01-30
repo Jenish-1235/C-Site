@@ -2,19 +2,15 @@ package com.csite.app.DialogFragments
 
 import android.app.Dialog
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.Button
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.csite.app.Activites.Library.AddNewPartyActivity
 import com.csite.app.FirebaseOperations.FirebaseOperationsForLibrary
 import com.csite.app.Objects.Party
 import com.csite.app.R
@@ -29,7 +25,7 @@ class PartySelectionForBankTransferDialogFragment : DialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view =  inflater.inflate(R.layout.dialog_fragment_party_selection_library, container, false)
+        val view =  inflater.inflate(R.layout.dialog_fragment_party_selection_for_bank_transfer, container, false)
         val dialog = getDialog()
         if (dialog != null) {
             dialog.getWindow()?.setBackgroundDrawableResource(android.R.color.transparent)
