@@ -37,7 +37,6 @@ class PartyWiseTransactionDetailsActivity : AppCompatActivity() {
         val projectId = sharedPreferences.getString("projectId", "")
         Toast.makeText(this, projectId, Toast.LENGTH_SHORT).show()
 
-        transactionTabLayout(projectId!!, partyId!!)
 
         val firebaseOperationsForLibrary = FirebaseOperationsForLibrary()
         firebaseOperationsForLibrary.fetchPartyFromPartyLibrary(object :FirebaseOperationsForLibrary.onPartyListReceived{
@@ -48,6 +47,9 @@ class PartyWiseTransactionDetailsActivity : AppCompatActivity() {
                         if(projectId != "") {
                             val partyNameTextView = findViewById<TextView>(R.id.partyNameTextView)
                             partyNameTextView.text = "Name: " + party.partyName
+                            if (projectId != null) {
+                                transactionTabLayout(projectId, partyId, party.partyName)
+                            }
                         }else{
                             val partyNameTextView = findViewById<TextView>(R.id.partyNameTextView)
                             partyNameTextView.text = "Name: " + party.partyName
@@ -57,7 +59,9 @@ class PartyWiseTransactionDetailsActivity : AppCompatActivity() {
                             partyStatusTextView.text = "Status: " + party.partyOpeningBalanceDetails
                             partyTotalAmountTextView.visibility = View.VISIBLE
                             partyStatusTextView.visibility = View.VISIBLE
+                            transactionTabLayout("", partyId, party.partyName)
                         }
+
                     }
                 }
             }
@@ -70,7 +74,7 @@ class PartyWiseTransactionDetailsActivity : AppCompatActivity() {
         finish()
     }
 
-    fun transactionTabLayout(projectId:String, partyId:String){
+    fun transactionTabLayout(projectId:String, partyId:String, partyName:String){
         val transactionTabLayout: TabLayout = findViewById(R.id.projectTransactionFilterTabLayout)
 
         val allTransactionTab = transactionTabLayout.newTab()
@@ -115,8 +119,14 @@ class PartyWiseTransactionDetailsActivity : AppCompatActivity() {
                                 object :
                                     FirebaseOperationsForProjectInternalTransactionsTab.OnTransactionsFetched {
                                     override fun onTransactionsFetched(transactions: MutableList<CommonTransaction>) {
+                                        var finalTransaction = mutableListOf<CommonTransaction>();
+                                        for(transaction in transactions){
+                                            if(transaction.transactionParty == partyName){
+                                                finalTransaction.add(transaction)
+                                            }
+                                        }
                                         val transactionListAdapter =
-                                            TransactionListAdapter(transactions, projectId)
+                                            TransactionListAdapter(finalTransaction, projectId)
                                         transactionRecyclerView.adapter = transactionListAdapter
                                         transactionListAdapter.notifyDataSetChanged()
                                     }
@@ -137,7 +147,7 @@ class PartyWiseTransactionDetailsActivity : AppCompatActivity() {
                                     FirebaseOperationsForProjectInternalTransactionsTab.OnTransactionsFetched {
                                     override fun onTransactionsFetched(transactions: MutableList<CommonTransaction>) {
                                         for (transaction in transactions) {
-                                            if (transaction.transactionType.equals("Payment In")) {
+                                            if (transaction.transactionType.equals("Payment In") && transaction.transactionParty.equals(partyName)) {
                                                 filteredTransactions.add(transaction)
                                             }
                                         }
@@ -163,7 +173,7 @@ class PartyWiseTransactionDetailsActivity : AppCompatActivity() {
                                     FirebaseOperationsForProjectInternalTransactionsTab.OnTransactionsFetched {
                                     override fun onTransactionsFetched(transactions: MutableList<CommonTransaction>) {
                                         for (transaction in transactions) {
-                                            if (transaction.transactionType.equals("Payment Out")) {
+                                            if (transaction.transactionType.equals("Payment Out") && transaction.transactionParty.equals(partyName)) {
                                                 filteredTransactions.add(transaction)
                                             }
                                         }
@@ -189,7 +199,7 @@ class PartyWiseTransactionDetailsActivity : AppCompatActivity() {
                                     FirebaseOperationsForProjectInternalTransactionsTab.OnTransactionsFetched {
                                     override fun onTransactionsFetched(transactions: MutableList<CommonTransaction>) {
                                         for (transaction in transactions) {
-                                            if (transaction.transactionType.equals("Sales Invoice")) {
+                                            if (transaction.transactionType.equals("Sales Invoice") && transaction.transactionParty.equals(partyName)) {
                                                 filteredTransactions.add(transaction)
                                             }
                                         }
@@ -215,7 +225,7 @@ class PartyWiseTransactionDetailsActivity : AppCompatActivity() {
                                     FirebaseOperationsForProjectInternalTransactionsTab.OnTransactionsFetched {
                                     override fun onTransactionsFetched(transactions: MutableList<CommonTransaction>) {
                                         for (transaction in transactions) {
-                                            if (transaction.transactionType.equals("Material Purchase")) {
+                                            if (transaction.transactionType.equals("Material Purchase") && transaction.transactionParty.equals(partyName)) {
                                                 filteredTransactions.add(transaction)
                                             }
                                         }
@@ -241,7 +251,7 @@ class PartyWiseTransactionDetailsActivity : AppCompatActivity() {
                                     FirebaseOperationsForProjectInternalTransactionsTab.OnTransactionsFetched {
                                     override fun onTransactionsFetched(transactions: MutableList<CommonTransaction>) {
                                         for (transaction in transactions) {
-                                            if (transaction.transactionType.equals("Other Expense")) {
+                                            if (transaction.transactionType.equals("Other Expense") && transaction.transactionParty.equals(partyName)) {
                                                 filteredTransactions.add(transaction)
                                             }
                                         }
@@ -282,8 +292,13 @@ class PartyWiseTransactionDetailsActivity : AppCompatActivity() {
                                 object :
                                     FirebaseOperationsForProjectInternalTransactionsTab.OnTransactionsFetched {
                                     override fun onTransactionsFetched(transactions: MutableList<CommonTransaction>) {
-                                        val transactionListAdapter =
-                                            TransactionListAdapter(transactions, projectId)
+                                        var finalTransaction = mutableListOf<CommonTransaction>();
+                                        for(transaction in transactions){
+                                            if(transaction.transactionParty == partyName){
+                                                finalTransaction.add(transaction)
+                                            }
+                                        }
+                                        val transactionListAdapter = TransactionListAdapter(finalTransaction, projectId)
                                         transactionRecyclerView.adapter = transactionListAdapter
                                         transactionListAdapter.notifyDataSetChanged()
                                     }
@@ -304,7 +319,7 @@ class PartyWiseTransactionDetailsActivity : AppCompatActivity() {
                                     FirebaseOperationsForProjectInternalTransactionsTab.OnTransactionsFetched {
                                     override fun onTransactionsFetched(transactions: MutableList<CommonTransaction>) {
                                         for (transaction in transactions) {
-                                            if (transaction.transactionType.equals("Payment In")) {
+                                            if (transaction.transactionType.equals("Payment In") && transaction.transactionParty.equals(partyName)) {
                                                 filteredTransactions.add(transaction)
                                             }
                                         }
@@ -330,7 +345,7 @@ class PartyWiseTransactionDetailsActivity : AppCompatActivity() {
                                     FirebaseOperationsForProjectInternalTransactionsTab.OnTransactionsFetched {
                                     override fun onTransactionsFetched(transactions: MutableList<CommonTransaction>) {
                                         for (transaction in transactions) {
-                                            if (transaction.transactionType.equals("Payment Out")) {
+                                            if (transaction.transactionType.equals("Payment Out") && transaction.transactionParty.equals(partyName)) {
                                                 filteredTransactions.add(transaction)
                                             }
                                         }
@@ -356,7 +371,7 @@ class PartyWiseTransactionDetailsActivity : AppCompatActivity() {
                                     FirebaseOperationsForProjectInternalTransactionsTab.OnTransactionsFetched {
                                     override fun onTransactionsFetched(transactions: MutableList<CommonTransaction>) {
                                         for (transaction in transactions) {
-                                            if (transaction.transactionType.equals("Sales Invoice")) {
+                                            if (transaction.transactionType.equals("Sales Invoice") && transaction.transactionParty.equals(partyName)) {
                                                 filteredTransactions.add(transaction)
                                             }
                                         }
@@ -382,7 +397,7 @@ class PartyWiseTransactionDetailsActivity : AppCompatActivity() {
                                     FirebaseOperationsForProjectInternalTransactionsTab.OnTransactionsFetched {
                                     override fun onTransactionsFetched(transactions: MutableList<CommonTransaction>) {
                                         for (transaction in transactions) {
-                                            if (transaction.transactionType.equals("Material Purchase")) {
+                                            if (transaction.transactionType.equals("Material Purchase") && transaction.transactionParty.equals(partyName)) {
                                                 filteredTransactions.add(transaction)
                                             }
                                         }
@@ -408,7 +423,7 @@ class PartyWiseTransactionDetailsActivity : AppCompatActivity() {
                                     FirebaseOperationsForProjectInternalTransactionsTab.OnTransactionsFetched {
                                     override fun onTransactionsFetched(transactions: MutableList<CommonTransaction>) {
                                         for (transaction in transactions) {
-                                            if (transaction.transactionType.equals("Other Expense")) {
+                                            if (transaction.transactionType.equals("Other Expense") && transaction.transactionParty.equals(partyName)) {
                                                 filteredTransactions.add(transaction)
                                             }
                                         }
