@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.view.Gravity
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,46 +12,50 @@ import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.csite.app.FirebaseOperations.FirebaseOperationsForLibrary
-import com.csite.app.Objects.Party
+import com.csite.app.DialogFragments.PartySelectionForBankTransferDialogFragment.OnPartySelectedListener
+import com.csite.app.FirebaseOperations.FirebaseOperationsForProjects
+import com.csite.app.Objects.Project
 import com.csite.app.R
-import com.csite.app.RecyclerViewListAdapters.PartyLibraryListAdapter
+import com.csite.app.RecyclerViewListAdapters.ProjectSelectionListAdapter
 
-class PartySelectionForBankTransferDialogFragment : DialogFragment() {
+
+class Project_Selection_Dialog_Fragment : DialogFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view =  inflater.inflate(R.layout.dialog_fragment_party_selection_for_bank_transfer, container, false)
+        val view = inflater.inflate(R.layout.dialog_fragment_project_selection, container, false)
+        val selectProjectRecyclerView = view.findViewById<RecyclerView>(R.id.selectProjectRecyclerView)
         val dialog = getDialog()
         if (dialog != null) {
             dialog.getWindow()?.setBackgroundDrawableResource(android.R.color.transparent)
         }
+        val sharedPreferences = requireActivity().getSharedPreferences("mobileNumber", 0)
+        val mobileNumber = sharedPreferences.getString("mobileNumber", "") ?: ""
 
-        val selectPartyRecyclerView = view.findViewById<RecyclerView>(R.id.selectPartyRecyclerView)
-        lateinit var partyLibraryListAdapter : PartyLibraryListAdapter
-        val firebaseOperationsForLibrary = FirebaseOperationsForLibrary()
-        firebaseOperationsForLibrary.fetchPartyFromPartyLibrary(object : FirebaseOperationsForLibrary.onPartyListReceived{
-            override fun onPartyListReceived(partyList: ArrayList<Party>) {
-                partyLibraryListAdapter = PartyLibraryListAdapter(partyList)
-                selectPartyRecyclerView.adapter = partyLibraryListAdapter
-                selectPartyRecyclerView.layoutManager = LinearLayoutManager(context)
-                selectPartyRecyclerView.adapter?.notifyDataSetChanged()
-                partyLibraryListAdapter.setOnItemClickListener(object : PartyLibraryListAdapter.OnItemClickListener{
-                    override fun OnItemClick(party: Party?) {
-                        partySelectedListener.onPartySelected(party)
+        val firebaseOperationsForProject = FirebaseOperationsForProjects()
+        firebaseOperationsForProject.fetchProjectList(mobileNumber, object : FirebaseOperationsForProjects.getProjectListFromFirebaseCallback {
+            override fun onProjectListFetched(projectList: List<Project>) {
+                val projectSelectionListAdapter = ProjectSelectionListAdapter(projectList)
+                selectProjectRecyclerView.adapter = projectSelectionListAdapter
+                projectSelectionListAdapter.setOnItemClickListener(object : ProjectSelectionListAdapter.OnItemClickListener{
+                    override fun OnItemClick(project: Project?) {
+                        projectSelectedListener.onProjectSelected(project)
                         dismiss()
                     }
-
                 })
+                projectSelectionListAdapter.notifyDataSetChanged()
+                selectProjectRecyclerView.layoutManager = LinearLayoutManager(requireContext())
             }
+
         })
 
 
-        return view
+        return view;
     }
+
     // sets positioning of dialog fragment to bottom of screen.
     override fun onStart() {
         super.onStart()
@@ -74,26 +79,19 @@ class PartySelectionForBankTransferDialogFragment : DialogFragment() {
         }
     }
 
-    lateinit var partySelectedListener :OnPartySelectedListener
+    lateinit var projectSelectedListener :OnProjectSelectedListener
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         try {
-            partySelectedListener = context as OnPartySelectedListener
+            projectSelectedListener = context as OnProjectSelectedListener
         } catch (e: ClassCastException) {
             throw ClassCastException(context.toString() + "must implement OnPartySelectedListener")
         }
     }
 
-    interface OnPartySelectedListener{
-        fun onPartySelected(party: Party?)
+    interface OnProjectSelectedListener{
+        fun onProjectSelected(project: Project?)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        val dialog: Dialog? = getDialog()
-        if (dialog != null && getRetainInstance()) {
-            dialog.setDismissMessage(null)
-        }
-
-    }
 }
