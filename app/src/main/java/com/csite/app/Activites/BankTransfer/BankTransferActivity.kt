@@ -16,14 +16,18 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.csite.app.DialogFragments.PartySelectionForBankTransferDialogFragment
+import com.csite.app.DialogFragments.Project_Selection_Dialog_Fragment
 import com.csite.app.FirebaseOperations.FirebaseOperationsForBankTransfers
 import com.csite.app.Objects.BankTransfer
+import com.csite.app.Objects.Party
+import com.csite.app.Objects.Project
 import com.csite.app.R
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import java.io.File
 import java.io.FileOutputStream
 
-class BankTransferActivity: AppCompatActivity() {
+class BankTransferActivity: AppCompatActivity(), PartySelectionForBankTransferDialogFragment.OnPartySelectedListener, Project_Selection_Dialog_Fragment.OnProjectSelectedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +50,15 @@ class BankTransferActivity: AppCompatActivity() {
         // Set click listener for date input
         dateInput.setOnClickListener {
             showDatePickerDialog()
+        }
+
+        val partySelectionForBankTransferDialogFragment = PartySelectionForBankTransferDialogFragment()
+        partyNameInput.setOnClickListener{
+            partySelectionForBankTransferDialogFragment.show(supportFragmentManager, "partySelectionForBankTransferDialogFragment")
+        }
+        val projectSelectionDialogFragment = Project_Selection_Dialog_Fragment()
+        siteInput.setOnClickListener{
+            projectSelectionDialogFragment.show(supportFragmentManager, "projectSelectionDialogFragment")
         }
 
         // Set up Head and Done By Spinners
@@ -244,6 +257,16 @@ class BankTransferActivity: AppCompatActivity() {
             return false
         }
 
+    }
+
+    override fun onPartySelected(party: Party?) {
+        val partyNameInput = findViewById<EditText>(R.id.partyNameInput)
+        partyNameInput.setText(party?.partyName)
+    }
+
+    override fun onProjectSelected(project: Project?) {
+        val siteInput = findViewById<EditText>(R.id.siteInput)
+        siteInput.setText(project?.projectName)
     }
 
 }

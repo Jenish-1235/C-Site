@@ -134,4 +134,25 @@ class FirebaseOperationsForProjects {
             FirebaseDatabase.getInstance().getReference("Members").child(member.mobileNumber).setValue(member)
         }
     }
+
+    fun fetchProjectList(mobileNumber: String, callback: getProjectListFromFirebaseCallback){
+        val projectList = mutableListOf<Project>()
+        val projectListValueEventListener = object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                projectList.clear()
+                for (projectSnapshot in snapshot.children) {
+                    val project = projectSnapshot.getValue(Project::class.java)
+                    if (project != null && project.projectMembers.contains(mobileNumber)) {
+                        projectList.add(project)
+                    }
+                }
+                callback.onProjectListFetched(projectList)
+            }
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("FirebaseOperations", "Error fetching project list: ${error.message}")
+            }
+
+        }
+        projectReference.addValueEventListener(projectListValueEventListener)
+    }
 }
