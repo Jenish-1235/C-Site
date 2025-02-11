@@ -92,20 +92,17 @@
         android:id="@+id/fabAddMaterial"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="543dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
         android:backgroundTint="@color/yellow"
         android:text="Material"
         android:textSize="18sp"
         android:tint="@color/yellow"
         app:icon="@drawable/icon_add"
-        app:layout_constraintBottom_toBottomOf="@+id/recyclerView"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintHorizontal_bias="0.95"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/recyclerView"
-        app:layout_constraintVertical_bias="1" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.9" />
 
     <Button
         android:id="@+id/makeRequestButton"

@@ -13,6 +13,7 @@ import com.csite.app.Activites.ProjectFeatures.MaterialTab.NewMaterialReceivedAc
 import com.csite.app.Activites.ProjectFeatures.MaterialTab.NewMaterialRequestActivity
 import com.csite.app.FirebaseOperations.FirebaseOperationsForProjectInternalMaterialTab
 import com.csite.app.FirebaseOperations.FirebaseOperationsForProjectInternalTransactionsTab
+import com.csite.app.Objects.InventoryItem
 import com.csite.app.Objects.MaterialRequestOrReceived
 import com.csite.app.Objects.TransactionIPaid
 import com.csite.app.Objects.TransactionIReceived
@@ -21,6 +22,7 @@ import com.csite.app.Objects.TransactionPaymentIn
 import com.csite.app.Objects.TransactionPaymentOut
 import com.csite.app.Objects.TransactionSalesInvoice
 import com.csite.app.R
+import com.csite.app.RecyclerViewListAdapters.InventoryListAdapter
 import com.csite.app.RecyclerViewListAdapters.MaterialTabListAdapter
 import com.google.android.material.tabs.TabLayout
 
@@ -59,6 +61,11 @@ class ProjectInternalMaterialFragment : Fragment() {
     fun formTabLayout(view: View,projectId:String){
         val tabLayout = view.findViewById<TabLayout>(R.id.materialTabLLayout)
         tabLayout.removeAllTabs()
+
+        val inventoryTab = tabLayout.newTab()
+        inventoryTab.setText("Inventory")
+        tabLayout.addTab(inventoryTab)
+
         val requestTab = tabLayout.newTab()
         requestTab.setText("Request")
         tabLayout.addTab(requestTab)
@@ -67,13 +74,13 @@ class ProjectInternalMaterialFragment : Fragment() {
         receivedTab.setText("Received")
         tabLayout.addTab(receivedTab)
 
+
         val tabLayoutAddOnTabSelectedListener = object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 val materialTabRecyclerView = view.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.materialTabRecyclerView)
                 materialTabRecyclerView.layoutManager = LinearLayoutManager(requireActivity())
                 val firebaseOperationsForProjectInternalMaterialTab = FirebaseOperationsForProjectInternalMaterialTab()
-                val list = ArrayList<MaterialRequestOrReceived>()
-                if(tab?.getPosition() == 0) {
+                if(tab?.getPosition() == 1) {
                     firebaseOperationsForProjectInternalMaterialTab.fetchMaterialRequests(projectId,
                         object :
                             FirebaseOperationsForProjectInternalMaterialTab.OnMaterialRequestReceived {
@@ -84,7 +91,7 @@ class ProjectInternalMaterialFragment : Fragment() {
                             }
                         })
                 }
-                else if(tab?.getPosition() == 1){
+                else if(tab?.getPosition() == 2){
                     firebaseOperationsForProjectInternalMaterialTab.fetchMaterialReceived(projectId,
                         object : FirebaseOperationsForProjectInternalMaterialTab.OnMaterialReceivedReceived {
                             override fun onMaterialReceivedReceived(materialRequestList: ArrayList<MaterialRequestOrReceived>) {
@@ -93,6 +100,15 @@ class ProjectInternalMaterialFragment : Fragment() {
                                 adapter.notifyDataSetChanged()
                             }
                         })
+                }
+                else if(tab?.getPosition() == 0){
+                    firebaseOperationsForProjectInternalMaterialTab.fetchInventory(projectId, object : FirebaseOperationsForProjectInternalMaterialTab.OnInventoryReceived {
+                        override fun onInventoryReceived(inventoryList: ArrayList<InventoryItem>) {
+                            val adapter = InventoryListAdapter(inventoryList, projectId)
+                            materialTabRecyclerView.adapter = adapter
+                            adapter.notifyDataSetChanged()
+                        }
+                    })
                 }
             }
 
@@ -102,10 +118,9 @@ class ProjectInternalMaterialFragment : Fragment() {
             override fun onTabReselected(tab: TabLayout.Tab?) {
                 val materialTabRecyclerView = view.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.materialTabRecyclerView)
                 materialTabRecyclerView.layoutManager = LinearLayoutManager(requireActivity())
-                val list = ArrayList<MaterialRequestOrReceived>()
                 val firebaseOperationsForProjectInternalMaterialTab = FirebaseOperationsForProjectInternalMaterialTab()
 
-                if(tab?.getPosition() == 0) {
+                if(tab?.getPosition() == 1) {
                     firebaseOperationsForProjectInternalMaterialTab.fetchMaterialRequests(projectId,
                         object :
                             FirebaseOperationsForProjectInternalMaterialTab.OnMaterialRequestReceived {
@@ -116,9 +131,10 @@ class ProjectInternalMaterialFragment : Fragment() {
                             }
                         })
                 }
-                else if(tab?.getPosition() == 1){
+                else if(tab?.getPosition() == 2) {
                     firebaseOperationsForProjectInternalMaterialTab.fetchMaterialReceived(projectId,
-                        object : FirebaseOperationsForProjectInternalMaterialTab.OnMaterialReceivedReceived {
+                        object :
+                            FirebaseOperationsForProjectInternalMaterialTab.OnMaterialReceivedReceived {
                             override fun onMaterialReceivedReceived(materialRequestList: ArrayList<MaterialRequestOrReceived>) {
                                 val adapter = MaterialTabListAdapter(materialRequestList, projectId)
                                 materialTabRecyclerView.adapter = adapter
@@ -126,11 +142,20 @@ class ProjectInternalMaterialFragment : Fragment() {
                             }
                         })
                 }
+                else if (tab?.position == 0){
+                    firebaseOperationsForProjectInternalMaterialTab.fetchInventory(projectId, object : FirebaseOperationsForProjectInternalMaterialTab.OnInventoryReceived {
+                        override fun onInventoryReceived(inventoryList: ArrayList<InventoryItem>) {
+                            val adapter = InventoryListAdapter(inventoryList, projectId)
+                            materialTabRecyclerView.adapter = adapter
+                            adapter.notifyDataSetChanged()
+                        }
+                    })
+                }
             }
 
         }
         tabLayout.addOnTabSelectedListener(tabLayoutAddOnTabSelectedListener)
-        tabLayout.getTabAt(0)?.select()
+        tabLayout.getTabAt(1)?.select()
         requestTab.select()
 
     }
@@ -139,7 +164,6 @@ class ProjectInternalMaterialFragment : Fragment() {
         super.onResume()
         val bundle = getArguments()
         var projectId = bundle?.getString("projectId")
-        val memberAccess = bundle?.getString("memberAccess")
         if (projectId != null) {
             formTabLayout(requireView(), projectId )
             val materialRequestView = view?.findViewById<TextView>(R.id.materialRequestCountView)
