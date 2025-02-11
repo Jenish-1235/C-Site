@@ -1,6 +1,7 @@
 package com.csite.app.FirebaseOperations
 
 import android.util.Log
+import com.csite.app.Objects.InventoryItem
 import com.csite.app.Objects.MaterialRequestOrReceived
 import com.csite.app.Objects.MaterialSelection
 import com.google.firebase.database.DataSnapshot
@@ -138,5 +139,56 @@ class FirebaseOperationsForProjectInternalMaterialTab {
         projectReference.child(projectId).child("MaterialReceived").child(materialList.dateTimeStamp).child(materialList.materialId).removeValue()
     }
 
+    fun fetchInventory(projectId: String, callback: OnInventoryReceived) {
+        var hashMapOfMaterials = HashMap<String, MaterialSelection>()
+        var inventoryList = ArrayList<InventoryItem>()
+        // fill the hashmap with id , material ... For all materials if exists in hashmap then update their quantity else add
+        projectReference.child(projectId).child("MaterialReceived").addValueEventListener(object:
+            ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    for (material in snapshot.children) {
+                        for (material2 in material.children) {
+                            val materialSelection =
+                                material2.getValue(MaterialSelection::class.java)
+                            if (materialSelection != null) {
+                                if (hashMapOfMaterials.containsKey(materialSelection.materialId)) {
+                                    var newQuantity =
+                                        Integer.parseInt(hashMapOfMaterials.get(materialSelection.materialId)?.materialQuantity) + Integer.parseInt(
+                                            materialSelection.materialQuantity
+                                        )
+                                    hashMapOfMaterials.get(materialSelection.materialId)?.materialQuantity =
+                                        newQuantity.toString()
+                                } else {
+                                    hashMapOfMaterials.put(
+                                        materialSelection.materialId,
+                                        materialSelection
+                                    )
+                                }
+                            }
+                        }
+                    }
 
+                }
+                inventoryList.clear()
+                for (materialSelection in hashMapOfMaterials.values){
+                    var inventoryItem = InventoryItem()
+                    inventoryItem.materialId = materialSelection.materialId
+                    inventoryItem.materialName = materialSelection.materialName
+                    inventoryItem.materialCategory = materialSelection.materialCategory
+                    inventoryItem.materialUnit = materialSelection.materialUnit
+                    inventoryItem.totalQuantity = Integer.parseInt(materialSelection.materialQuantity)
+                    inventoryList.add(inventoryItem)
+                }
+                callback.onInventoryReceived(inventoryList)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
+    }
+
+    interface OnInventoryReceived{
+        fun onInventoryReceived(inventoryList: ArrayList<InventoryItem>)
+    }
 }
