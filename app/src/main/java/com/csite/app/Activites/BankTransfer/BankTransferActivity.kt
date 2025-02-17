@@ -1,9 +1,13 @@
 package com.csite.app.Activites.BankTransfer
 
 import android.app.DatePickerDialog
+import android.content.ContentValues
 import android.icu.util.Calendar
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
+import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
@@ -26,6 +30,9 @@ import com.csite.app.R
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import java.io.File
 import java.io.FileOutputStream
+import java.io.OutputStream
+import kotlin.concurrent.write
+import kotlin.text.clear
 
 class BankTransferActivity: AppCompatActivity(), PartySelectionForBankTransferDialogFragment.OnPartySelectedListener, Project_Selection_Dialog_Fragment.OnProjectSelectedListener {
 
@@ -225,35 +232,42 @@ class BankTransferActivity: AppCompatActivity(), PartySelectionForBankTransferDi
         }
 
         // Save the workbook
-        var file: File = File(Environment.getExternalStorageDirectory().absolutePath.toString() + "/Download/BankTransfers.xlsx")
-        if (!file.exists()) {
-            try {
-                file.createNewFile()
-            } catch (e: Exception) {
-                Toast.makeText(this, "Error Creating File due to ${e.message}", Toast.LENGTH_SHORT)
-                    .show()
-                return false
-            }
-        }else{
-            try {
-                file.delete()
-                file.createNewFile()
-            }catch (e:Exception){
-                Toast.makeText(this, "Error Creating File due to ${e.message}", Toast.LENGTH_SHORT)
-                    .show()
-                return false
+        val resolver = contentResolver
+        val contentValues = ContentValues().apply {
+            put(MediaStore.MediaColumns.DISPLAY_NAME, "BankTransfers.xlsx")
+            put(MediaStore.MediaColumns.MIME_TYPE, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS)
+                put(MediaStore.MediaColumns.IS_PENDING, 1)
             }
         }
 
-        // Export the workbook
-        try {
-            val fileOutputStream: FileOutputStream = FileOutputStream(file)
-            workbook.write(fileOutputStream)
-            fileOutputStream.close()
-            Toast.makeText(this, "Bank Transfers Exported Successfully", Toast.LENGTH_SHORT).show()
-            return true
-        }catch (e:Exception){
-            Toast.makeText(this, "Error Writing File due to ${e.message}", Toast.LENGTH_SHORT).show()
+        val collection = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            MediaStore.Downloads.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
+        } else {
+            MediaStore.Downloads.EXTERNAL_CONTENT_URI
+        }
+
+        val uri: Uri? = resolver.insert(collection, contentValues)
+        uri?.let {
+            try {
+                val outputStream: OutputStream? = resolver.openOutputStream(it)
+                outputStream?.use { stream ->
+                    workbook.write(stream)
+                }
+                contentValues.clear()
+                contentValues.put(MediaStore.MediaColumns.IS_PENDING, 0)
+                resolver.update(uri, contentValues, null, null)
+                Toast.makeText(this, "Bank Transfers Exported Successfully", Toast.LENGTH_SHORT).show()
+                return true
+            } catch (e: Exception) {
+                Toast.makeText(this, "Error Writing File due to ${e.message}", Toast.LENGTH_SHORT).show()
+                return false
+            } finally {
+                workbook.close()
+            }
+        } ?: run {
+            Toast.makeText(this, "Error creating file", Toast.LENGTH_SHORT).show()
             return false
         }
 
